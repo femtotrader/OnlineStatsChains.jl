@@ -1,7 +1,7 @@
 name = "OnlineStatsChains"
 uuid = "c3092dcd-a09e-45f3-b86d-18109bff285f"
 authors = ["FemtoTrader <femto.trader@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 OnlineStatsBase = "925886fa-5bf2-5e8e-b522-a9147a512338"

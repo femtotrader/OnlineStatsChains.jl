@@ -890,6 +890,159 @@ end
         end
     end
 
+    # REQ-FILTER: Filtered Edges Tests
+    @scenario "Filtered edges - Missing value handling" begin
+        @given "a chain with filter = !ismissing" begin
+            dag = StatDAG()
+            add_node!(dag, :raw, Mean())
+            add_node!(dag, :ema1, Mean())
+            add_node!(dag, :ema2, Mean())
+            connect!(dag, :raw, :ema1, filter = !ismissing)
+            connect!(dag, :ema1, :ema2, filter = !ismissing)
+        end
+
+        @when "I fit data with non-missing values" begin
+            dag = StatDAG()
+            add_node!(dag, :raw, Mean())
+            add_node!(dag, :ema1, Mean())
+            add_node!(dag, :ema2, Mean())
+            connect!(dag, :raw, :ema1, filter = !ismissing)
+            connect!(dag, :ema1, :ema2, filter = !ismissing)
+            fit!(dag, :raw => 1.0)
+            fit!(dag, :raw => 2.0)
+            fit!(dag, :raw => 3.0)
+        end
+
+        @then "missing values should not propagate" begin
+            dag = StatDAG()
+            add_node!(dag, :raw, Mean())
+            add_node!(dag, :ema1, Mean())
+            add_node!(dag, :ema2, Mean())
+            connect!(dag, :raw, :ema1, filter = !ismissing)
+            connect!(dag, :ema1, :ema2, filter = !ismissing)
+            # Fit non-missing values individually to avoid fitting missing to raw node
+            fit!(dag, :raw => 1.0)
+            fit!(dag, :raw => 2.0)
+            fit!(dag, :raw => 3.0)
+            # ema1 receives intermediate means [1.0, 1.5, 2.0]
+            # ema2 receives those 3 intermediate values
+            @test value(dag, :raw) == 2.0  # mean of 1, 2, 3
+            @test value(dag, :ema1) ≈ 1.5  # mean of [1.0, 1.5, 2.0]
+        end
+    end
+
+    @scenario "Filtered edges - Threshold-based routing" begin
+        @given "a DAG with threshold filters" begin
+            dag = StatDAG()
+            add_node!(dag, :temperature, Mean())
+            add_node!(dag, :high_alert, Mean())
+            add_node!(dag, :low_alert, Mean())
+            add_node!(dag, :normal, Mean())
+        end
+
+        @when "I connect with different threshold filters" begin
+            dag = StatDAG()
+            add_node!(dag, :temperature, Mean())
+            add_node!(dag, :high_alert, Mean())
+            add_node!(dag, :low_alert, Mean())
+            add_node!(dag, :normal, Mean())
+            connect!(dag, :temperature, :high_alert, filter = t -> t > 80)
+            connect!(dag, :temperature, :low_alert, filter = t -> t < 20)
+            connect!(dag, :temperature, :normal)  # No filter - always propagates
+        end
+
+        @then "values should route correctly based on thresholds" begin
+            dag = StatDAG()
+            add_node!(dag, :temperature, Mean())
+            add_node!(dag, :high_alert, Mean())
+            add_node!(dag, :low_alert, Mean())
+            add_node!(dag, :normal, Mean())
+            connect!(dag, :temperature, :high_alert, filter = t -> t > 80)
+            connect!(dag, :temperature, :low_alert, filter = t -> t < 20)
+            connect!(dag, :temperature, :normal)  # No filter
+
+            fit!(dag, :temperature => [75.0, 85.0, 15.0, 50.0])
+            # temperature receives: 75, 85, 15, 50 -> means: [75, 80, (75+85+15)/3≈58.33, (75+85+15+50)/4≈56.25]
+            # high_alert only gets 80 (from 85)
+            # low_alert only gets 58.33 (from 15)
+            # normal gets all: [75, 80, 58.33, 56.25]
+            @test value(dag, :temperature) ≈ 56.25
+            @test value(dag, :normal) ≈ 67.395833333333334  # mean of intermediate means
+        end
+    end
+
+    @scenario "Filtered edges - Custom filter function" begin
+        @given "a DAG with custom filter" begin
+            dag = StatDAG()
+            add_node!(dag, :source, Mean())
+            add_node!(dag, :target, Mean())
+        end
+
+        @when "I connect with a lambda filter" begin
+            dag = StatDAG()
+            add_node!(dag, :source, Mean())
+            add_node!(dag, :target, Mean())
+            connect!(dag, :source, :target, filter = x -> x > 5)
+        end
+
+        @then "only values passing the filter should propagate" begin
+            dag = StatDAG()
+            add_node!(dag, :source, Mean())
+            add_node!(dag, :target, Mean())
+            connect!(dag, :source, :target, filter = x -> x > 5)
+
+            fit!(dag, :source => [1.0, 10.0, 3.0, 8.0])
+            # source: [1, 10, 3, 8] -> means: [1, 5.5, 4.67, 5.5]
+            # target only gets values > 5: [5.5, 5.5]
+            @test value(dag, :source) ≈ 5.5
+            @test value(dag, :target) ≈ 5.5
+        end
+    end
+
+    @scenario "Introspection functions for filters" begin
+        @given "a DAG with some filtered edges" begin
+            dag = StatDAG()
+            add_node!(dag, :a, Mean())
+            add_node!(dag, :b, Mean())
+            add_node!(dag, :c, Mean())
+            connect!(dag, :a, :b, filter = !ismissing)
+            connect!(dag, :b, :c)  # No filter
+        end
+
+        @when "I check if edges have filters" begin
+            dag = StatDAG()
+            add_node!(dag, :a, Mean())
+            add_node!(dag, :b, Mean())
+            add_node!(dag, :c, Mean())
+            connect!(dag, :a, :b, filter = !ismissing)
+            connect!(dag, :b, :c)  # No filter
+        end
+
+        @then "has_filter should return correct values" begin
+            dag = StatDAG()
+            add_node!(dag, :a, Mean())
+            add_node!(dag, :b, Mean())
+            add_node!(dag, :c, Mean())
+            connect!(dag, :a, :b, filter = !ismissing)
+            connect!(dag, :b, :c)
+
+            @test has_filter(dag, :a, :b) == true
+            @test has_filter(dag, :b, :c) == false
+        end
+
+        @and_ "get_filter should return the filter function or nothing" begin
+            dag = StatDAG()
+            add_node!(dag, :a, Mean())
+            add_node!(dag, :b, Mean())
+            add_node!(dag, :c, Mean())
+            connect!(dag, :a, :b, filter = !ismissing)
+            connect!(dag, :b, :c)
+
+            @test get_filter(dag, :a, :b) !== nothing
+            @test get_filter(dag, :b, :c) === nothing
+        end
+    end
+
     # REQ-EVAL-003: Partial Evaluation Mode
     @scenario "Partial evaluation mode" begin
         @given "a DAG with partial evaluation strategy" begin

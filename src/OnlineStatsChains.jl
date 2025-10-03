@@ -7,6 +7,7 @@ export StatDAG, add_node!, connect!, fit!, value, values, validate
 export get_nodes, get_parents, get_children, get_topological_order
 export CycleError
 export set_strategy!, invalidate!, recompute!
+export get_filter, has_filter
 
 # Custom error type for cycle detection
 struct CycleError <: Exception
@@ -25,6 +26,15 @@ end
 
 Node(stat::T) where {T<:OnlineStat} = Node(stat, Symbol[], Symbol[], nothing)
 
+# Edge structure to store edge metadata including filters
+struct Edge
+    from::Symbol
+    to::Symbol
+    filter::Union{Function, Nothing}
+end
+
+Edge(from::Symbol, to::Symbol) = Edge(from, to, nothing)
+
 """
     StatDAG(; strategy=:eager)
 
@@ -32,6 +42,7 @@ Create a new Directed Acyclic Graph (DAG) for chaining OnlineStat computations.
 
 # Fields
 - `nodes`: Dictionary mapping node IDs to Node instances
+- `edges`: Dictionary mapping (from, to) tuples to Edge instances
 - `topological_order`: Cached topological ordering of nodes
 - `order_valid`: Flag indicating if topological order is current
 - `strategy`: Evaluation strategy (`:eager`, `:lazy`, or `:partial`)
@@ -56,6 +67,7 @@ dag = StatDAG(strategy=:partial)
 """
 mutable struct StatDAG
     nodes::Dict{Symbol, Node}
+    edges::Dict{Tuple{Symbol, Symbol}, Edge}
     topological_order::Vector{Symbol}
     order_valid::Bool
     strategy::Symbol
@@ -66,7 +78,7 @@ function StatDAG(; strategy::Symbol=:eager)
     if !(strategy in (:eager, :lazy, :partial))
         throw(ArgumentError("Strategy must be :eager, :lazy, or :partial, got :$strategy"))
     end
-    return StatDAG(Dict{Symbol, Node}(), Symbol[], false, strategy, Set{Symbol}())
+    return StatDAG(Dict{Symbol, Node}(), Dict{Tuple{Symbol, Symbol}, Edge}(), Symbol[], false, strategy, Set{Symbol}())
 end
 
 """
@@ -97,7 +109,7 @@ function add_node!(dag::StatDAG, id::Symbol, stat::OnlineStat)
 end
 
 """
-    connect!(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+    connect!(dag::StatDAG, from_id::Symbol, to_id::Symbol; filter::Union{Function,Nothing}=nothing)
 
 Create a directed edge from `from_id` node to `to_id` node.
 
@@ -108,13 +120,16 @@ Throws `CycleError` if the connection would create a cycle.
 - `dag`: The StatDAG instance
 - `from_id`: Source node identifier
 - `to_id`: Destination node identifier
+- `filter`: Optional filter function to conditionally propagate values
 
 # Example
 ```julia
 connect!(dag, :source, :sink)
+connect!(dag, :ema1, :ema2, filter = !ismissing)
+connect!(dag, :price, :alert, filter = x -> x > 100)
 ```
 """
-function connect!(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+function connect!(dag::StatDAG, from_id::Symbol, to_id::Symbol; filter::Union{Function,Nothing}=nothing)
     if !haskey(dag.nodes, from_id)
         throw(ArgumentError("Node :$from_id does not exist"))
     end
@@ -134,12 +149,15 @@ function connect!(dag::StatDAG, from_id::Symbol, to_id::Symbol)
         throw(CycleError("Adding edge :$from_id -> :$to_id would create a cycle"))
     end
 
+    # Store the edge with its filter
+    dag.edges[(from_id, to_id)] = Edge(from_id, to_id, filter)
+
     dag.order_valid = false
     return dag
 end
 
 """
-    connect!(dag::StatDAG, from_ids::Vector{Symbol}, to_id::Symbol)
+    connect!(dag::StatDAG, from_ids::Vector{Symbol}, to_id::Symbol; filter::Union{Function,Nothing}=nothing)
 
 Connect multiple source nodes to a single destination node (fan-in).
 
@@ -147,15 +165,17 @@ Connect multiple source nodes to a single destination node (fan-in).
 - `dag`: The StatDAG instance
 - `from_ids`: Vector of source node identifiers
 - `to_id`: Destination node identifier
+- `filter`: Optional filter function applied to combined parent values
 
 # Example
 ```julia
 connect!(dag, [:input1, :input2], :combined)
+connect!(dag, [:high, :low], :spread, filter = vals -> all(!ismissing, vals))
 ```
 """
-function connect!(dag::StatDAG, from_ids::Vector{Symbol}, to_id::Symbol)
+function connect!(dag::StatDAG, from_ids::Vector{Symbol}, to_id::Symbol; filter::Union{Function,Nothing}=nothing)
     for from_id in from_ids
-        connect!(dag, from_id, to_id)
+        connect!(dag, from_id, to_id, filter=filter)
     end
     return dag
 end
@@ -254,6 +274,7 @@ end
     propagate_value!(dag::StatDAG, node_id::Symbol, val)
 
 Propagate a value from a node to all its descendants in topological order.
+Respects edge filters when propagating values.
 """
 function propagate_value!(dag::StatDAG, node_id::Symbol, val)
     # Update current node's cached value
@@ -277,10 +298,12 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, val)
 
         # Only update if this node is a descendant of node_id
         if any(ancestor_id -> is_ancestor(dag, node_id, ancestor_id), node.parents)
-            # Collect values from all parents
+            # Collect values from all parents, applying filters
             if length(node.parents) == 1
-                parent_val = dag.nodes[node.parents[1]].cached_value
-                if parent_val !== nothing
+                parent_id = node.parents[1]
+                parent_val = dag.nodes[parent_id].cached_value
+
+                if parent_val !== nothing && should_propagate_edge(dag, parent_id, child_id, parent_val)
                     fit!(node.stat, parent_val)
                     node.cached_value = OnlineStatsBase.value(node.stat)
                 end
@@ -288,11 +311,47 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, val)
                 # Multi-input node: collect all parent values
                 parent_vals = [dag.nodes[pid].cached_value for pid in node.parents]
                 if all(v -> v !== nothing, parent_vals)
-                    fit!(node.stat, parent_vals)
-                    node.cached_value = OnlineStatsBase.value(node.stat)
+                    # For multi-input, check all edges' filters
+                    # All edges must allow propagation (if they have filters)
+                    all_pass = true
+                    for parent_id in node.parents
+                        if !should_propagate_edge(dag, parent_id, child_id, parent_vals)
+                            all_pass = false
+                            break
+                        end
+                    end
+
+                    if all_pass
+                        fit!(node.stat, parent_vals)
+                        node.cached_value = OnlineStatsBase.value(node.stat)
+                    end
                 end
             end
         end
+    end
+end
+
+"""
+    should_propagate_edge(dag::StatDAG, from_id::Symbol, to_id::Symbol, value)
+
+Check if a value should propagate through an edge based on its filter.
+Returns true if there's no filter or if the filter returns true.
+"""
+function should_propagate_edge(dag::StatDAG, from_id::Symbol, to_id::Symbol, value)
+    edge_key = (from_id, to_id)
+    if !haskey(dag.edges, edge_key)
+        return true  # No edge metadata means unconditional propagation
+    end
+
+    edge = dag.edges[edge_key]
+    if edge.filter === nothing
+        return true  # No filter means unconditional propagation
+    end
+
+    try
+        return Bool(edge.filter(value))
+    catch e
+        throw(ErrorException("Filter function failed on edge :$from_id -> :$to_id: $e"))
     end
 end
 
@@ -439,18 +498,29 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
         for node_id in dag.topological_order
             node = dag.nodes[node_id]
             if !haskey(data, node_id) && !isempty(node.parents)
-                # Update based on parents
+                # Update based on parents, respecting filters
                 if length(node.parents) == 1
-                    parent_val = dag.nodes[node.parents[1]].cached_value
-                    if parent_val !== nothing
+                    parent_id = node.parents[1]
+                    parent_val = dag.nodes[parent_id].cached_value
+                    if parent_val !== nothing && should_propagate_edge(dag, parent_id, node_id, parent_val)
                         fit!(node.stat, parent_val)
                         node.cached_value = value(node.stat)
                     end
                 else
                     parent_vals = [dag.nodes[pid].cached_value for pid in node.parents]
                     if all(v -> v !== nothing, parent_vals)
-                        fit!(node.stat, parent_vals)
-                        node.cached_value = value(node.stat)
+                        # Check all edges' filters
+                        all_pass = true
+                        for parent_id in node.parents
+                            if !should_propagate_edge(dag, parent_id, node_id, parent_vals)
+                                all_pass = false
+                                break
+                            end
+                        end
+                        if all_pass
+                            fit!(node.stat, parent_vals)
+                            node.cached_value = value(node.stat)
+                        end
                     end
                 end
             end
@@ -483,18 +553,29 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
             for node_id in dag.topological_order
                 node = dag.nodes[node_id]
                 if !haskey(combined, node_id) && !isempty(node.parents)
-                    # Update based on parents
+                    # Update based on parents, respecting filters
                     if length(node.parents) == 1
-                        parent_val = dag.nodes[node.parents[1]].cached_value
-                        if parent_val !== nothing
+                        parent_id = node.parents[1]
+                        parent_val = dag.nodes[parent_id].cached_value
+                        if parent_val !== nothing && should_propagate_edge(dag, parent_id, node_id, parent_val)
                             fit!(node.stat, parent_val)
                             node.cached_value = value(node.stat)
                         end
                     else
                         parent_vals = [dag.nodes[pid].cached_value for pid in node.parents]
                         if all(v -> v !== nothing, parent_vals)
-                            fit!(node.stat, parent_vals)
-                            node.cached_value = value(node.stat)
+                            # Check all edges' filters
+                            all_pass = true
+                            for parent_id in node.parents
+                                if !should_propagate_edge(dag, parent_id, node_id, parent_vals)
+                                    all_pass = false
+                                    break
+                                end
+                            end
+                            if all_pass
+                                fit!(node.stat, parent_vals)
+                                node.cached_value = value(node.stat)
+                            end
                         end
                     end
                 end
@@ -727,8 +808,9 @@ function recompute!(dag::StatDAG)
                 # Source nodes already have their stat updated, just update cache
                 node.cached_value = OnlineStatsBase.value(node.stat)
             elseif length(node.parents) == 1
-                parent_val = dag.nodes[node.parents[1]].cached_value
-                if parent_val !== nothing
+                parent_id = node.parents[1]
+                parent_val = dag.nodes[parent_id].cached_value
+                if parent_val !== nothing && should_propagate_edge(dag, parent_id, node_id, parent_val)
                     fit!(node.stat, parent_val)
                     node.cached_value = OnlineStatsBase.value(node.stat)
                 end
@@ -736,8 +818,18 @@ function recompute!(dag::StatDAG)
                 # Multi-input node
                 parent_vals = [dag.nodes[pid].cached_value for pid in node.parents]
                 if all(v -> v !== nothing, parent_vals)
-                    fit!(node.stat, parent_vals)
-                    node.cached_value = OnlineStatsBase.value(node.stat)
+                    # Check all edges' filters
+                    all_pass = true
+                    for parent_id in node.parents
+                        if !should_propagate_edge(dag, parent_id, node_id, parent_vals)
+                            all_pass = false
+                            break
+                        end
+                    end
+                    if all_pass
+                        fit!(node.stat, parent_vals)
+                        node.cached_value = OnlineStatsBase.value(node.stat)
+                    end
                 end
             end
 
@@ -746,6 +838,57 @@ function recompute!(dag::StatDAG)
     end
 
     return dag
+end
+
+"""
+    get_filter(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+
+Get the filter function for an edge, or `nothing` if no filter exists.
+
+# Arguments
+- `dag`: The StatDAG instance
+- `from_id`: Source node identifier
+- `to_id`: Destination node identifier
+
+# Returns
+- `Union{Function, Nothing}`: The filter function or nothing
+
+# Example
+```julia
+filter_fn = get_filter(dag, :ema1, :ema2)
+```
+"""
+function get_filter(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+    edge_key = (from_id, to_id)
+    if !haskey(dag.edges, edge_key)
+        return nothing
+    end
+    return dag.edges[edge_key].filter
+end
+
+"""
+    has_filter(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+
+Check if an edge has a filter function.
+
+# Arguments
+- `dag`: The StatDAG instance
+- `from_id`: Source node identifier
+- `to_id`: Destination node identifier
+
+# Returns
+- `Bool`: true if the edge has a filter, false otherwise
+
+# Example
+```julia
+if has_filter(dag, :ema1, :ema2)
+    println("Edge has a filter")
+end
+```
+"""
+function has_filter(dag::StatDAG, from_id::Symbol, to_id::Symbol)
+    edge_key = (from_id, to_id)
+    return haskey(dag.edges, edge_key) && dag.edges[edge_key].filter !== nothing
 end
 
 end # module OnlineStatsChains

@@ -1,8 +1,8 @@
 # OnlineStatsChains.jl - EARS Specification
 
-**Version:** 0.1.0  
-**Date:** 2025-10-03  
-**Author:** femtotrader  
+**Version:** 0.2.0
+**Date:** 2025-10-03
+**Author:** femtotrader
 **Format:** EARS (Easy Approach to Requirements Syntax)
 
 ---
@@ -32,6 +32,8 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-PKG-002:** The package SHALL have OnlineStatsBase.jl as a dependency.
 
+**REQ-PKG-003:** The package version in `Project.toml` SHALL match the specification version declared in this document's header.
+
 ### 2.2 DAG Construction
 
 **REQ-DAG-001:** The system SHALL provide a `StatDAG` type to represent the computational graph.
@@ -45,6 +47,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-DAG-004:** The system SHALL provide a `connect!(dag, from_id, to_id)` function to create edges.
 - WHERE `from_id` and `to_id` are `Symbol` identifiers of existing nodes
+- WHERE an optional `filter` keyword argument MAY be provided to create conditional edges
 
 **REQ-DAG-005:** WHILE connecting nodes, IF either `from_id` or `to_id` does not exist, THEN the system SHALL raise an error.
 
@@ -54,7 +57,35 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-DAG-008:** WHEN a new node is added or nodes are connected, THEN the system SHALL automatically recompute the topological ordering.
 
-### 2.3 Data Input (fit!)
+### 2.3 Conditional Edges (Filters)
+
+**REQ-FILTER-001:** The `connect!()` function SHALL accept an optional `filter` keyword argument of type `Function`.
+
+**REQ-FILTER-002:** WHEN `filter` is provided, THEN data SHALL propagate through the edge only when `filter(value)` returns `true`.
+
+**REQ-FILTER-003:** WHEN `filter` is not provided, THEN the edge SHALL behave unconditionally (default behavior, backwards compatible).
+
+**REQ-FILTER-004:** WHEN `filter(value)` returns `false`, THEN the downstream node SHALL NOT be updated for that propagation event.
+
+**REQ-FILTER-005:** The filter function SHALL be called with the source node's value as its only argument.
+
+**REQ-FILTER-006:** The filter function SHALL return a Boolean or a value that can be interpreted as Boolean (`true`/`false`).
+
+**REQ-FILTER-007:** IF a filter function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
+
+**REQ-FILTER-008:** Multiple edges from the same source with different filters SHALL be evaluated independently.
+
+**REQ-FILTER-009:** WHEN a node has multiple outgoing edges with filters, ALL filters SHALL be evaluated, and each edge SHALL propagate independently based on its filter result.
+
+**REQ-FILTER-010:** Filtered edges SHALL work correctly in all evaluation modes (eager, lazy, partial).
+
+**REQ-FILTER-011:** Multi-input connections SHALL support filters with the signature `filter(combined_inputs)` where `combined_inputs` is the collection of parent values.
+
+**REQ-FILTER-012:** The system SHALL provide introspection functions:
+- `get_filter(dag, from_id, to_id)` returning `Union{Function, Nothing}`
+- `has_filter(dag, from_id, to_id)` returning `Bool`
+
+### 2.4 Data Input (fit!)
 
 **REQ-FIT-001:** The system SHALL provide `fit!(dag::StatDAG, data)` following OnlineStatsBase conventions.
 - WHERE `data` is a `Pair{Symbol, Any}` in the form `id => value`
@@ -85,7 +116,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-FIT-008:** WHEN processing a Dict with iterable values, IF the iterables have different lengths, THEN the system SHALL process up to the length of the shortest iterable and issue a warning.
 
-### 2.4 Multi-Input Nodes (Fan-in)
+### 2.5 Multi-Input Nodes (Fan-in)
 
 **REQ-MULTI-001:** The system SHALL support nodes with multiple parent inputs.
 
@@ -95,7 +126,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-MULTI-004:** IF a multi-input node's OnlineStat expects a specific input format, THEN the user SHALL ensure the OnlineStat can handle the combined input format.
 
-### 2.5 Value Retrieval
+### 2.6 Value Retrieval
 
 **REQ-VAL-001:** The system SHALL provide `value(dag::StatDAG, id::Symbol)` to retrieve the current value of a node's OnlineStat.
 
@@ -103,7 +134,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-VAL-003:** WHEN a node has not been updated yet, THEN `value(dag, id)` SHALL return the initial value of the OnlineStat.
 
-### 2.6 Graph Introspection
+### 2.7 Graph Introspection
 
 **REQ-INTRO-001:** The system SHALL provide a function to list all node IDs in the DAG.
 
@@ -115,7 +146,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-INTRO-005:** The system SHALL provide a `validate(dag::StatDAG)` function to check DAG consistency.
 
-### 2.7 Evaluation Strategies
+### 2.8 Evaluation Strategies
 
 **REQ-EVAL-001:** The system SHALL support **eager evaluation** by default: propagation happens immediately when `fit!()` is called.
 
@@ -184,13 +215,15 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 ```julia
 StatDAG()                                    # Constructor
 add_node!(dag, id, stat)                     # Add a node
-connect!(dag, from_id, to_id)                # Connect two nodes
-connect!(dag, from_ids::Vector, to_id)       # Connect multiple to one
+connect!(dag, from_id, to_id; filter=nothing)        # Connect two nodes (optional filter)
+connect!(dag, from_ids::Vector, to_id; filter=nothing)  # Connect multiple to one (optional filter)
 fit!(dag, id => value)                       # Update with single value
 fit!(dag, id => values)                      # Update with iterable (batch mode)
 fit!(dag, values::Dict)                      # Update multiple sources
 value(dag, id)                               # Get node value
 values(dag)                                  # Get all values
+get_filter(dag, from_id, to_id)              # Get filter function for edge
+has_filter(dag, from_id, to_id)              # Check if edge has filter
 ```
 
 ### 4.2 Optional Macro API (Option B)
@@ -247,6 +280,9 @@ recompute!(dag)               # Force recomputation (lazy mode)
 - Fan-in (A → C, B → C) with synchronized iterables
 - Diamond patterns (A → B → D, A → C → D)
 - Mixed single values and iterables
+- Filtered edges with common patterns (!ismissing, thresholds, etc.)
+- Multiple filtered edges from same source
+- Filtered multi-input connections
 
 **REQ-TEST-003:** The package SHALL include tests for cycle detection.
 
@@ -448,17 +484,18 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ---
 
-## 9. Future Considerations (Out of Scope for v0.1.0)
+## 9. Future Considerations (Out of Scope for v0.2.0)
 
-The following features are NOT required for the initial release but MAY be considered for future versions:
+The following features are NOT required for the current release but MAY be considered for future versions:
 
 - **REQ-FUTURE-001:** Visualization of DAG structure (e.g., GraphViz export)
 - **REQ-FUTURE-002:** Parallel execution of independent branches
 - **REQ-FUTURE-003:** Persistence/serialization of DAG state
 - **REQ-FUTURE-004:** Integration with Rocket.jl for reactive programming
-- **REQ-FUTURE-005:** Support for conditional edges (if-then logic)
+- **REQ-FUTURE-005:** Advanced filter composition (AND/OR/NOT combinators)
 - **REQ-FUTURE-006:** Built-in logging/tracing of data flow
 - **REQ-FUTURE-007:** Automatic benchmarking of DAG execution
+- **REQ-FUTURE-008:** Filter performance optimization (caching, short-circuiting)
 
 ---
 
@@ -575,6 +612,71 @@ add_node!(dag, :combined, CustomStat())
 connect!(dag, [:input1, :input2], :combined)
 
 fit!(dag, Dict(:input1 => 10, :input2 => 20))
+```
+
+### A.4 Filtered Edges - Missing Value Handling
+```julia
+using OnlineStatsChains
+using OnlineStats
+
+dag = StatDAG()
+add_node!(dag, :raw, Mean())
+add_node!(dag, :ema1, EMA(0.1))
+add_node!(dag, :ema2, EMA(0.2))
+add_node!(dag, :ema3, EMA(0.3))
+
+# Only propagate non-missing values
+connect!(dag, :raw, :ema1, filter = !ismissing)
+connect!(dag, :ema1, :ema2, filter = !ismissing)
+connect!(dag, :ema2, :ema3, filter = !ismissing)
+
+# Missing values won't propagate through the chain
+data = [1.0, 2.0, missing, 3.0, missing, 4.0]
+fit!(dag, :raw => data)
+
+println("EMA1: ", value(dag, :ema1))
+println("EMA2: ", value(dag, :ema2))
+println("EMA3: ", value(dag, :ema3))
+```
+
+### A.5 Filtered Edges - Threshold-Based Routing
+```julia
+dag = StatDAG()
+add_node!(dag, :temperature, Mean())
+add_node!(dag, :high_alert, Counter())
+add_node!(dag, :low_alert, Counter())
+add_node!(dag, :normal_logger, Counter())
+
+# Route to different handlers based on thresholds
+connect!(dag, :temperature, :high_alert, filter = t -> t > 80)
+connect!(dag, :temperature, :low_alert, filter = t -> t < 20)
+connect!(dag, :temperature, :normal_logger)  # Always logs
+
+temps = [75, 85, 15, 50, 90, 10, 60]
+fit!(dag, :temperature => temps)
+
+println("High alerts: ", value(dag, :high_alert))
+println("Low alerts: ", value(dag, :low_alert))
+println("Total logged: ", value(dag, :normal_logger))
+```
+
+### A.6 Filtered Multi-Input Connections
+```julia
+dag = StatDAG()
+add_node!(dag, :high, Mean())
+add_node!(dag, :low, Mean())
+add_node!(dag, :spread, Mean())
+
+# Only compute spread when both inputs are valid and high > low
+connect!(dag, [:high, :low], :spread,
+         filter = vals -> all(!ismissing, vals) && vals[1] > vals[2])
+
+highs = [105, 107, missing, 108]
+lows = [98, 99, 100, 101]
+
+fit!(dag, Dict(:high => highs, :low => lows))
+
+println("Spread: ", value(dag, :spread))
 ```
 
 ---
