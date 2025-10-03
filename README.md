@@ -50,6 +50,19 @@ The complete documentation includes:
 - **Batch & Streaming** data processing
 - Compatible with all OnlineStats types
 
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development setup instructions
+- Pre-commit hooks installation
+- Conventional commit guidelines
+- Testing requirements
+- Pull request process
+
+This project uses:
+- [Conventional Commits](https://www.conventionalcommits.org/) for commit messages
+- [pre-commit](https://pre-commit.com/) hooks for code quality
+
 ## License
 
 MIT License - see LICENSE file for details.

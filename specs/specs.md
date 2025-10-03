@@ -314,7 +314,83 @@ recompute!(dag)               # Force recomputation (lazy mode)
 
 ---
 
-## 8. Future Considerations (Out of Scope for v0.1.0)
+## 8. Version Control and Commit Requirements
+
+### 8.1 Conventional Commits
+
+**REQ-VC-001:** The package SHALL use [Conventional Commits](https://www.conventionalcommits.org/) specification for all commit messages.
+
+**REQ-VC-002:** Commit messages SHALL follow this format:
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**REQ-VC-003:** The following commit types SHALL be used:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc.)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+- `revert`: Reverts a previous commit
+
+**REQ-VC-004:** WHEN a commit introduces a breaking change, THEN it SHALL include `BREAKING CHANGE:` in the footer or append `!` after the type/scope.
+
+**REQ-VC-005:** Commit messages SHALL be clear, concise, and describe the "why" not just the "what".
+
+**REQ-VC-006:** WHEN AI tools are used to generate commits, THEN the commit footer SHALL include:
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+### 8.2 Pre-commit Hooks
+
+**REQ-VC-007:** The repository SHALL provide pre-commit hooks to ensure code quality and consistency.
+
+**REQ-VC-008:** Pre-commit hooks SHALL verify:
+1. Conventional commit message format
+2. No trailing whitespace
+3. Files end with a newline
+4. No large files added (>1MB warning, >5MB block)
+5. Valid YAML/TOML files
+6. Julia code formatting (optional but recommended)
+
+**REQ-VC-009:** The repository SHALL include a `.pre-commit-config.yaml` file for automated setup.
+
+**REQ-VC-010:** The repository SHALL provide a setup script or documentation for installing pre-commit hooks.
+
+**REQ-VC-011:** Pre-commit hooks MAY include:
+- Julia code linting (if tools available)
+- Test execution before commit (for small test suites)
+- Documentation build verification
+
+**REQ-VC-012:** WHEN pre-commit hooks modify files (e.g., formatting), THEN the user SHALL be prompted to review changes before committing.
+
+### 8.3 Git Workflow
+
+**REQ-VC-013:** The main branch SHALL be named `main` or `master`.
+
+**REQ-VC-014:** The repository SHALL use semantic versioning (SemVer) for releases.
+
+**REQ-VC-015:** Tags SHALL follow the format `v<major>.<minor>.<patch>` (e.g., `v0.1.0`, `v1.0.0`).
+
+**REQ-VC-016:** WHEN creating releases, THEN release notes SHALL be generated from conventional commit messages.
+
+**REQ-VC-017:** The repository SHALL include a `.gitignore` file appropriate for Julia projects.
+
+---
+
+## 9. Future Considerations (Out of Scope for v0.1.0)
 
 The following features are NOT required for the initial release but MAY be considered for future versions:
 
@@ -328,7 +404,7 @@ The following features are NOT required for the initial release but MAY be consi
 
 ---
 
-## 9. Acceptance Criteria
+## 10. Acceptance Criteria
 
 The package SHALL be considered complete when:
 
@@ -338,6 +414,8 @@ The package SHALL be considered complete when:
 4. At least 3 realistic examples are provided
 5. The package works correctly with OnlineStats.jl
 6. No known critical bugs exist
+7. Pre-commit hooks are configured and functional
+8. Initial commit follows Conventional Commits specification
 
 ---
 
