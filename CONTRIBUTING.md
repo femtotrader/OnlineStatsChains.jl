@@ -158,6 +158,44 @@ julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. make.jl
 ```
 
+## Continuous Integration (CI)
+
+This project uses GitHub Actions for automated testing and deployment.
+
+### CI Workflows
+
+#### Tests (CI.yml)
+- Runs on every push and pull request
+- Tests Julia versions: 1.6, 1 (latest), nightly
+- Tests on: Ubuntu, macOS, Windows
+- Uploads coverage to Codecov
+
+#### Documentation (Documentation.yml)
+- Builds documentation on every push
+- Deploys to GitHub Pages on main branch
+- Verifies all examples work
+
+#### TagBot (TagBot.yml)
+- Automatically creates GitHub releases
+- Triggered by Julia Registry updates
+- Generates changelog from commits
+
+#### CompatHelper (CompatHelper.yml)
+- Daily checks for dependency updates
+- Automatically creates PRs for updates
+
+### CI Status
+
+Check CI status on your PR:
+- All tests must pass before merge
+- Documentation must build successfully
+- Coverage should not significantly decrease
+
+View CI results:
+- Click "Details" next to each check
+- Review logs for any failures
+- Fix issues and push updates
+
 ## Pull Request Process
 
 1. **Fork and Branch**: Create a feature branch from `main`
@@ -170,7 +208,7 @@ julia --project=. make.jl
    git commit -m "feat: add my new feature"
    ```
 
-3. **Test**: Ensure all tests pass
+3. **Test Locally**: Ensure all tests pass
    ```bash
    julia --project=. -e 'using Pkg; Pkg.test()'
    ```
@@ -184,6 +222,16 @@ julia --project=. make.jl
    - Clear description of changes
    - Link to related issues
    - Screenshots/examples if applicable
+
+6. **CI Checks**: Wait for CI to complete
+   - ✅ All tests must pass
+   - ✅ Documentation must build
+   - ✅ No significant coverage decrease
+
+7. **Review**: Address review feedback
+   - Respond to comments
+   - Make requested changes
+   - Push updates (CI will re-run)
 
 ## AI-Generated Code Notice
 

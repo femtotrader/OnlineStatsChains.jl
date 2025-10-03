@@ -388,6 +388,64 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 **REQ-VC-017:** The repository SHALL include a `.gitignore` file appropriate for Julia projects.
 
+### 8.4 Continuous Integration (CI/CD)
+
+**REQ-CI-001:** The repository SHALL use GitHub Actions for continuous integration.
+
+**REQ-CI-002:** The CI pipeline SHALL run on:
+- Every push to `main` branch
+- Every pull request
+- Manual workflow dispatch (when needed)
+
+**REQ-CI-003:** The CI pipeline SHALL test on multiple Julia versions:
+- Minimum supported version (1.6)
+- Latest stable release
+- Nightly (allowed to fail)
+
+**REQ-CI-004:** The CI pipeline SHALL test on multiple operating systems:
+- Ubuntu (Linux)
+- macOS
+- Windows
+
+**REQ-CI-005:** The CI workflow SHALL include the following steps:
+1. Checkout code
+2. Setup Julia environment
+3. Install dependencies
+4. Run tests with coverage
+5. Upload coverage results (to Codecov or similar)
+
+**REQ-CI-006:** The repository SHALL include a workflow for documentation deployment:
+1. Build documentation with Documenter.jl
+2. Deploy to GitHub Pages on main branch
+
+**REQ-CI-007:** The repository SHALL use JuliaRegistries/TagBot for automated release management.
+
+**REQ-CI-008:** WHEN tests fail on CI, THEN pull requests SHALL be blocked from merging.
+
+**REQ-CI-009:** The repository SHALL display CI status badges in README.md:
+- Build status
+- Code coverage
+- Documentation status
+- Julia version compatibility
+
+**REQ-CI-010:** The CI workflow SHALL cache Julia packages to improve build times.
+
+**REQ-CI-011:** The documentation workflow SHALL only deploy on successful builds.
+
+**REQ-CI-012:** The repository MAY include additional CI checks:
+- Code formatting verification
+- Linting
+- Dependency security scanning
+- Benchmarking (for performance-critical changes)
+
+**REQ-CI-013:** CI workflows SHALL complete within 15 minutes for standard test suite.
+
+**REQ-CI-014:** WHEN creating releases, THEN GitHub Actions SHALL automatically:
+1. Run full test suite
+2. Build documentation
+3. Create release notes from conventional commits
+4. Tag the release
+
 ---
 
 ## 9. Future Considerations (Out of Scope for v0.1.0)
@@ -416,6 +474,8 @@ The package SHALL be considered complete when:
 6. No known critical bugs exist
 7. Pre-commit hooks are configured and functional
 8. Initial commit follows Conventional Commits specification
+9. GitHub Actions CI/CD workflows are configured and passing
+10. Documentation is automatically deployed to GitHub Pages
 
 ---
 

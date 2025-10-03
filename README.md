@@ -1,5 +1,11 @@
 # OnlineStatsChains.jl
 
+[![CI](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/CI.yml)
+[![Documentation](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/Documentation.yml/badge.svg)](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/Documentation.yml)
+[![codecov](https://codecov.io/gh/femtotrader/OnlineStatsChains.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/femtotrader/OnlineStatsChains.jl)
+[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://femtotrader.github.io/OnlineStatsChains.jl/stable/)
+[![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://femtotrader.github.io/OnlineStatsChains.jl/dev/)
+
 > ⚠️ **AI-Generated Package**: This package was entirely generated using Claude Code (AI). Please read the [AI-Generated Notice](https://femtotrader.github.io/OnlineStatsChains.jl/ai-generated/) before using in production.
 
 A Julia package for chaining [OnlineStats](https://github.com/joshday/OnlineStats.jl) computations in a Directed Acyclic Graph (DAG) structure with automatic value propagation.
