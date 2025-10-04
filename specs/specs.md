@@ -1,7 +1,7 @@
 # OnlineStatsChains.jl - EARS Specification
 
-**Version:** 0.2.0
-**Date:** 2025-10-03
+**Version:** 0.3.0
+**Date:** 2025-10-04
 **Author:** femtotrader
 **Format:** EARS (Easy Approach to Requirements Syntax)
 
@@ -85,7 +85,40 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 - `get_filter(dag, from_id, to_id)` returning `Union{Function, Nothing}`
 - `has_filter(dag, from_id, to_id)` returning `Bool`
 
-### 2.4 Data Input (fit!)
+### 2.4 Edge Transformers
+
+**REQ-TRANS-001:** The `connect!()` function SHALL accept an optional `transform` keyword argument of type `Function`.
+
+**REQ-TRANS-002:** WHEN `transform` is provided, THEN data SHALL be transformed by applying `transform(value)` before being propagated to the downstream node.
+
+**REQ-TRANS-003:** WHEN `transform` is not provided, THEN the edge SHALL propagate values unchanged (identity transformation, default behavior).
+
+**REQ-TRANS-004:** The transform function SHALL be called with the source node's value as its only argument.
+
+**REQ-TRANS-005:** The transform function SHALL return a value compatible with the downstream node's OnlineStat `fit!()` method.
+
+**REQ-TRANS-006:** IF a transform function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
+
+**REQ-TRANS-007:** WHEN both `filter` and `transform` are provided on an edge, THEN the filter SHALL be evaluated first, and the transform SHALL only be applied if the filter returns `true`.
+
+**REQ-TRANS-008:** Multiple edges from the same source with different transformers SHALL be evaluated independently.
+
+**REQ-TRANS-009:** Edge transformers SHALL work correctly in all evaluation modes (eager, lazy, partial).
+
+**REQ-TRANS-010:** Multi-input connections SHALL support transformers with the signature `transform(combined_inputs)` where `combined_inputs` is the collection of parent values.
+
+**REQ-TRANS-011:** The system SHALL provide introspection functions:
+- `get_transform(dag, from_id, to_id)` returning `Union{Function, Nothing}`
+- `has_transform(dag, from_id, to_id)` returning `Bool`
+
+**REQ-TRANS-012:** Common transformation patterns SHALL be supported, including but not limited to:
+- Mathematical operations (scaling, normalization, logarithm, etc.)
+- Type conversions
+- Data extraction (field access, indexing)
+- Aggregation (sum, product, etc.)
+- Composition of multiple transformations
+
+### 2.5 Data Input (fit!)
 
 **REQ-FIT-001:** The system SHALL provide `fit!(dag::StatDAG, data)` following OnlineStatsBase conventions.
 - WHERE `data` is a `Pair{Symbol, Any}` in the form `id => value`
@@ -116,7 +149,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-FIT-008:** WHEN processing a Dict with iterable values, IF the iterables have different lengths, THEN the system SHALL process up to the length of the shortest iterable and issue a warning.
 
-### 2.5 Multi-Input Nodes (Fan-in)
+### 2.6 Multi-Input Nodes (Fan-in)
 
 **REQ-MULTI-001:** The system SHALL support nodes with multiple parent inputs.
 
@@ -126,7 +159,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-MULTI-004:** IF a multi-input node's OnlineStat expects a specific input format, THEN the user SHALL ensure the OnlineStat can handle the combined input format.
 
-### 2.6 Value Retrieval
+### 2.7 Value Retrieval
 
 **REQ-VAL-001:** The system SHALL provide `value(dag::StatDAG, id::Symbol)` to retrieve the current value of a node's OnlineStat.
 
@@ -134,7 +167,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-VAL-003:** WHEN a node has not been updated yet, THEN `value(dag, id)` SHALL return the initial value of the OnlineStat.
 
-### 2.7 Graph Introspection
+### 2.8 Graph Introspection
 
 **REQ-INTRO-001:** The system SHALL provide a function to list all node IDs in the DAG.
 
@@ -146,7 +179,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-INTRO-005:** The system SHALL provide a `validate(dag::StatDAG)` function to check DAG consistency.
 
-### 2.8 Evaluation Strategies
+### 2.9 Evaluation Strategies
 
 **REQ-EVAL-001:** The system SHALL support **eager evaluation** by default: propagation happens immediately when `fit!()` is called.
 
@@ -215,8 +248,8 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 ```julia
 StatDAG()                                    # Constructor
 add_node!(dag, id, stat)                     # Add a node
-connect!(dag, from_id, to_id; filter=nothing)        # Connect two nodes (optional filter)
-connect!(dag, from_ids::Vector, to_id; filter=nothing)  # Connect multiple to one (optional filter)
+connect!(dag, from_id, to_id; filter=nothing, transform=nothing)        # Connect two nodes (optional filter and transform)
+connect!(dag, from_ids::Vector, to_id; filter=nothing, transform=nothing)  # Connect multiple to one (optional filter and transform)
 fit!(dag, id => value)                       # Update with single value
 fit!(dag, id => values)                      # Update with iterable (batch mode)
 fit!(dag, values::Dict)                      # Update multiple sources
@@ -224,6 +257,8 @@ value(dag, id)                               # Get node value
 values(dag)                                  # Get all values
 get_filter(dag, from_id, to_id)              # Get filter function for edge
 has_filter(dag, from_id, to_id)              # Check if edge has filter
+get_transform(dag, from_id, to_id)           # Get transform function for edge
+has_transform(dag, from_id, to_id)           # Check if edge has transform
 ```
 
 ### 4.2 Optional Macro API (Option B)
@@ -283,6 +318,10 @@ recompute!(dag)               # Force recomputation (lazy mode)
 - Filtered edges with common patterns (!ismissing, thresholds, etc.)
 - Multiple filtered edges from same source
 - Filtered multi-input connections
+- Edge transformers with common operations (scaling, normalization, etc.)
+- Combined filter and transform on same edge
+- Multiple edges with different transformers from same source
+- Transformer multi-input connections
 
 **REQ-TEST-003:** The package SHALL include tests for cycle detection.
 
@@ -496,6 +535,10 @@ The following features are NOT required for the current release but MAY be consi
 - **REQ-FUTURE-006:** Built-in logging/tracing of data flow
 - **REQ-FUTURE-007:** Automatic benchmarking of DAG execution
 - **REQ-FUTURE-008:** Filter performance optimization (caching, short-circuiting)
+- **REQ-FUTURE-009:** Pre-built transformer library (common math operations, statistics, etc.)
+- **REQ-FUTURE-010:** Transformer composition utilities (chaining multiple transformers)
+- **REQ-FUTURE-011:** Transformer performance optimization (vectorization, type stability)
+- **REQ-FUTURE-012:** Stateful transformers (maintaining internal state across calls)
 
 ---
 
@@ -677,6 +720,97 @@ lows = [98, 99, 100, 101]
 fit!(dag, Dict(:high => highs, :low => lows))
 
 println("Spread: ", value(dag, :spread))
+```
+
+### A.7 Edge Transformers - Scaling and Normalization
+```julia
+using OnlineStatsChains
+using OnlineStats
+
+dag = StatDAG()
+add_node!(dag, :raw_data, Mean())
+add_node!(dag, :scaled, Mean())
+add_node!(dag, :normalized, Mean())
+
+# Scale by 100
+connect!(dag, :raw_data, :scaled, transform = x -> x * 100)
+
+# Normalize to [0, 1] range (assuming values in [0, 10])
+connect!(dag, :raw_data, :normalized, transform = x -> x / 10)
+
+data = [1.5, 2.3, 3.7, 4.2, 5.1]
+fit!(dag, :raw_data => data)
+
+println("Raw mean: ", value(dag, :raw_data))
+println("Scaled mean: ", value(dag, :scaled))
+println("Normalized mean: ", value(dag, :normalized))
+```
+
+### A.8 Combined Filter and Transform
+```julia
+dag = StatDAG()
+add_node!(dag, :temperatures, Mean())
+add_node!(dag, :celsius_to_fahrenheit, Mean())
+add_node!(dag, :high_temp_logger, Counter())
+
+# Convert Celsius to Fahrenheit only for valid readings
+connect!(dag, :temperatures, :celsius_to_fahrenheit,
+         filter = t -> !ismissing(t) && t >= -273.15,
+         transform = c -> c * 9/5 + 32)
+
+# Log only high temperatures (>30°C), converted to Fahrenheit
+connect!(dag, :temperatures, :high_temp_logger,
+         filter = t -> !ismissing(t) && t > 30,
+         transform = c -> c * 9/5 + 32)
+
+temps_celsius = [20, 25, missing, 35, 40, 15]
+fit!(dag, :temperatures => temps_celsius)
+
+println("Avg temp (F): ", value(dag, :celsius_to_fahrenheit))
+println("High temp count: ", value(dag, :high_temp_logger))
+```
+
+### A.9 Data Extraction Transformer
+```julia
+# Custom struct for market data
+struct MarketTick
+    price::Float64
+    volume::Int
+    timestamp::Float64
+end
+
+dag = StatDAG()
+add_node!(dag, :market_data, Mean())
+add_node!(dag, :price_mean, Mean())
+add_node!(dag, :volume_mean, Mean())
+
+# Extract specific fields from struct
+connect!(dag, :market_data, :price_mean, transform = tick -> tick.price)
+connect!(dag, :market_data, :volume_mean, transform = tick -> tick.volume)
+
+# Note: This example shows the concept, but would need a custom OnlineStat
+# that can handle MarketTick objects for the :market_data node
+```
+
+### A.10 Multi-Input Transformer
+```julia
+dag = StatDAG()
+add_node!(dag, :prices, Mean())
+add_node!(dag, :quantities, Mean())
+add_node!(dag, :total_value, Mean())
+
+# Transform multi-input: calculate price * quantity
+connect!(dag, [:prices, :quantities], :total_value,
+         transform = vals -> vals[1] * vals[2])
+
+prices = [10.5, 11.2, 10.8, 11.5]
+quantities = [100, 150, 120, 200]
+
+fit!(dag, Dict(:prices => prices, :quantities => quantities))
+
+println("Average price: ", value(dag, :prices))
+println("Average quantity: ", value(dag, :quantities))
+println("Average total value: ", value(dag, :total_value))
 ```
 
 ---
