@@ -924,10 +924,10 @@ end
             fit!(dag, :raw => 1.0)
             fit!(dag, :raw => 2.0)
             fit!(dag, :raw => 3.0)
-            # With filter present: ema1 receives RAW data values [1.0, 2.0, 3.0]
-            # ema2 also receives RAW data from ema1
+            # ema1 receives intermediate COMPUTED means [1.0, 1.5, 2.0]
+            # (filter and transform apply to computed values)
             @test value(dag, :raw) == 2.0  # mean of 1, 2, 3
-            @test value(dag, :ema1) ≈ 2.0  # mean of raw [1.0, 2.0, 3.0] (filter triggers raw propagation)
+            @test value(dag, :ema1) ≈ 1.5  # mean of computed [1.0, 1.5, 2.0]
         end
     end
 
@@ -992,11 +992,10 @@ end
             connect!(dag, :source, :target, filter = x -> x > 5)
 
             fit!(dag, :source => [1.0, 10.0, 3.0, 8.0])
-            # With filter present: target receives RAW values > 5: [10.0, 8.0]
-            # source: mean(1, 10, 3, 8) = 5.5
-            # target: mean(10.0, 8.0) = 9.0
+            # source: [1, 10, 3, 8] -> means: [1, 5.5, 4.67, 5.5]
+            # target only gets COMPUTED values > 5: [5.5, 5.5]
             @test value(dag, :source) ≈ 5.5
-            @test value(dag, :target) ≈ 9.0  # RAW propagation with filter
+            @test value(dag, :target) ≈ 5.5  # Computed value propagation
         end
     end
 

@@ -315,19 +315,13 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
             if haskey(dag.edges, edge_key)
                 edge = dag.edges[edge_key]
                 
-                # Determine what to propagate based on transform presence
-                # NO transform: use computed value (backward compatible)
-                # WITH transform: use raw value (enables transformations)
-                value_to_use = if edge.transform !== nothing || edge.filter !== nothing
-                    raw_val  # Use raw data if there's any edge processing
-                else
-                    node.cached_value  # Use computed value for plain edges (backward compatible)
-                end
+                # Always use computed value (backward compatible)
+                value_to_propagate = node.cached_value
                 
-                # Apply filter first (REQ-TRANS-007)
+                # Apply filter first on computed value
                 if edge.filter !== nothing
                     try
-                        if !edge.filter(value_to_use)
+                        if !edge.filter(value_to_propagate)
                             continue  # Filter blocks propagation
                         end
                     catch e
@@ -335,11 +329,11 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
                     end
                 end
                 
-                # Apply transform (REQ-TRANS-007: after filter)
-                final_value = value_to_use
+                # Apply transform on computed value (after filter)
+                final_value = value_to_propagate
                 if edge.transform !== nothing
                     try
-                        final_value = edge.transform(value_to_use)
+                        final_value = edge.transform(value_to_propagate)
                     catch e
                         throw(ErrorException("Transform function failed on edge :$node_id -> :$child_id: $e"))
                     end
@@ -358,34 +352,21 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
             end
         else
             # Multi-parent node: collect values from all parents
-            # For backward compatibility, when NO filters/transforms are present, use cached values
-            # When filters/transforms ARE present, use raw values
-            
-            # Check if we should use raw values (any incoming edge has filter/transform)
-            use_raw = false
-            for parent_id in child_node.parents
-                edge_key = (parent_id, child_id)
-                if haskey(dag.edges, edge_key)
-                    edge = dag.edges[edge_key]
-                    if edge.filter !== nothing || edge.transform !== nothing
-                        use_raw = true
-                        break
-                    end
-                end
-            end
+            # Always use cached_value (computed values) for backward compatibility
             
             # Collect values from all parents
             parent_values = []
             for parent_id in child_node.parents
                 parent_node = dag.nodes[parent_id]
-                val = use_raw ? parent_node.last_raw_value : parent_node.cached_value
+                val = parent_node.cached_value  # Always use computed value
+                
                 if val !== nothing
                     # Apply edge-specific filter and transform
                     edge_key = (parent_id, child_id)
                     if haskey(dag.edges, edge_key)
                         edge = dag.edges[edge_key]
                         
-                        # Apply filter
+                        # Apply filter on computed value
                         should_include = true
                         if edge.filter !== nothing
                             try
@@ -396,7 +377,7 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
                         end
                         
                         if should_include
-                            # Apply transform
+                            # Apply transform on computed value
                             final_val = val
                             if edge.transform !== nothing
                                 try
