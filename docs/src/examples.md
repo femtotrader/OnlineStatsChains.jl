@@ -353,6 +353,204 @@ fit!(dag, :input => batch_data)
 result = value(dag, :output)
 ```
 
+## Edge Transformations
+
+### Temperature Conversion
+
+Convert temperature units on-the-fly:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+# Sensor outputs in Celsius
+add_node!(dag, :celsius, Mean())
+add_node!(dag, :fahrenheit, Mean())
+add_node!(dag, :kelvin, Mean())
+
+# Convert to different scales
+connect!(dag, :celsius, :fahrenheit, transform = c -> c * 9/5 + 32)
+connect!(dag, :celsius, :kelvin, transform = c -> c + 273.15)
+
+# Input temperature readings
+fit!(dag, :celsius => [0.0, 10.0, 20.0, 30.0, 40.0])
+
+println("Celsius: ", value(dag, :celsius))       # 20.0°C
+println("Fahrenheit: ", value(dag, :fahrenheit)) # 68.0°F
+println("Kelvin: ", value(dag, :kelvin))         # 293.15K
+```
+
+### Data Cleaning Pipeline
+
+Filter and transform data:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :raw_sensor, Mean())
+add_node!(dag, :valid_only, Mean())
+add_node!(dag, :calibrated, Mean())
+
+# Filter out missing values
+connect!(dag, :raw_sensor, :valid_only, filter = !ismissing)
+
+# Apply calibration after filtering
+connect!(dag, :valid_only, :calibrated, transform = x -> x * 1.05 + 0.5)
+
+# Input with some missing values
+fit!(dag, :raw_sensor => [10.0, missing, 15.0, missing, 20.0])
+
+println("Valid readings: ", value(dag, :valid_only))    # 15.0
+println("Calibrated: ", value(dag, :calibrated))        # 16.25
+```
+
+### E-Commerce Analytics
+
+Extract metrics from transaction data:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+# Transaction structure
+struct Transaction
+    price::Float64
+    quantity::Int
+    discount::Float64
+end
+
+dag = StatDAG()
+
+add_node!(dag, :transactions, Mean())
+add_node!(dag, :avg_price, Mean())
+add_node!(dag, :avg_quantity, Mean())
+add_node!(dag, :total_revenue, Mean())
+
+# Extract different metrics
+connect!(dag, :transactions, :avg_price, 
+         transform = t -> t.price)
+
+connect!(dag, :transactions, :avg_quantity, 
+         transform = t -> Float64(t.quantity))
+
+connect!(dag, :transactions, :total_revenue, 
+         transform = t -> t.price * t.quantity * (1 - t.discount))
+
+# Process transactions
+transactions = [
+    Transaction(100.0, 2, 0.1),
+    Transaction(150.0, 1, 0.0),
+    Transaction(75.0, 3, 0.2)
+]
+
+fit!(dag, :transactions => transactions)
+
+println("Average price: ", value(dag, :avg_price))
+println("Average quantity: ", value(dag, :avg_quantity))
+println("Average revenue: ", value(dag, :total_revenue))
+```
+
+### Conditional Routing with Transforms
+
+Route data based on conditions:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :temperature, Mean())
+add_node!(dag, :high_alert, Mean())
+add_node!(dag, :normal, Mean())
+add_node!(dag, :low_alert, Mean())
+
+# High temperature alert (>30°C) - convert to Fahrenheit
+connect!(dag, :temperature, :high_alert,
+         filter = t -> t > 30,
+         transform = t -> t * 9/5 + 32)
+
+# Normal range (10-30°C) - keep as is
+connect!(dag, :temperature, :normal,
+         filter = t -> 10 <= t <= 30)
+
+# Low temperature alert (<10°C) - flag with negative
+connect!(dag, :temperature, :low_alert,
+         filter = t -> t < 10,
+         transform = t -> -t)
+
+# Stream temperature data
+fit!(dag, :temperature => [5.0, 15.0, 25.0, 35.0, 8.0, 32.0])
+
+println("High alerts (°F): ", value(dag, :high_alert))  # Avg of 95°F, 89.6°F
+println("Normal temps: ", value(dag, :normal))          # Avg of 15, 25
+println("Low alerts: ", value(dag, :low_alert))         # Avg of -5, -8
+```
+
+### Multi-Input Feature Engineering
+
+Combine multiple inputs with transformations:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :price, Mean())
+add_node!(dag, :volume, Mean())
+add_node!(dag, :momentum, Mean())
+
+# Calculate momentum: price * volume
+connect!(dag, [:price, :volume], :momentum,
+         transform = inputs -> inputs[1] * inputs[2])
+
+# Update with coordinated data
+fit!(dag, Dict(
+    :price => [100.0, 105.0, 103.0],
+    :volume => [1000.0, 1200.0, 900.0]
+))
+
+println("Average price: ", value(dag, :price))
+println("Average volume: ", value(dag, :volume))
+println("Average momentum: ", value(dag, :momentum))
+```
+
+### Log Transform Pipeline
+
+Apply logarithmic transformations:
+
+```julia
+using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :population, Mean())
+add_node!(dag, :log_population, Mean())
+add_node!(dag, :growth_rate, Mean())
+
+# Log transform
+connect!(dag, :population, :log_population,
+         transform = p -> log10(p))
+
+# Calculate growth rate (only for positive changes)
+connect!(dag, :log_population, :growth_rate,
+         filter = x -> x > 0)
+
+# Population data
+fit!(dag, :population => [1000.0, 1100.0, 1210.0, 1331.0])
+
+println("Mean population: ", value(dag, :population))
+println("Mean log(pop): ", value(dag, :log_population))
+println("Growth rate: ", value(dag, :growth_rate))
+```
+
 ## See Also
 
 - [Basic Tutorial](tutorials/basic.md) - Fundamental concepts

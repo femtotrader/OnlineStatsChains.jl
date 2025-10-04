@@ -134,6 +134,58 @@ fit!(dag, Dict(
 ))
 ```
 
+## Edge Transformations
+
+Transform data as it flows through the DAG:
+
+### Basic Transform
+
+```julia
+dag = StatDAG()
+add_node!(dag, :celsius, Mean())
+add_node!(dag, :fahrenheit, Mean())
+
+# Convert Celsius to Fahrenheit
+connect!(dag, :celsius, :fahrenheit, transform = c -> c * 9/5 + 32)
+
+fit!(dag, :celsius => [0.0, 10.0, 20.0, 30.0])
+value(dag, :celsius)      # 15.0°C
+value(dag, :fahrenheit)   # 59.0°F
+```
+
+### Filtered Transform
+
+Combine filters with transformations:
+
+```julia
+dag = StatDAG()
+add_node!(dag, :raw, Mean())
+add_node!(dag, :valid, Mean())
+
+# Only propagate non-missing values
+connect!(dag, :raw, :valid, filter = !ismissing)
+
+fit!(dag, :raw => [1.0, missing, 2.0, 3.0])
+value(dag, :valid)  # 2.0 (only valid values)
+```
+
+### Data Extraction
+
+Extract fields from structured data:
+
+```julia
+dag = StatDAG()
+add_node!(dag, :transactions, Mean())
+add_node!(dag, :prices, Mean())
+
+# Extract price from transaction
+connect!(dag, :transactions, :prices, transform = t -> t.price)
+
+transactions = [(price=10.0, qty=5), (price=15.0, qty=3)]
+fit!(dag, :transactions => transactions)
+value(dag, :prices)  # 12.5 (mean of prices)
+```
+
 ## Next Steps
 
 - [Basic Usage Tutorial](tutorials/basic.md) - Learn fundamental concepts

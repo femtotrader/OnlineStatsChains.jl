@@ -53,8 +53,43 @@ The complete documentation includes:
 - **DAG Construction** with automatic cycle detection
 - **Three Evaluation Strategies**: Eager, Lazy, Partial
 - **Multi-Input Nodes** (fan-in/fan-out patterns)
+- **Edge Transformations** with filter and transform functions
 - **Batch & Streaming** data processing
 - Compatible with all OnlineStats types
+
+## Key Capabilities
+
+### Edge Transformations
+
+Transform data as it flows through the DAG:
+
+```julia
+dag = StatDAG()
+add_node!(dag, :celsius, Mean())
+add_node!(dag, :fahrenheit, Mean())
+
+# Convert temperature units
+connect!(dag, :celsius, :fahrenheit, transform = c -> c * 9/5 + 32)
+
+fit!(dag, :celsius => [0.0, 10.0, 20.0, 30.0])
+value(dag, :fahrenheit)  # 59.0°F (mean of converted values)
+```
+
+### Filtered Edges
+
+Conditional data propagation:
+
+```julia
+dag = StatDAG()
+add_node!(dag, :raw, Mean())
+add_node!(dag, :valid, Mean())
+
+# Only propagate non-missing values
+connect!(dag, :raw, :valid, filter = !ismissing)
+
+fit!(dag, :raw => [1.0, missing, 2.0, 3.0])
+value(dag, :valid)  # 2.0 (only valid values)
+```
 
 ## Contributing
 
