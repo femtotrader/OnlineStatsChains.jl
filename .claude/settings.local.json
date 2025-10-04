@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(julia:*)"
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

@@ -924,10 +924,10 @@ end
             fit!(dag, :raw => 1.0)
             fit!(dag, :raw => 2.0)
             fit!(dag, :raw => 3.0)
-            # ema1 receives intermediate means [1.0, 1.5, 2.0]
-            # ema2 receives those 3 intermediate values
+            # With filter present: ema1 receives RAW data values [1.0, 2.0, 3.0]
+            # ema2 also receives RAW data from ema1
             @test value(dag, :raw) == 2.0  # mean of 1, 2, 3
-            @test value(dag, :ema1) ≈ 1.5  # mean of [1.0, 1.5, 2.0]
+            @test value(dag, :ema1) ≈ 2.0  # mean of raw [1.0, 2.0, 3.0] (filter triggers raw propagation)
         end
     end
 
@@ -992,10 +992,11 @@ end
             connect!(dag, :source, :target, filter = x -> x > 5)
 
             fit!(dag, :source => [1.0, 10.0, 3.0, 8.0])
-            # source: [1, 10, 3, 8] -> means: [1, 5.5, 4.67, 5.5]
-            # target only gets values > 5: [5.5, 5.5]
+            # With filter present: target receives RAW values > 5: [10.0, 8.0]
+            # source: mean(1, 10, 3, 8) = 5.5
+            # target: mean(10.0, 8.0) = 9.0
             @test value(dag, :source) ≈ 5.5
-            @test value(dag, :target) ≈ 5.5
+            @test value(dag, :target) ≈ 9.0  # RAW propagation with filter
         end
     end
 
@@ -1169,3 +1170,7 @@ if isdefined(@__MODULE__, :OnlineStats)
 else
     @warn "OnlineStats.jl not available - skipping integration tests"
 end
+
+# Include transformer tests
+@info "Running edge transformer tests"
+include("test_transformers.jl")
