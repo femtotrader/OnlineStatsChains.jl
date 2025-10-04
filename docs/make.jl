@@ -8,6 +8,7 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://femtotrader.github.io/OnlineStatsChains.jl",
         assets=String[],
+        repolink="https://github.com/femtotrader/OnlineStatsChains.jl",
     ),
     pages=[
         "Home" => "index.md",
