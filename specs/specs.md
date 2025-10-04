@@ -1,21 +1,8 @@
 # OnlineStatsChains.jl - EARS Specification
 
-**Version:** 0.3.0
+**Version:** 0.3.1
 **Date:** 2025-10-04
-**Au### 2.4 Edge Transformers
-
-**ARCH-NOTE:** Edge transformers enable transformation of data as it flows through edges. When a transform is present, the edge operates on RAW data values rather than computed statistics, allowing mathematical transformations, type conversions, and data extraction.
-
-**REQ-TRANS-001:** The `connect!()` function SHALL accept an optional `transform` keyword argument of type `Function`.
-
-**REQ-TRANS-002:** WHEN `transform` is provided, THEN the edge SHALL propagate RAW data values through the transform before passing to the downstream node's `fit!()` method.
-
-**REQ-TRANS-003:** WHEN `transform` is not provided AND no filter is present, THEN the edge SHALL propagate COMPUTED values (backward compatible with v0.2.x behavior).
-
-**REQ-TRANS-004:** The transform function SHALL be called with the **raw data value** being propagated along the edge as its only argument.
-- WHERE "raw data value" refers to the original input data, NOT the computed statistic (e.g., mean, variance) of the source node
-- The execution model with transform SHALL be: `source_data → fit!(source) → [source_data] → [filter] → [transform] → fit!(destination)`
-- The execution model without transform SHALL be: `source_data → fit!(source) → [computed_value] → fit!(destination)`totrader
+**Author:** femtotrader
 **Format:** EARS (Easy Approach to Requirements Syntax)
 
 ---
@@ -75,81 +62,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 **REQ-DAG-008:** WHEN a new node is added or nodes are connected, THEN the system SHALL automatically recompute the topological ordering.
 
-### 2.3 Conditional Edges (Filters)
-
-**REQ-FILTER-001:** The `connect!()` function SHALL accept an optional `filter` keyword argument of type `Function`.
-
-**REQ-FILTER-002:** WHEN `filter` is provided, THEN data SHALL propagate through the edge only when `filter(value)` returns `true`.
-
-**REQ-FILTER-003:** WHEN `filter` is not provided, THEN the edge SHALL behave unconditionally (default behavior, backwards compatible).
-
-**REQ-FILTER-004:** WHEN `filter(value)` returns `false`, THEN the downstream node SHALL NOT be updated for that propagation event.
-
-**REQ-FILTER-005:** The filter function SHALL be called with the **raw data value** being propagated along the edge as its only argument.
-- WHERE "raw data value" refers to the original input data being propagated, NOT the computed statistic value (e.g., mean, variance) of the source node
-- The execution model SHALL be: `source_data → [filter check] → [conditional propagation to destination]`
-
-**REQ-FILTER-006:** The filter function SHALL return a Boolean or a value that can be interpreted as Boolean (`true`/`false`).
-
-**REQ-FILTER-007:** IF a filter function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
-
-**REQ-FILTER-008:** Multiple edges from the same source with different filters SHALL be evaluated independently.
-
-**REQ-FILTER-009:** WHEN a node has multiple outgoing edges with filters, ALL filters SHALL be evaluated, and each edge SHALL propagate independently based on its filter result.
-
-**REQ-FILTER-010:** Filtered edges SHALL work correctly in all evaluation modes (eager, lazy, partial).
-
-**REQ-FILTER-011:** Multi-input connections SHALL support filters with the signature `filter(combined_inputs)` where `combined_inputs` is the collection of raw data values from parent edges.
-- WHERE each parent edge provides the raw data value being propagated to it
-
-**REQ-FILTER-012:** The system SHALL provide introspection functions:
-- `get_filter(dag, from_id, to_id)` returning `Union{Function, Nothing}`
-- `has_filter(dag, from_id, to_id)` returning `Bool`
-
-### 2.4 Edge Transformers
-
-**REQ-TRANS-001:** The `connect!()` function SHALL accept an optional `transform` keyword argument of type `Function`.
-
-**REQ-TRANS-002:** WHEN `transform` is provided, THEN data SHALL be transformed by applying `transform(value)` before being passed to the downstream node's `fit!()` method.
-
-**REQ-TRANS-003:** WHEN `transform` is not provided, THEN the edge SHALL propagate values unchanged (identity transformation, default behavior).
-
-**REQ-TRANS-004:** The transform function SHALL be called with the **raw data value** being propagated along the edge as its only argument.
-- WHERE "raw data value" refers to the original input data being propagated, NOT the computed statistic value (e.g., mean, variance) of the source node
-- The execution model SHALL be: `source_data → [filter check] → [transform] → fit!(destination)`
-
-**REQ-TRANS-005:** The transform function SHALL return a value compatible with the downstream node's OnlineStat `fit!()` method.
-
-**REQ-TRANS-006:** IF a transform function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
-
-**REQ-TRANS-007:** WHEN both `filter` and `transform` are provided on an edge, THEN the execution order SHALL be:
-1. Evaluate `filter(raw_data_value)` 
-2. IF filter returns `true`, THEN apply `transform(raw_data_value)`
-3. Pass transformed value to `fit!(destination_node, transformed_value)`
-4. IF filter returns `false`, THEN skip both transform and fit! for that edge
-
-**REQ-TRANS-008:** Multiple edges from the same source with different transformers SHALL be evaluated independently.
-- WHERE each edge receives the same raw data value from the source
-- WHERE each edge applies its own filter and transform independently
-
-**REQ-TRANS-009:** Edge transformers SHALL work correctly in all evaluation modes (eager, lazy, partial).
-
-**REQ-TRANS-010:** Multi-input connections SHALL support transformers with the signature `transform(combined_inputs)` where `combined_inputs` is the collection of raw data values from parent edges.
-- WHERE each parent edge provides the raw data value being propagated to it
-- WHERE the transform receives a collection (Vector or Tuple) of these raw values
-
-**REQ-TRANS-011:** The system SHALL provide introspection functions:
-- `get_transform(dag, from_id, to_id)` returning `Union{Function, Nothing}`
-- `has_transform(dag, from_id, to_id)` returning `Bool`
-
-**REQ-TRANS-012:** Common transformation patterns SHALL be supported, including but not limited to:
-- Mathematical operations (scaling, normalization, logarithm, etc.)
-- Type conversions
-- Data extraction (field access, indexing)
-- Aggregation (sum, product, etc.)
-- Composition of multiple transformations
-
-### 2.5 Data Input (fit!)
+### 2.3 Data Input (fit!)
 
 **ARCH-NOTE - Hybrid Propagation Model (Backward Compatible):**
 - **WITHOUT filter/transform:** Propagates COMPUTED values (e.g., means, variances) - preserves v0.2.x behavior
@@ -186,6 +99,83 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 **REQ-FIT-007:** The system SHALL support mixed batch updates via `fit!(dag, Dict(id1 => values1, id2 => values2))` where values can be iterables.
 
 **REQ-FIT-008:** WHEN processing a Dict with iterable values, IF the iterables have different lengths, THEN the system SHALL process up to the length of the shortest iterable and issue a warning.
+
+### 2.4 Conditional Edges (Filters)
+
+**REQ-FILTER-001:** The `connect!()` function SHALL accept an optional `filter` keyword argument of type `Function`.
+
+**REQ-FILTER-002:** WHEN `filter` is provided, THEN data SHALL propagate through the edge only when `filter(value)` returns `true`.
+
+**REQ-FILTER-003:** WHEN `filter` is not provided, THEN the edge SHALL behave unconditionally (default behavior, backwards compatible).
+
+**REQ-FILTER-004:** WHEN `filter(value)` returns `false`, THEN the downstream node SHALL NOT be updated for that propagation event.
+
+**REQ-FILTER-005:** The filter function SHALL be called with the **raw data value** being propagated along the edge as its only argument.
+- WHERE "raw data value" refers to the original input data being propagated, NOT the computed statistic value (e.g., mean, variance) of the source node
+- The execution model SHALL be: `source_data → [filter check] → [conditional propagation to destination]`
+
+**REQ-FILTER-006:** The filter function SHALL return a Boolean or a value that can be interpreted as Boolean (`true`/`false`).
+
+**REQ-FILTER-007:** IF a filter function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
+
+**REQ-FILTER-008:** Multiple edges from the same source with different filters SHALL be evaluated independently.
+
+**REQ-FILTER-009:** WHEN a node has multiple outgoing edges with filters, ALL filters SHALL be evaluated, and each edge SHALL propagate independently based on its filter result.
+
+**REQ-FILTER-010:** Filtered edges SHALL work correctly in all evaluation modes (eager, lazy, partial).
+
+**REQ-FILTER-011:** Multi-input connections SHALL support filters with the signature `filter(combined_inputs)` where `combined_inputs` is the collection of raw data values from parent edges.
+- WHERE each parent edge provides the raw data value being propagated to it
+
+**REQ-FILTER-012:** The system SHALL provide introspection functions:
+- `get_filter(dag, from_id, to_id)` returning `Union{Function, Nothing}`
+- `has_filter(dag, from_id, to_id)` returning `Bool`
+
+### 2.5 Edge Transformers
+
+**ARCH-NOTE:** Edge transformers enable transformation of data as it flows through edges. When a transform is present, the edge operates on RAW data values rather than computed statistics, allowing mathematical transformations, type conversions, and data extraction.
+
+**REQ-TRANS-001:** The `connect!()` function SHALL accept an optional `transform` keyword argument of type `Function`.
+
+**REQ-TRANS-002:** WHEN `transform` is provided, THEN the edge SHALL propagate RAW data values through the transform before passing to the downstream node's `fit!()` method.
+
+**REQ-TRANS-003:** WHEN `transform` is not provided AND no filter is present, THEN the edge SHALL propagate COMPUTED values (backward compatible with v0.2.x behavior).
+
+**REQ-TRANS-004:** The transform function SHALL be called with the **raw data value** being propagated along the edge as its only argument.
+- WHERE "raw data value" refers to the original input data, NOT the computed statistic (e.g., mean, variance) of the source node
+- The execution model with transform SHALL be: `source_data → fit!(source) → [source_data] → [filter] → [transform] → fit!(destination)`
+- The execution model without transform SHALL be: `source_data → fit!(source) → [computed_value] → fit!(destination)`
+
+**REQ-TRANS-005:** The transform function SHALL return a value compatible with the downstream node's OnlineStat `fit!()` method.
+
+**REQ-TRANS-006:** IF a transform function throws an exception, THEN the system SHALL propagate the error with context indicating which edge failed.
+
+**REQ-TRANS-007:** WHEN both `filter` and `transform` are provided on an edge, THEN the execution order SHALL be:
+1. Evaluate `filter(raw_data_value)`
+2. IF filter returns `true`, THEN apply `transform(raw_data_value)`
+3. Pass transformed value to `fit!(destination_node, transformed_value)`
+4. IF filter returns `false`, THEN skip both transform and fit! for that edge
+
+**REQ-TRANS-008:** Multiple edges from the same source with different transformers SHALL be evaluated independently.
+- WHERE each edge receives the same raw data value from the source
+- WHERE each edge applies its own filter and transform independently
+
+**REQ-TRANS-009:** Edge transformers SHALL work correctly in all evaluation modes (eager, lazy, partial).
+
+**REQ-TRANS-010:** Multi-input connections SHALL support transformers with the signature `transform(combined_inputs)` where `combined_inputs` is the collection of raw data values from parent edges.
+- WHERE each parent edge provides the raw data value being propagated to it
+- WHERE the transform receives a collection (Vector or Tuple) of these raw values
+
+**REQ-TRANS-011:** The system SHALL provide introspection functions:
+- `get_transform(dag, from_id, to_id)` returning `Union{Function, Nothing}`
+- `has_transform(dag, from_id, to_id)` returning `Bool`
+
+**REQ-TRANS-012:** Common transformation patterns SHALL be supported, including but not limited to:
+- Mathematical operations (scaling, normalization, logarithm, etc.)
+- Type conversions
+- Data extraction (field access, indexing)
+- Aggregation (sum, product, etc.)
+- Composition of multiple transformations
 
 ### 2.6 Multi-Input Nodes (Fan-in)
 
@@ -307,7 +297,7 @@ dag = @statdag begin
     source = Mean()
     sma = SMA(period=5)
     ema = EMA(period=3)
-    
+
     source => sma => ema
 end
 ```
@@ -770,21 +760,18 @@ add_node!(dag, :raw_data, Mean())
 add_node!(dag, :scaled, Mean())
 add_node!(dag, :normalized, Mean())
 
-# Scale by 100 - transforms each raw data value BEFORE computing mean
-# Execution: raw_value → [x * 100] → fit!(scaled, transformed_value)
-# So [1.5, 2.3, 3.7, 4.2, 5.1] → [150, 230, 370, 420, 510] → mean = 336
+# Scale by 100
 connect!(dag, :raw_data, :scaled, transform = x -> x * 100)
 
 # Normalize to [0, 1] range (assuming values in [0, 10])
-# Execution: raw_value → [x / 10] → fit!(normalized, transformed_value)
 connect!(dag, :raw_data, :normalized, transform = x -> x / 10)
 
 data = [1.5, 2.3, 3.7, 4.2, 5.1]
 fit!(dag, :raw_data => data)
 
-println("Raw mean: ", value(dag, :raw_data))        # ~3.36
-println("Scaled mean: ", value(dag, :scaled))       # ~336.0
-println("Normalized mean: ", value(dag, :normalized)) # ~0.336
+println("Raw mean: ", value(dag, :raw_data))
+println("Scaled mean: ", value(dag, :scaled))
+println("Normalized mean: ", value(dag, :normalized))
 ```
 
 ### A.8 Combined Filter and Transform
@@ -795,13 +782,11 @@ add_node!(dag, :celsius_to_fahrenheit, Mean())
 add_node!(dag, :high_temp_logger, Counter())
 
 # Convert Celsius to Fahrenheit only for valid readings
-# Execution: raw_temp → [filter check] → [transform to F] → fit!(celsius_to_fahrenheit, F_value)
 connect!(dag, :temperatures, :celsius_to_fahrenheit,
          filter = t -> !ismissing(t) && t >= -273.15,
          transform = c -> c * 9/5 + 32)
 
 # Log only high temperatures (>30°C), converted to Fahrenheit
-# Execution: raw_temp → [filter >30°C] → [transform to F] → fit!(high_temp_logger, F_value)
 connect!(dag, :temperatures, :high_temp_logger,
          filter = t -> !ismissing(t) && t > 30,
          transform = c -> c * 9/5 + 32)
@@ -823,19 +808,16 @@ struct MarketTick
 end
 
 dag = StatDAG()
-add_node!(dag, :market_data, Mean())  # Note: Would need custom OnlineStat for MarketTick
+add_node!(dag, :market_data, Mean())
 add_node!(dag, :price_mean, Mean())
 add_node!(dag, :volume_mean, Mean())
 
-# Extract specific fields from struct - transforms raw MarketTick before propagation
-# Execution: raw_tick → [extract .price] → fit!(price_mean, price_value)
+# Extract specific fields from struct
 connect!(dag, :market_data, :price_mean, transform = tick -> tick.price)
-# Execution: raw_tick → [extract .volume] → fit!(volume_mean, volume_value)
 connect!(dag, :market_data, :volume_mean, transform = tick -> tick.volume)
 
-# Note: This example shows the concept. The :market_data node would need a custom
-# OnlineStat that can handle MarketTick objects, or you could directly feed extracted
-# values to :price_mean and :volume_mean instead.
+# Note: This example shows the concept, but would need a custom OnlineStat
+# that can handle MarketTick objects for the :market_data node
 ```
 
 ### A.10 Multi-Input Transformer
@@ -845,9 +827,7 @@ add_node!(dag, :prices, Mean())
 add_node!(dag, :quantities, Mean())
 add_node!(dag, :total_value, Mean())
 
-# Transform multi-input: calculate price * quantity for each raw data pair
-# Execution: [raw_price, raw_quantity] → [vals[1] * vals[2]] → fit!(total_value, product)
-# For data [10.5, 11.2] and [100, 150]: calculates [10.5*100, 11.2*150] = [1050, 1680]
+# Transform multi-input: calculate price * quantity
 connect!(dag, [:prices, :quantities], :total_value,
          transform = vals -> vals[1] * vals[2])
 
@@ -856,9 +836,9 @@ quantities = [100, 150, 120, 200]
 
 fit!(dag, Dict(:prices => prices, :quantities => quantities))
 
-println("Average price: ", value(dag, :prices))           # ~11.0
-println("Average quantity: ", value(dag, :quantities))    # ~142.5
-println("Average total value: ", value(dag, :total_value)) # ~1256.25 (mean of [1050, 1680, 1296, 2300])
+println("Average price: ", value(dag, :prices))
+println("Average quantity: ", value(dag, :quantities))
+println("Average total value: ", value(dag, :total_value))
 ```
 
 ---
