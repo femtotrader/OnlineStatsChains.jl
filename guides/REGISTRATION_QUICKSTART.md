@@ -11,7 +11,7 @@
 - ✅ **Tests**: All 98 tests passing
 - ✅ **CI**: GitHub Actions configured
 - ✅ **Documentation**: Complete with examples
-- ✅ **Compat entries**: julia = "1.6", OnlineStatsBase = "1"
+- ✅ **Compat entries**: julia = "1.10", OnlineStatsBase = "1"
 
 **Status**: ✅ READY TO REGISTER!
 

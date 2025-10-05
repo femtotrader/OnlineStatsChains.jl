@@ -6,7 +6,7 @@ Thank you for considering contributing to OnlineStatsChains.jl! This document pr
 
 ### Prerequisites
 
-- Julia 1.6 or later
+- Julia 1.10 or later
 - Git
 - Python 3.7+ (for pre-commit hooks)
 
@@ -166,7 +166,7 @@ This project uses GitHub Actions for automated testing and deployment.
 
 #### Tests (CI.yml)
 - Runs on every push and pull request
-- Tests Julia versions: 1.6, 1 (latest), nightly
+- Tests Julia versions: 1.10, 1.11, nightly
 - Tests on: Ubuntu, macOS, Windows
 - Uploads coverage to Codecov
 

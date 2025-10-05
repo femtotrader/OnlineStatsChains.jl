@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.6'  # Minimum supported version
-          - '1'    # Latest stable release
+          - '1.10'  # LTS release
+          - '1.11'  # Latest stable release
         os:
           - ubuntu-latest
           - macOS-latest

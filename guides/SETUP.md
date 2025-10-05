@@ -29,7 +29,7 @@ For contributors who want the complete development environment:
 
 ### Prerequisites
 
-1. **Julia 1.6+**
+1. **Julia 1.10+**
    - Download from [julialang.org](https://julialang.org/downloads/)
    - Verify: `julia --version`
 

@@ -252,7 +252,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 ### 3.3 Compatibility
 
-**REQ-COMPAT-001:** The package SHALL work with Julia 1.6+.
+**REQ-COMPAT-001:** The package SHALL work with Julia 1.10+.
 
 **REQ-COMPAT-002:** The package SHALL work with all OnlineStat types from OnlineStatsBase.jl.
 
@@ -501,7 +501,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Manual workflow dispatch (when needed)
 
 **REQ-CI-003:** The CI pipeline SHALL test on multiple Julia versions:
-- Minimum supported version (1.6)
+- Minimum supported version (1.10)
 - Latest stable release
 - Nightly (allowed to fail)
 

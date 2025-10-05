@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Julia 1.6 or later
+- Julia 1.10 or later
 - OnlineStatsBase.jl
 
 ## Installing from Package Registry
@@ -61,7 +61,7 @@ For testing:
 
 ## Compatibility
 
-- **Julia**: 1.6+
+- **Julia**: 1.10+
 - **OnlineStatsBase**: 1.x
 
 ## Troubleshooting
@@ -69,7 +69,7 @@ For testing:
 ### Common Issues
 
 **Issue**: Package not found
-**Solution**: Make sure you're using Julia 1.6 or later and have an up-to-date package registry.
+**Solution**: Make sure you're using Julia 1.10 or later and have an up-to-date package registry.
 
 ```julia
 using Pkg

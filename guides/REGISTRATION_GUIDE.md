@@ -210,7 +210,7 @@ Add to README.md:
 ```toml
 [compat]
 OnlineStatsBase = "1"
-julia = "1.6"
+julia = "1.10"
 ```
 
 ### Issue 5: "UUID not set"

@@ -129,7 +129,7 @@ Overall, the package is **~95% complete** according to the specifications. Most 
 
 ### GitHub Actions CI/CD ✅
 - ✅ CI.yml - Tests on multiple Julia versions & OS (REQ-CI-001-013)
-  - Julia 1.6, 1.x, nightly
+  - Julia 1.10, 1.x, nightly
   - Ubuntu, macOS, Windows
   - Coverage upload to Codecov
 - ✅ Documentation.yml - Auto-deploy to GitHub Pages (REQ-CI-006)
