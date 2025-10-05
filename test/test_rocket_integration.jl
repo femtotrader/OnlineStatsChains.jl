@@ -216,4 +216,81 @@ using .RocketExt: StatDAGActor, StatDAGObservable,
             @test value(dag, :source) ≈ 2.0
         end
     end
+
+    @testset "Subscription Lifecycle" begin
+
+        @testset "Unsubscribe stops updates" begin
+            dag = StatDAG()
+            add_node!(dag, :input, Mean())
+
+            obs = to_observable(dag, :input)
+
+            collected = Float64[]
+            actor = lambda(on_next = (x) -> push!(collected, x))
+
+            # Subscribe
+            subscription = subscribe!(obs, actor)
+            @test subscription isa RocketExt.StatDAGSubscription
+            @test subscription.active[]
+
+            # Feed data while subscribed
+            fit!(dag, :input => 1.0)
+            fit!(dag, :input => 2.0)
+            fit!(dag, :input => 3.0)
+            @test length(collected) == 3
+
+            # Unsubscribe
+            RocketExt.unsubscribe!(subscription)
+            @test !subscription.active[]
+
+            # Feed more data after unsubscribe
+            fit!(dag, :input => 4.0)
+            fit!(dag, :input => 5.0)
+
+            # Should not have received last 2 values
+            @test length(collected) == 3
+            @test collected == [1.0, 1.5, 2.0]
+        end
+
+        @testset "Multiple subscriptions independently unsubscribe" begin
+            dag = StatDAG()
+            add_node!(dag, :input, Mean())
+
+            obs = to_observable(dag, :input)
+
+            collected1 = Float64[]
+            collected2 = Float64[]
+            actor1 = lambda(on_next = (x) -> push!(collected1, x))
+            actor2 = lambda(on_next = (x) -> push!(collected2, x))
+
+            # Subscribe both
+            sub1 = subscribe!(obs, actor1)
+            sub2 = subscribe!(obs, actor2)
+
+            # Feed data
+            fit!(dag, :input => 1.0)
+            @test length(collected1) == 1
+            @test length(collected2) == 1
+
+            # Unsubscribe first
+            RocketExt.unsubscribe!(sub1)
+
+            # Feed more data
+            fit!(dag, :input => 2.0)
+
+            # First should not get update, second should
+            @test length(collected1) == 1
+            @test length(collected2) == 2
+
+            # Unsubscribe second
+            RocketExt.unsubscribe!(sub2)
+
+            # Feed more data
+            fit!(dag, :input => 3.0)
+
+            # Neither should get update
+            @test length(collected1) == 1
+            @test length(collected2) == 2
+        end
+    end
 end

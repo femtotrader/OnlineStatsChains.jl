@@ -179,6 +179,52 @@ struct StatDAGObservable{T} <: Subscribable{T}
 end
 
 """
+    StatDAGSubscription
+
+Subscription handle returned by subscribe! for StatDAGObservable.
+
+Allows unsubscribing from the observable to stop receiving updates.
+
+# Fields
+- `dag::StatDAG`: The DAG containing the observed node
+- `node_id::Symbol`: The node being observed
+- `observer_index::Int`: Index of the observer callback in the node's observer list
+- `active::Ref{Bool}`: Whether the subscription is still active
+
+# Example
+```julia
+subscription = subscribe!(obs, actor)
+# Later...
+unsubscribe!(subscription)  # Stop receiving updates
+```
+"""
+mutable struct StatDAGSubscription
+    dag::StatDAG
+    node_id::Symbol
+    observer_index::Int
+    active::Ref{Bool}
+
+    function StatDAGSubscription(dag::StatDAG, node_id::Symbol, observer_index::Int)
+        new(dag, node_id, observer_index, Ref(true))
+    end
+end
+
+"""
+    unsubscribe!(subscription::StatDAGSubscription)
+
+Unsubscribe from a StatDAGObservable, removing the observer callback.
+
+After calling this, the actor will no longer receive updates from the observed node.
+"""
+function unsubscribe!(subscription::StatDAGSubscription)
+    if subscription.active[]
+        OnlineStatsChains.remove_observer!(subscription.dag, subscription.node_id, subscription.observer_index)
+        subscription.active[] = false
+    end
+    return nothing
+end
+
+"""
     subscribe!(observable::StatDAGObservable, actor)
 
 Subscribe an actor to receive updates from a DAG node.
@@ -221,7 +267,7 @@ function subscribe!(observable::StatDAGObservable, actor::A) where A <: Actor
     end
 
     # Return subscription object that can unsubscribe
-    return (dag = observable.dag, node_id = observable.node_id, index = observer_index)
+    return StatDAGSubscription(observable.dag, observable.node_id, observer_index)
 end
 
 #=============================================================================
