@@ -160,7 +160,7 @@ Comment → Bot Reply → PR Created → Checks Pass → Auto-Merge → Availabl
 
 ## ✅ Final Check
 
-Your package is **100% READY** for registration! 
+Your package is **100% READY** for registration!
 
 All requirements met:
 - ✅ Proper Project.toml

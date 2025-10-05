@@ -1,6 +1,6 @@
 # 🎉 Release Complete: OnlineStatsChains.jl v0.1.0
 
-**Release Date**: October 3, 2025  
+**Release Date**: October 3, 2025
 **Status**: ✅ **SUCCESSFULLY RELEASED**
 
 ---
@@ -175,9 +175,9 @@ f52a603 docs: add conventional commits and pre-commit hooks requirements
 
 ---
 
-**Release Completed**: October 3, 2025  
-**Version**: 0.1.0  
-**Status**: ✅ Live on GitHub  
+**Release Completed**: October 3, 2025
+**Version**: 0.1.0
+**Status**: ✅ Live on GitHub
 **License**: MIT
 
 🚀 **OnlineStatsChains.jl is now available for the Julia community!**
