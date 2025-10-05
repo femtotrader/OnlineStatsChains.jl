@@ -32,6 +32,9 @@ println("  - Click 'Resume' to continue")
 println("  - Use zoom/pan to explore")
 
 # Enable real-time mode with 10 updates per second
+# NOTE: Real-time updates via websocket are not yet implemented.
+# This example shows the intended API for future development.
+# For now, this generates a static HTML snapshot.
 viewer = display(dag,
                 realtime=true,
                 update_rate=10,
@@ -39,8 +42,44 @@ viewer = display(dag,
                 theme=:dark,
                 title="Real-time Signal Monitoring")
 
+# Save initial HTML snapshot
+html_file = "realtime_dag_snapshot.html"
+println("\n💾 Saving initial DAG snapshot to: $html_file")
+write(html_file, viewer[:html])
+
+# Open in browser
+html_path = abspath(html_file)
+println("🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+end
+
 println("\nFeeding simulated streaming data...")
-println("Watch the values update in the visualization!")
+println("Watch the console for value updates!")
+println("(Note: Browser visualization shows initial snapshot only)")
 println("Press Ctrl+C to stop.\n")
 
 # Simulate a noisy signal

@@ -98,12 +98,41 @@ println("  - Blue border = sink nodes")
 println("  - Dashed edges = have filters (high/low alerts, C to F)")
 println("  - Dotted edges = have transforms (C to F conversion)")
 println("\nClick edges to see filter/transform functions!")
-println("\nPress Ctrl+C to exit.")
 
-try
-    while true
-        sleep(1)
+# Save HTML to file
+html_file = "custom_style_dag.html"
+println("\n💾 Saving visualization to: $html_file")
+write(html_file, viewer[:html])
+
+# Open in browser
+html_path = abspath(html_file)
+println("🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
     end
-catch e
-    println("\nShutting down viewers...")
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
 end
+
+println("\n✓ Visualization complete!")
+println("📁 HTML file: $html_path")

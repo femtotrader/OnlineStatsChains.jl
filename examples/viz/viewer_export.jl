@@ -129,17 +129,42 @@ viewer = display(dag,
                 show_transforms=true,
                 title="Exported Data Pipeline DAG")
 
-println("\nVisualization open at http://$(viewer[:host]):$(viewer[:port])")
-println("\nFiles created:")
-println("  - $output_file (JSON export)")
-println("\nPress Ctrl+C to exit.")
+# Save HTML to file
+html_file = "exported_dag.html"
+println("\n💾 Saving visualization to: $html_file")
+write(html_file, viewer[:html])
 
-try
-    while true
-        sleep(1)
+# Open in browser
+html_path = abspath(html_file)
+println("🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
     end
-catch e
-    println("\nCleaning up...")
-    println("\nThe file '$output_file' has been created in the current directory.")
-    println("You can inspect it with any JSON viewer or text editor.")
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
 end
+
+println("\n✓ Files created:")
+println("  📊 Visualization: $html_path")
+println("  💾 JSON export: $output_file")
+println("\nThe JSON file can be inspected with any JSON viewer or text editor.")

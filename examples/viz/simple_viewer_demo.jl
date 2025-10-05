@@ -130,23 +130,50 @@ println("  • Click 'Reset View' button to reset")
 println("  • Click 'Fit to Screen' button to center everything")
 
 println("\n" * "-"^60)
-println("To export your DAG:")
+println("Saving and Opening Visualization:")
+println("-"^60)
+
+# Save HTML to file
+html_file = "simple_dag_visualization.html"
+println("💾 Saving to: $html_file")
+write(html_file, viewer[:html])
+
+# Open in browser
+html_path = abspath(html_file)
+println("🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+end
+
+println("\n" * "-"^60)
+println("To export your DAG for later:")
 println("-"^60)
 println("  In Julia, run:")
 println("    export_dag(dag, \"my_dag.json\")")
 println("  This creates a JSON file you can share or version control")
 
-println("\n" * "="^60)
-println("Press Ctrl+C when you're done exploring")
-println("="^60)
-
-println("\nWaiting... (visualization is ready at http://127.0.0.1:8080)")
-
-try
-    while true
-        sleep(1)
-    end
-catch InterruptException
-    println("\n\nShutting down...")
-    println("Thanks for trying the OnlineStatsChains viewer!")
-end
+println("\n✓ Visualization complete!")
+println("📁 HTML file: $html_path")

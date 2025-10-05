@@ -115,12 +115,43 @@ println("  - Force: Good for finding natural groupings")
 println("  - Circular: Shows all connections clearly")
 println("  - Grid: Less optimal for this structure")
 
-println("\nPress Ctrl+C to close all viewers.")
+# Note: In a future version with live server support, all layouts would be
+# viewable simultaneously. For now, we save the last one (grid).
+html_file = "layouts_grid.html"
+println("\n💾 Saving grid layout to: $html_file")
+write(html_file, viewer_grid[:html])
 
-try
-    while true
-        sleep(1)
+# Open in browser
+html_path = abspath(html_file)
+println("🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
     end
-catch e
-    println("\nShutting down all viewers...")
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
 end
+
+println("\n✓ Visualization complete!")
+println("📁 HTML file: $html_path")
+println("\n💡 Tip: Re-run this script and manually save each viewer[:html]")
+println("   to compare different layouts side-by-side.")

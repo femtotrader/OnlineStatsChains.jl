@@ -46,14 +46,40 @@ println("  - Drag background to pan, scroll to zoom")
 # Display with default settings
 viewer = display(dag)
 
-println("\nVisualization ready! Press Ctrl+C to exit.")
-println("Server: http://$(viewer[:host]):$(viewer[:port])")
+# Save HTML to file
+html_file = "dag_visualization.html"
+println("\n💾 Saving visualization to: $html_file")
+write(html_file, viewer[:html])
 
-# Keep running
-try
-    while true
-        sleep(1)
+# Open in browser
+html_path = abspath(html_file)
+println("\n🌐 Opening in browser...")
+
+if Sys.iswindows()
+    try
+        run(`cmd /c start "" "$html_path"`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
     end
-catch e
-    println("\nShutting down viewer...")
+elseif Sys.isapple()
+    try
+        run(`open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
+else  # Linux
+    try
+        run(`xdg-open $html_path`)
+        println("  ✓ Browser opened automatically")
+    catch
+        println("  ⚠️  Could not auto-open browser")
+        println("  📂 Please manually open: $html_path")
+    end
 end
+
+println("\n✓ Visualization complete!")
+println("📁 HTML file: $html_path")
