@@ -42,21 +42,8 @@ OnlineStatsChains.value(::StatDAG, ::Symbol)
 
 ### values
 
-Get a dictionary of all node values in the DAG.
-
-**Signature**: `values(dag::StatDAG) -> Dict{Symbol, Any}`
-
-**Returns**: Dictionary mapping node IDs to their current values
-
-**Example**:
-```julia
-dag = StatDAG()
-add_node!(dag, :a, Mean())
-add_node!(dag, :b, Mean())
-fit!(dag, :a => 1.0)
-
-all_values = OnlineStatsChains.values(dag)
-# Dict(:a => 1.0, :b => 0.0)
+```@docs
+OnlineStatsChains.values
 ```
 
 ## Evaluation Strategies
@@ -138,7 +125,7 @@ add_node!(dag, :temperature, Mean())
 add_node!(dag, :fahrenheit_high, Mean())
 
 # Only propagate temperatures above 20°C, convert to Fahrenheit
-connect!(dag, :temperature, :fahrenheit_high, 
+connect!(dag, :temperature, :fahrenheit_high,
          filter = t -> t > 20,
          transform = t -> t * 9/5 + 32)
 
@@ -157,7 +144,7 @@ add_node!(dag, :quantity, Mean())
 add_node!(dag, :revenue, Mean())
 
 # Connect multiple sources with transformation
-connect!(dag, [:price, :quantity], :revenue, 
+connect!(dag, [:price, :quantity], :revenue,
          transform = inputs -> inputs[1] * inputs[2])
 
 fit!(dag, Dict(:price => 10.0, :quantity => 5.0))
@@ -215,39 +202,28 @@ validate
 
 ## Filter Introspection
 
-### has_filter
-
-Check if an edge has a filter function.
-
-**Signature**: `has_filter(dag::StatDAG, source::Symbol, target::Symbol) -> Bool`
-
-**Returns**: `true` if the edge has a filter, `false` otherwise
-
-### get_filter
-
-Get the filter function for an edge.
-
-**Signature**: `get_filter(dag::StatDAG, source::Symbol, target::Symbol) -> Union{Function, Nothing}`
-
-**Returns**: The filter function, or `nothing` if no filter is present
+```@docs
+OnlineStatsChains.has_filter
+OnlineStatsChains.get_filter
+```
 
 ## Transform Introspection
 
-### has_transform
+```@docs
+OnlineStatsChains.has_transform
+OnlineStatsChains.get_transform
+```
 
-Check if an edge has a transform function.
+## Internal Functions
 
-**Signature**: `has_transform(dag::StatDAG, source::Symbol, target::Symbol) -> Bool`
+These functions are primarily used internally but are documented for advanced usage and package development.
 
-**Returns**: `true` if the edge has a transform, `false` otherwise
-
-### get_transform
-
-Get the transform function for an edge.
-
-**Signature**: `get_transform(dag::StatDAG, source::Symbol, target::Symbol) -> Union{Function, Nothing}`
-
-**Returns**: The transform function, or `nothing` if no transform is present
+```@docs
+OnlineStatsChains.propagate_value!
+OnlineStatsChains.has_cycle
+OnlineStatsChains.compute_topological_order!
+OnlineStatsChains.is_ancestor
+```
 
 ## Index
 

@@ -8,6 +8,7 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://femtotrader.github.io/OnlineStatsChains.jl",
         assets=String[],
+        repolink="https://github.com/femtotrader/OnlineStatsChains.jl",
     ),
     pages=[
         "Home" => "index.md",
@@ -21,11 +22,11 @@ makedocs(;
             "Advanced Patterns" => "tutorials/advanced.md",
             "Performance" => "tutorials/performance.md",
         ],
+        "Reactive Programming" => "rocket_integration.md",
         "API Reference" => "api.md",
         "Examples" => "examples.md",
     ],
-    # Disable remote links for local development
-    remotes=nothing,
+    repo="https://github.com/femtotrader/OnlineStatsChains.jl",
     # Warnings to ignore during development
     warnonly=[:docs_block, :missing_docs],
 )
