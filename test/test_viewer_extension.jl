@@ -14,7 +14,7 @@ if ViewerExt === nothing
 end
 
 # Import extension symbols via the extension module
-using .ViewerExt: to_cytoscape_json, export_dag
+using .ViewerExt: to_cytoscape_json, export_dag, display
 using .ViewerExt: capture_timestamp, format_timestamp, format_time_delta
 using .ViewerExt: set_node_style!, set_edge_style!, set_style!
 
@@ -328,5 +328,26 @@ using .ViewerExt: set_node_style!, set_edge_style!, set_style!
             json_str = to_cytoscape_json(dag)
             @test occursin("NaN", json_str) || occursin("null", json_str)  # Either is acceptable
         end
+    end
+
+    @testset "Example Scripts Validation" begin
+        # Most viewer examples are interactive (wait for user input with infinite loops)
+        # These are meant to be run manually by users, not in automated tests
+        # We only test non-interactive examples here
+
+        examples_dir = joinpath(dirname(@__DIR__), "examples", "viz")
+
+        # Skip all interactive examples that have "while true" loops:
+        # - viewer_basic.jl (waits for Ctrl+C)
+        # - viewer_export.jl (waits for Ctrl+C)
+        # - viewer_layouts.jl (waits for Ctrl+C)
+        # - viewer_custom_style.jl (waits for Ctrl+C)
+        # - simple_viewer_demo.jl (waits for Ctrl+C)
+        # - viewer_realtime.jl (realtime updates, waits for Ctrl+C)
+        # - run_viewer.jl (interactive runner script)
+
+        # Note: All viewer examples are interactive demos meant for manual exploration
+        # The actual viewer functionality is tested in the main test suite above
+        @test true  # Placeholder to avoid empty testset
     end
 end

@@ -3,7 +3,11 @@
 
 using OnlineStatsChains
 using OnlineStats
-using JSServe
+using JSServe, JSON3, Colors, Dates
+
+# Get the viewer extension
+const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
+using .ViewerExt: display
 
 println("Setting up real-time monitoring DAG...")
 

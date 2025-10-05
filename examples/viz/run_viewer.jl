@@ -11,8 +11,12 @@ using OnlineStats
 
 # Check for viewer dependencies
 try
-    using JSServe, JSON3, Colors
+    using JSServe, JSON3, Colors, Dates
     println("✓ Viewer extension loaded")
+
+    # Get the viewer extension
+    const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
+    using .ViewerExt: display
 catch e
     println("\n⚠️  Viewer dependencies not installed yet.")
     println("\nTo install, run in Julia:")

@@ -293,4 +293,41 @@ using .RocketExt: StatDAGActor, StatDAGObservable,
             @test length(collected2) == 2
         end
     end
+
+    @testset "Example Scripts Validation" begin
+        # Run all example scripts from examples/reactive/ to ensure they work
+        examples_dir = joinpath(dirname(@__DIR__), "examples", "reactive")
+
+        @testset "reactive_demo.jl" begin
+            # Simply run the script - if it throws an error, the test fails
+            # We don't use @test_nowarn because the examples may produce @info messages
+            try
+                include(joinpath(examples_dir, "reactive_demo.jl"))
+                @test true  # Script ran successfully
+            catch e
+                @error "reactive_demo.jl failed" exception=(e, catch_backtrace())
+                rethrow()
+            end
+        end
+
+        @testset "unsubscribe_demo.jl" begin
+            try
+                include(joinpath(examples_dir, "unsubscribe_demo.jl"))
+                @test true
+            catch e
+                @error "unsubscribe_demo.jl failed" exception=(e, catch_backtrace())
+                rethrow()
+            end
+        end
+
+        @testset "thread_safety_demo.jl" begin
+            try
+                include(joinpath(examples_dir, "thread_safety_demo.jl"))
+                @test true
+            catch e
+                @error "thread_safety_demo.jl failed" exception=(e, catch_backtrace())
+                rethrow()
+            end
+        end
+    end
 end

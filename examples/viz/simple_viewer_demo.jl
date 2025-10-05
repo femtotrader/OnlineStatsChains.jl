@@ -35,8 +35,13 @@ end
 println("\nStep 2: Checking viewer dependencies...")
 viewer_available = false
 try
-    using JSServe, JSON3, Colors
-    println("✓ Viewer dependencies available (JSServe, JSON3, Colors)")
+    using JSServe, JSON3, Colors, Dates
+    println("✓ Viewer dependencies available (JSServe, JSON3, Colors, Dates)")
+
+    # Get the viewer extension
+    const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
+    using .ViewerExt: display
+
     viewer_available = true
 catch e
     println("✗ Viewer dependencies not found")

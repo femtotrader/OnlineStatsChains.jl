@@ -28,8 +28,10 @@ connect!(dag, :normalized, :statistics)
 connect!(dag, :normalized, :summary)
 
 println("Feeding sample data...")
+# Filter out missing and NaN values before fitting
 sample_data = [98.5, 102.3, missing, 101.8, 103.2, NaN, 105.1, 104.6]
-fit!(dag, :raw_data => sample_data)
+clean_data = filter(x -> !ismissing(x) && !isnan(x), sample_data)
+fit!(dag, :raw_data => clean_data)
 
 println("\nDAG Results:")
 println("  Raw data mean: ", value(dag, :raw_data))
