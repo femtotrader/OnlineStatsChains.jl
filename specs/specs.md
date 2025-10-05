@@ -357,6 +357,59 @@ recompute!(dag)               # Force recomputation (lazy mode)
 
 **REQ-TEST-005:** The package SHALL achieve >90% code coverage.
 
+### 6.1 Quality Assurance with Aqua.jl
+
+**REQ-QA-001:** The package SHALL include Aqua.jl in test dependencies for automated quality assurance checks.
+
+**REQ-QA-002:** The package SHALL include a dedicated test file (e.g., `test_aqua.jl`) containing comprehensive Aqua.jl tests.
+
+**REQ-QA-003:** Aqua.jl tests SHALL verify the following quality aspects:
+- Method ambiguities detection
+- Unbound type parameters detection
+- Undefined exports verification
+- Project.toml consistency checks
+- Stale dependencies detection
+- [compat] entries completeness
+- Type piracy detection
+
+**REQ-QA-004:** The package SHALL include [compat] entries in Project.toml for ALL dependencies, including:
+- Direct dependencies (e.g., `OnlineStatsBase`)
+- Weak dependencies (e.g., `Rocket`)
+- Test-only dependencies (e.g., `Test`, `OnlineStats`, `TestItemRunner`, `Documenter`)
+
+**REQ-QA-005:** [compat] entries SHALL follow semantic versioning and specify:
+- Major version constraints (e.g., `"1"` for v1.x.x)
+- OR specific version ranges when needed (e.g., `"1.8"` for v1.8.x)
+- Julia version constraint (e.g., `julia = "1.10"`)
+
+**REQ-QA-006:** WHEN running Aqua tests, IF method ambiguities are detected, THEN the package SHALL either:
+1. Fix the ambiguities, OR
+2. Document why they are acceptable and mark the test as broken with justification
+
+**REQ-QA-007:** WHEN running Aqua tests, IF type piracy is detected, THEN the package SHALL either:
+1. Remove the piracy by extending only owned types, OR
+2. Document why it is necessary and acceptable
+
+**REQ-QA-008:** Aqua.jl tests SHALL be run as part of the standard test suite and SHALL pass on CI.
+
+**REQ-QA-009:** The package SHALL configure Aqua.jl to ignore dependencies that might appear unused but are required:
+- Standard library dependencies used implicitly (e.g., `Statistics`)
+- Base packages required for functionality (e.g., `OnlineStatsBase`)
+
+**REQ-QA-010:** Aqua.jl test configuration SHALL be documented with comments explaining:
+- Why specific checks are configured
+- Why certain dependencies are in the ignore list
+- Any known limitations or expected failures
+
+**REQ-QA-011:** WHEN adding new dependencies, THEN corresponding [compat] entries SHALL be added simultaneously.
+
+**REQ-QA-012:** The package SHALL maintain a clean Aqua.jl report with:
+- Zero method ambiguities (or documented exceptions)
+- Zero type piracies (or documented exceptions)
+- Zero undefined exports
+- Complete [compat] coverage
+- No stale dependencies
+
 ---
 
 ## 7. Documentation Requirements
@@ -584,6 +637,8 @@ The package SHALL be considered complete when:
 8. Initial commit follows Conventional Commits specification
 9. GitHub Actions CI/CD workflows are configured and passing
 10. Documentation is automatically deployed to GitHub Pages
+11. Aqua.jl quality assurance tests pass with no critical issues
+12. All dependencies have proper [compat] entries in Project.toml
 
 ---
 

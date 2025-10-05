@@ -53,6 +53,7 @@ Requirements follow this naming pattern: `REQ-<CATEGORY>-<NUMBER>`
 - **API**: API design requirements
 - **ERR**: Error handling requirements
 - **TEST**: Testing requirements
+- **QA**: Quality assurance requirements (Aqua.jl)
 - **DOC**: Documentation requirements
 - **AITRANS**: AI transparency requirements
 - **VC**: Version control and commit requirements
