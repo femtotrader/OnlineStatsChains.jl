@@ -16,9 +16,10 @@ mutable struct Node{T<:OnlineStat}
     children::Vector{Symbol}
     cached_value::Any
     last_raw_value::Any  # Store last raw input for lazy mode and transforms
+    observers::Vector{Function}  # Callbacks for reactive programming (Rocket.jl integration)
 end
 
-Node(stat::T) where {T<:OnlineStat} = Node(stat, Symbol[], Symbol[], nothing, nothing)
+Node(stat::T) where {T<:OnlineStat} = Node(stat, Symbol[], Symbol[], nothing, nothing, Function[])
 
 # Edge structure to store edge metadata including filters and transformers
 struct Edge

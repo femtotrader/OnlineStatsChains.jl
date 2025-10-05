@@ -41,6 +41,9 @@ function fit!(dag::StatDAG, data::Pair{Symbol, <:Any})
             node.last_raw_value = v
             node.cached_value = OnlineStatsBase.value(node.stat)
 
+            # Notify observers after node update
+            notify_observers!(dag, node_id)
+
             if dag.strategy == :lazy
                 # Lazy: mark dirty, don't propagate
                 invalidate!(dag, node_id)
@@ -55,6 +58,9 @@ function fit!(dag::StatDAG, data::Pair{Symbol, <:Any})
         # Store last raw value and update cached value
         node.last_raw_value = val
         node.cached_value = OnlineStatsBase.value(node.stat)
+
+        # Notify observers after node update
+        notify_observers!(dag, node_id)
 
         if dag.strategy == :lazy
             # Lazy: mark dirty, don't propagate
@@ -107,6 +113,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
             fit!(dag.nodes[node_id].stat, val)
             dag.nodes[node_id].last_raw_value = val
             dag.nodes[node_id].cached_value = OnlineStatsBase.value(dag.nodes[node_id].stat)
+
+            # Notify observers after node update
+            notify_observers!(dag, node_id)
         end
 
         # Propagate in topological order using raw values
@@ -151,6 +160,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
                                 fit!(node.stat, transformed_val)
                                 node.last_raw_value = transformed_val
                                 node.cached_value = OnlineStatsBase.value(node.stat)
+
+                                # Notify observers after node update
+                                notify_observers!(dag, node_id)
                             end
                         end
                     end
@@ -189,6 +201,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
                                 fit!(node.stat, transformed_vals)
                                 node.last_raw_value = transformed_vals
                                 node.cached_value = OnlineStatsBase.value(node.stat)
+
+                                # Notify observers after node update
+                                notify_observers!(dag, node_id)
                             end
                         end
                     end
@@ -214,6 +229,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
                 fit!(dag.nodes[node_id].stat, val)
                 dag.nodes[node_id].last_raw_value = val
                 dag.nodes[node_id].cached_value = OnlineStatsBase.value(dag.nodes[node_id].stat)
+
+                # Notify observers after node update
+                notify_observers!(dag, node_id)
             end
 
             # Propagate in topological order using raw values
@@ -258,6 +276,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
                                     fit!(node.stat, transformed_val)
                                     node.last_raw_value = transformed_val
                                     node.cached_value = OnlineStatsBase.value(node.stat)
+
+                                    # Notify observers after node update
+                                    notify_observers!(dag, node_id)
                                 end
                             end
                         end
@@ -296,6 +317,9 @@ function fit!(dag::StatDAG, data::Dict{Symbol, <:Any})
                                     fit!(node.stat, transformed_vals)
                                     node.last_raw_value = transformed_vals
                                     node.cached_value = OnlineStatsBase.value(node.stat)
+
+                                    # Notify observers after node update
+                                    notify_observers!(dag, node_id)
                                 end
                             end
                         end

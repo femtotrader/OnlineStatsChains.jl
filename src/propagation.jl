@@ -69,6 +69,9 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
                 # Store raw value for child node (for downstream transforms/filters)
                 child_node.last_raw_value = final_value
 
+                # Notify observers after node update
+                notify_observers!(dag, child_id)
+
                 # Recursively propagate to grandchildren
                 # Always pass the final_value as the raw value for the next level
                 propagate_value!(dag, child_id, final_value)
@@ -124,6 +127,9 @@ function propagate_value!(dag::StatDAG, node_id::Symbol, raw_val)
                 child_node.cached_value = OnlineStatsBase.value(child_node.stat)
                 child_node.last_raw_value = parent_values
 
+                # Notify observers after node update
+                notify_observers!(dag, child_id)
+
                 # Recursively propagate - use the first parent's value as representative
                 if !isempty(parent_values)
                     propagate_value!(dag, child_id, parent_values[1])
@@ -163,6 +169,9 @@ function recompute!(dag::StatDAG)
             if isempty(node.parents)
                 # Source nodes already have their stat updated, just update cache
                 node.cached_value = OnlineStatsBase.value(node.stat)
+
+                # Notify observers after node update
+                notify_observers!(dag, node_id)
             elseif length(node.parents) == 1
                 # Single parent: use last raw value with filter and transform
                 parent_id = node.parents[1]
@@ -196,6 +205,9 @@ function recompute!(dag::StatDAG)
 
                             fit!(node.stat, transformed_val)
                             node.cached_value = OnlineStatsBase.value(node.stat)
+
+                            # Notify observers after node update
+                            notify_observers!(dag, node_id)
                         end
                     end
                 end
@@ -233,6 +245,9 @@ function recompute!(dag::StatDAG)
 
                             fit!(node.stat, transformed_vals)
                             node.cached_value = OnlineStatsBase.value(node.stat)
+
+                            # Notify observers after node update
+                            notify_observers!(dag, node_id)
                         end
                     end
                 end

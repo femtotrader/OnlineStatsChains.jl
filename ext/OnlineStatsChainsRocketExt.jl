@@ -183,13 +183,32 @@ end
 
 Subscribe an actor to receive updates from a DAG node.
 
-Note: This is a basic implementation. For production use, this would need
-to hook into the DAG's propagation mechanism to actively emit values when
-the node is updated.
+This hooks into the DAG's observer mechanism to emit values in real-time
+whenever the node is updated via fit!.
+
+Returns a subscription handle that can be used to unsubscribe.
 """
 function subscribe!(observable::StatDAGObservable, actor::A) where A <: Actor
 
-    # Emit current value if available
+    # Create callback that emits to actor
+    callback = function(node_id::Symbol, cached_val, raw_val)
+        try
+            if observable.emit_type == :computed
+                on_next!(actor, cached_val)
+            elseif observable.emit_type == :raw && raw_val !== nothing
+                on_next!(actor, raw_val)
+            elseif observable.emit_type == :both
+                on_next!(actor, (raw_val, cached_val))
+            end
+        catch e
+            on_error!(actor, e)
+        end
+    end
+
+    # Register observer with the DAG
+    observer_index = OnlineStatsChains.add_observer!(observable.dag, observable.node_id, callback)
+
+    # Emit current value if available (initial value)
     node = observable.dag.nodes[observable.node_id]
     if node.cached_value !== nothing
         if observable.emit_type == :computed
@@ -201,10 +220,8 @@ function subscribe!(observable::StatDAGObservable, actor::A) where A <: Actor
         end
     end
 
-    on_complete!(actor)
-
-    # Return nothing for now (simple implementation)
-    return nothing
+    # Return subscription object that can unsubscribe
+    return (dag = observable.dag, node_id = observable.node_id, index = observer_index)
 end
 
 #=============================================================================
