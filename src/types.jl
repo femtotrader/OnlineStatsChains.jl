@@ -68,11 +68,12 @@ mutable struct StatDAG
     order_valid::Bool
     strategy::Symbol
     dirty_nodes::Set{Symbol}
+    observer_lock::ReentrantLock  # Protects observer list mutations
 end
 
 function StatDAG(; strategy::Symbol=:eager)
     if !(strategy in (:eager, :lazy, :partial))
         throw(ArgumentError("Strategy must be :eager, :lazy, or :partial, got :$strategy"))
     end
-    return StatDAG(Dict{Symbol, Node}(), Dict{Tuple{Symbol, Symbol}, Edge}(), Symbol[], false, strategy, Set{Symbol}())
+    return StatDAG(Dict{Symbol, Node}(), Dict{Tuple{Symbol, Symbol}, Edge}(), Symbol[], false, strategy, Set{Symbol}(), ReentrantLock())
 end

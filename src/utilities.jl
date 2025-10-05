@@ -391,8 +391,10 @@ function add_observer!(dag::StatDAG, node_id::Symbol, callback::Function)
         throw(KeyError("Node :$node_id does not exist"))
     end
 
-    push!(dag.nodes[node_id].observers, callback)
-    return length(dag.nodes[node_id].observers)
+    lock(dag.observer_lock) do
+        push!(dag.nodes[node_id].observers, callback)
+        return length(dag.nodes[node_id].observers)
+    end
 end
 
 """
@@ -417,12 +419,15 @@ function remove_observer!(dag::StatDAG, node_id::Symbol, index::Int)
         throw(KeyError("Node :$node_id does not exist"))
     end
 
-    if index < 1 || index > length(dag.nodes[node_id].observers)
-        throw(ArgumentError("Invalid observer index: $index"))
+    lock(dag.observer_lock) do
+        if index < 1 || index > length(dag.nodes[node_id].observers)
+            throw(ArgumentError("Invalid observer index: $index"))
+        end
+
+        # Set to dummy function instead of removing to preserve indices
+        dag.nodes[node_id].observers[index] = (_...) -> nothing
     end
 
-    # Set to dummy function instead of removing to preserve indices
-    dag.nodes[node_id].observers[index] = (_...) -> nothing
     return dag
 end
 
@@ -450,8 +455,13 @@ function notify_observers!(dag::StatDAG, node_id::Symbol)
     computed_value = node.cached_value
     raw_value = node.last_raw_value
 
-    # Notify all observers
-    for callback in node.observers
+    # Copy observers list to avoid holding lock during callbacks
+    observers_copy = lock(dag.observer_lock) do
+        copy(node.observers)
+    end
+
+    # Notify all observers (outside lock to prevent deadlocks)
+    for callback in observers_copy
         try
             callback(node_id, computed_value, raw_value)
         catch e
