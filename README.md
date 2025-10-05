@@ -3,8 +3,10 @@
 [![CI](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/CI.yml)
 [![Documentation](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/Documentation.yml/badge.svg)](https://github.com/femtotrader/OnlineStatsChains.jl/actions/workflows/Documentation.yml)
 [![codecov](https://codecov.io/gh/femtotrader/OnlineStatsChains.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/femtotrader/OnlineStatsChains.jl)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://femtotrader.github.io/OnlineStatsChains.jl/stable/)
 [![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://femtotrader.github.io/OnlineStatsChains.jl/dev/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/femtotrader/OnlineStatsChains.jl)
 
 > ⚠️ **AI-Generated Package**: This package was entirely generated using Claude Code (AI). Please read the [AI-Generated Notice](https://femtotrader.github.io/OnlineStatsChains.jl/ai-generated/) before using in production.
 
