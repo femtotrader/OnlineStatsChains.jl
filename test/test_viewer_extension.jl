@@ -5,7 +5,8 @@
 using Test
 using OnlineStatsChains
 using OnlineStats
-using JSServe, JSON3, Colors, NanoDates
+using JSServe, JSON3, Colors
+import NanoDates  # import instead of using to avoid 'value' conflict
 
 # Get extension module
 const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)

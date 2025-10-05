@@ -35,22 +35,18 @@ end
 println("\nStep 2: Checking viewer dependencies...")
 viewer_available = false
 try
-    using JSServe, JSON3, Colors, Dates
-    println("✓ Viewer dependencies available (JSServe, JSON3, Colors, Dates)")
-
-    # Get the viewer extension
-    const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
-    using .ViewerExt: display
-
+    using JSServe, JSON3, Colors
+    import NanoDates  # import instead of using to avoid 'value' conflict
+    println("✓ Viewer dependencies available (JSServe, JSON3, Colors, NanoDates)")
     viewer_available = true
 catch e
     println("✗ Viewer dependencies not found")
     println("\nWould you like to install them? (y/n)")
     response = readline()
     if lowercase(strip(response)) == "y"
-        println("Installing JSServe, JSON3, and Colors...")
+        println("Installing JSServe, JSON3, Colors, and NanoDates...")
         using Pkg
-        Pkg.add(["JSServe", "JSON3", "Colors"])
+        Pkg.add(["JSServe", "JSON3", "Colors", "NanoDates"])
         println("✓ Dependencies installed. Please restart Julia and run this script again.")
         exit(0)
     else

@@ -3,7 +3,8 @@
 
 using OnlineStatsChains
 using OnlineStats
-using JSServe, JSON3, Colors, NanoDates  # Activates viewer extension
+using JSServe, JSON3, Colors
+import NanoDates  # import instead of using to avoid 'value' conflict
 
 println("Creating a simple DAG...")
 

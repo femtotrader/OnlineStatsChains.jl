@@ -3,7 +3,8 @@
 
 using OnlineStatsChains
 using OnlineStats
-using JSServe, JSON3, Colors, NanoDates
+using JSServe, JSON3, Colors
+import NanoDates  # import instead of using to avoid 'value' conflict
 
 println("Setting up real-time monitoring DAG...")
 

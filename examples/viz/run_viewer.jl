@@ -9,19 +9,16 @@ println("\n📦 Loading packages...")
 using OnlineStatsChains
 using OnlineStats
 
-# Check for viewer dependencies
+# Load viewer dependencies (import NanoDates to avoid name conflicts)
 try
-    using JSServe, JSON3, Colors, Dates
+    using JSServe, JSON3, Colors
+    import NanoDates  # import instead of using to avoid 'value' conflict
     println("✓ Viewer extension loaded")
-
-    # Get the viewer extension
-    const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
-    using .ViewerExt: display
 catch e
     println("\n⚠️  Viewer dependencies not installed yet.")
     println("\nTo install, run in Julia:")
     println("  using Pkg")
-    println("  Pkg.add([\"JSServe\", \"JSON3\", \"Colors\"])")
+    println("  Pkg.add([\"JSServe\", \"JSON3\", \"Colors\", \"NanoDates\"])")
     println("\nThen restart Julia and run this script again.")
     exit(1)
 end

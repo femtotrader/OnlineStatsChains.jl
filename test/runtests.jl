@@ -21,7 +21,8 @@ end
 
 # Conditionally run Viewer extension tests if JSServe, JSON3, Colors, NanoDates are available
 try
-    @eval using JSServe, JSON3, Colors, NanoDates
+    @eval using JSServe, JSON3, Colors
+    @eval import NanoDates  # import instead of using to avoid 'value' conflict
     # Check if extension loaded
     if !isnothing(Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt))
         @info "Running Viewer extension tests"
