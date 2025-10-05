@@ -41,6 +41,9 @@ function fit!(dag::StatDAG, data::Pair{Symbol, <:Any})
             node.last_raw_value = v
             node.cached_value = OnlineStatsBase.value(node.stat)
 
+            # Notify observers
+            notify_observers!(dag, node_id, node.cached_value, v)
+
             if dag.strategy == :lazy
                 # Lazy: mark dirty, don't propagate
                 invalidate!(dag, node_id)
@@ -55,6 +58,9 @@ function fit!(dag::StatDAG, data::Pair{Symbol, <:Any})
         # Store last raw value and update cached value
         node.last_raw_value = val
         node.cached_value = OnlineStatsBase.value(node.stat)
+
+        # Notify observers
+        notify_observers!(dag, node_id, node.cached_value, val)
 
         if dag.strategy == :lazy
             # Lazy: mark dirty, don't propagate

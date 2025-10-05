@@ -16,9 +16,11 @@ mutable struct Node{T<:OnlineStat}
     children::Vector{Symbol}
     cached_value::Any
     last_raw_value::Any  # Store last raw input for lazy mode and transforms
+    observers::Dict{Int, Function}  # Callback functions indexed by observer ID
+    next_observer_id::Int  # Counter for generating unique observer IDs
 end
 
-Node(stat::T) where {T<:OnlineStat} = Node(stat, Symbol[], Symbol[], nothing, nothing)
+Node(stat::T) where {T<:OnlineStat} = Node(stat, Symbol[], Symbol[], nothing, nothing, Dict{Int, Function}(), 1)
 
 # Edge structure to store edge metadata including filters and transformers
 struct Edge

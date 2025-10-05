@@ -358,3 +358,103 @@ function has_transform(dag::StatDAG, from_id::Symbol, to_id::Symbol)
     edge_key = (from_id, to_id)
     return haskey(dag.edges, edge_key) && dag.edges[edge_key].transform !== nothing
 end
+
+#=============================================================================
+Observer System (for Rocket.jl integration)
+=============================================================================#
+
+"""
+    add_observer!(dag::StatDAG, node_id::Symbol, callback::Function)
+
+Register an observer callback for a specific node.
+
+The callback will be invoked whenever the node is updated via `fit!()`.
+The callback receives three arguments: `(node_id::Symbol, cached_value, raw_value)`.
+
+Returns an integer observer ID that can be used to remove the observer later.
+
+# Arguments
+- `dag`: The StatDAG instance
+- `node_id`: The node to observe
+- `callback`: Function to call on updates, signature: `(Symbol, Any, Any) -> Nothing`
+
+# Returns
+- `Int`: Observer ID for later removal
+
+# Example
+```julia
+function my_callback(node_id, cached_val, raw_val)
+    println("Node \$node_id updated: \$cached_val")
+end
+
+observer_id = add_observer!(dag, :prices, my_callback)
+```
+"""
+function add_observer!(dag::StatDAG, node_id::Symbol, callback::Function)
+    if !haskey(dag.nodes, node_id)
+        throw(KeyError(node_id))
+    end
+
+    node = dag.nodes[node_id]
+    observer_id = node.next_observer_id
+    node.observers[observer_id] = callback
+    node.next_observer_id += 1
+
+    return observer_id
+end
+
+"""
+    remove_observer!(dag::StatDAG, node_id::Symbol, observer_id::Int)
+
+Remove a previously registered observer callback.
+
+# Arguments
+- `dag`: The StatDAG instance
+- `node_id`: The node being observed
+- `observer_id`: The ID returned by `add_observer!`
+
+# Example
+```julia
+remove_observer!(dag, :prices, observer_id)
+```
+"""
+function remove_observer!(dag::StatDAG, node_id::Symbol, observer_id::Int)
+    if !haskey(dag.nodes, node_id)
+        throw(KeyError(node_id))
+    end
+
+    node = dag.nodes[node_id]
+    delete!(node.observers, observer_id)
+
+    return nothing
+end
+
+"""
+    notify_observers!(dag::StatDAG, node_id::Symbol, cached_value, raw_value)
+
+Notify all observers of a node that it has been updated.
+
+This is called internally by `fit!` after updating a node.
+
+# Arguments
+- `dag`: The StatDAG instance
+- `node_id`: The node that was updated
+- `cached_value`: The computed value (from OnlineStat)
+- `raw_value`: The raw input value
+"""
+function notify_observers!(dag::StatDAG, node_id::Symbol, cached_value, raw_value)
+    if !haskey(dag.nodes, node_id)
+        return
+    end
+
+    node = dag.nodes[node_id]
+    for (_, callback) in node.observers
+        try
+            callback(node_id, cached_value, raw_value)
+        catch e
+            @warn "Observer callback failed for node :$node_id" exception=(e, catch_backtrace())
+        end
+    end
+
+    return nothing
+end
