@@ -3,11 +3,7 @@
 
 using OnlineStatsChains
 using OnlineStats
-using JSServe, JSON3, Colors, Dates
-
-# Get the viewer extension
-const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)
-using .ViewerExt: display
+using JSServe, JSON3, Colors, NanoDates
 
 println("Creating a complex DAG for layout comparison...")
 

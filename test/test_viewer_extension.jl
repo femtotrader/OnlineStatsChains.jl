@@ -1,11 +1,11 @@
 # Test file for Viewer Extension
-# This file uses classic @testset (not @testitem) because JSServe, JSON3, Colors are weak dependencies
+# This file uses classic @testset (not @testitem) because JSServe, JSON3, Colors, NanoDates are weak dependencies
 # These tests are conditionally included in runtests.jl only when dependencies are available
 
 using Test
 using OnlineStatsChains
 using OnlineStats
-using JSServe, JSON3, Colors
+using JSServe, JSON3, Colors, NanoDates
 
 # Get extension module
 const ViewerExt = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt)

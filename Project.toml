@@ -8,14 +8,14 @@ OnlineStatsBase = "925886fa-5bf2-5e8e-b522-a9147a512338"
 
 [weakdeps]
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
-Dates = "ade2ca70-e20c-5a08-8c6f-b5ce0a8a9a79"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JSServe = "824d6782-a2ef-11e9-3a09-e5662e0c26f9"
 Rocket = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
+NanoDates = "46f1a544-deae-4307-8689-c12aa3c955c6"
 
 [extensions]
 OnlineStatsChainsRocketExt = "Rocket"
-OnlineStatsChainsViewerExt = ["JSServe", "JSON3", "Colors", "Dates"]
+OnlineStatsChainsViewerExt = ["JSServe", "JSON3", "Colors", "NanoDates"]
 
 [compat]
 Aqua = "0.8.14"
@@ -24,6 +24,7 @@ Colors = "0.12, 0.13"
 Documenter = "1"
 JSON3 = "1"
 JSServe = "2"
+NanoDates = "1"
 OnlineStats = "1.7.2"
 OnlineStatsBase = "1"
 Rocket = "1.8"
@@ -38,10 +39,11 @@ Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JSServe = "824d6782-a2ef-11e9-3a09-e5662e0c26f9"
+NanoDates = "46f1a544-deae-4307-8689-c12aa3c955c6"
 OnlineStats = "a15396b6-48d5-5d58-9928-6d29437db91e"
 Rocket = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
 
 [targets]
-test = ["Test", "OnlineStats", "TestItemRunner", "Rocket", "JSServe", "JSON3", "Colors"]
+test = ["Test", "OnlineStats", "TestItemRunner", "Rocket", "JSServe", "JSON3", "Colors", "NanoDates"]

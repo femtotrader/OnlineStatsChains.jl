@@ -3,8 +3,7 @@
 
 using OnlineStatsChains
 using OnlineStats
-using JSServe
-using JSON3
+using JSServe, JSON3, Colors, NanoDates
 
 println("Creating DAG for export example...")
 

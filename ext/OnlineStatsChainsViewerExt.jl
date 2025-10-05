@@ -4,7 +4,7 @@ using OnlineStatsChains
 using JSServe
 using JSON3
 using Colors
-using Dates
+using NanoDates
 
 import OnlineStatsChains: StatDAG, Node, Edge
 import Base: display
@@ -35,16 +35,11 @@ Format nanosecond timestamp as ISO 8601 string with full precision.
 Example: "2025-10-05T14:23:45.123456789Z"
 """
 function format_timestamp(timestamp_ns::Union{Int64,UInt64})
-    # Convert nanoseconds to seconds and remaining nanoseconds
-    secs = timestamp_ns ÷ 1_000_000_000
-    nanos = timestamp_ns % 1_000_000_000
+    # Create NanoDate from nanoseconds since Unix epoch
+    nd = NanoDate(Int128(timestamp_ns))
 
-    # Create DateTime from seconds (unix2datetime uses UTC)
-    dt = Dates.unix2datetime(secs)
-
-    # Format with nanosecond precision
-    return string(Dates.format(dt, "yyyy-mm-ddTHH:MM:SS"),
-                  ".", lpad(nanos, 9, '0'), "Z")
+    # Format as ISO 8601 with nanosecond precision
+    return string(nd) * "Z"
 end
 
 """
