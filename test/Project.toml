@@ -1,4 +1,5 @@
 [deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 OnlineStats = "a15396b6-48d5-5d58-9928-6d29437db91e"
 OnlineStatsBase = "925886fa-5bf2-5e8e-b522-a9147a512338"
