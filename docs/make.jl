@@ -21,6 +21,9 @@ makedocs(;
             "Advanced Patterns" => "tutorials/advanced.md",
             "Performance" => "tutorials/performance.md",
         ],
+        "Integrations" => [
+            "Rocket.jl (Reactive Programming)" => "rocket_integration.md",
+        ],
         "API Reference" => "api.md",
         "Examples" => "examples.md",
     ],

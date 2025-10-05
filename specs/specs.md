@@ -1,6 +1,6 @@
 # OnlineStatsChains.jl - EARS Specification
 
-**Version:** 0.3.1
+**Version:** 0.3.2
 **Date:** 2025-10-04
 **Author:** femtotrader
 **Format:** EARS (Easy Approach to Requirements Syntax)
@@ -252,7 +252,7 @@ The package SHALL be independent and SHALL work with any OnlineStat type, allowi
 
 ### 3.3 Compatibility
 
-**REQ-COMPAT-001:** The package SHALL work with Julia 1.6+.
+**REQ-COMPAT-001:** The package SHALL work with Julia 1.10+ (LTS version).
 
 **REQ-COMPAT-002:** The package SHALL work with all OnlineStat types from OnlineStatsBase.jl.
 
@@ -333,6 +333,32 @@ recompute!(dag)               # Force recomputation (lazy mode)
 ---
 
 ## 6. Testing Requirements
+
+### 6.1 Test Framework
+
+**REQ-TEST-FRAMEWORK-001:** The package SHALL use [TestItemRunner.jl](https://github.com/julia-vscode/TestItemRunner.jl) for running tests.
+
+**REQ-TEST-FRAMEWORK-002:** Tests SHALL be written using `@testitem` macro instead of traditional `@testset`.
+
+**REQ-TEST-FRAMEWORK-003:** Each test item SHALL be independent and self-contained, including its own `using` statements.
+
+**REQ-TEST-FRAMEWORK-004:** The main test runner (`test/runtests.jl`) SHALL use `@run_package_tests` to execute all test items.
+
+**REQ-TEST-FRAMEWORK-005:** Test items SHALL specify appropriate setup/tags for categorization when needed.
+
+**Example test structure:**
+```julia
+@testitem "Basic DAG construction" begin
+    using OnlineStatsChains
+    using OnlineStats
+
+    dag = StatDAG()
+    add_node!(dag, :mean, Mean())
+    @test haskey(dag.nodes, :mean)
+end
+```
+
+### 6.2 Test Coverage
 
 **REQ-TEST-001:** The package SHALL include unit tests for all public API functions.
 
@@ -501,7 +527,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Manual workflow dispatch (when needed)
 
 **REQ-CI-003:** The CI pipeline SHALL test on multiple Julia versions:
-- Minimum supported version (1.6)
+- Minimum supported version (1.10 LTS)
 - Latest stable release
 - Nightly (allowed to fail)
 
@@ -558,7 +584,7 @@ The following features are NOT required for the current release but MAY be consi
 - **REQ-FUTURE-001:** Visualization of DAG structure (e.g., GraphViz export)
 - **REQ-FUTURE-002:** Parallel execution of independent branches
 - **REQ-FUTURE-003:** Persistence/serialization of DAG state
-- **REQ-FUTURE-004:** Integration with Rocket.jl for reactive programming
+- **REQ-FUTURE-004:** Integration with Rocket.jl for reactive programming (see [rocket_integration.md](rocket_integration.md))
 - **REQ-FUTURE-005:** Advanced filter composition (AND/OR/NOT combinators)
 - **REQ-FUTURE-006:** Built-in logging/tracing of data flow
 - **REQ-FUTURE-007:** Automatic benchmarking of DAG execution

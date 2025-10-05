@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nrefactor: split OnlineStatsChains.jl into modular components\n\nSplit the large monolithic file into smaller, focused modules:\n- types.jl: Core data structures (CycleError, Node, Edge, StatDAG)\n- dag_algorithms.jl: Graph algorithms (cycle detection, topological sort)\n- propagation.jl: Value propagation and recomputation logic\n- fit.jl: Fit operations for single and multiple nodes\n- utilities.jl: Public API utilities and helper functions\n\nThis improves code maintainability and makes the codebase easier to navigate.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(julia:*)"
     ],
     "deny": [],
     "ask": []

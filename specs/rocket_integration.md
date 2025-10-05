@@ -194,15 +194,45 @@ Install it with: using Pkg; Pkg.add("Rocket")
 
 ## 9. Testing Requirements
 
+### 9.1 Testing Strategy
+
+The Rocket.jl integration tests use **classic `@testset` blocks** instead of `@testitem` from TestItemRunner.jl. This design decision is based on the following considerations:
+
+1. **Weak Dependency Challenge**: Rocket.jl is a weak dependency (weakdep) that's only loaded when explicitly requested
+2. **Conditional Package Loading**: `@testitem` tests are discovered and run automatically, making conditional execution based on optional package availability complex
+3. **Setup Limitations**: TestItemRunner doesn't have a built-in mechanism like `@testsetup` for handling optional dependencies that may or may not be available
+4. **Isolation**: Keeping extension tests separate from core tests provides cleaner separation of concerns
+5. **Pragmatism**: Classic testsets work reliably with Julia's package extension system and conditional loading
+
+The core package tests continue to use `@testitem` for their benefits (parallelization, isolation), while Rocket integration tests use traditional testsets for compatibility.
+
+### 9.2 Test Requirements
+
 **REQ-ROCKET-TEST-001:** The extension SHALL include comprehensive tests that run ONLY when Rocket.jl is available.
 
-**REQ-ROCKET-TEST-002:** Tests SHALL be written using `@testitem` macro from TestItemRunner.jl (following the core package test framework standard).
+**REQ-ROCKET-TEST-002:** Tests SHALL be written using **classic `@testset` blocks** from the Test standard library, not `@testitem` from TestItemRunner.jl. This is necessary because Rocket.jl is a weak dependency (weakdep) and managing testitem setup with conditional package loading is complex.
 
-**REQ-ROCKET-TEST-003:** Each test item SHALL be self-contained and include necessary `using` statements for OnlineStatsChains, OnlineStats, and Rocket.
+**REQ-ROCKET-TEST-003:** Tests SHALL be organized in a dedicated test file `test/test_rocket_integration.jl` that is conditionally included based on Rocket.jl availability.
 
-**REQ-ROCKET-TEST-004:** Rocket.jl SHALL be included in `test/Project.toml` as a test dependency to enable testing of the extension.
+**REQ-ROCKET-TEST-004:** Rocket.jl SHALL be listed in `[extras]` section of the main `Project.toml` and included in the test target.
 
-**REQ-ROCKET-TEST-005:** A `@testsetup module RocketSetup` SHALL be defined at the top of the test file to handle Rocket.jl loading and provide shared setup for all test items.
+**REQ-ROCKET-TEST-005:** The test runner (`test/runtests.jl`) SHALL conditionally load Rocket tests only if Rocket.jl can be loaded:
+```julia
+# In test/runtests.jl
+using TestItemRunner
+
+# Run core tests with @testitem
+@run_package_tests
+
+# Conditionally run Rocket integration tests
+try
+    using Rocket
+    @info "Rocket.jl available, running integration tests"
+    include("test_rocket_integration.jl")
+catch e
+    @warn "Rocket.jl not available, skipping Rocket integration tests" exception=(e, catch_backtrace())
+end
+```
 
 **REQ-ROCKET-TEST-006:** CI/CD SHALL include a separate job that tests with Rocket.jl installed.
 
@@ -214,35 +244,48 @@ Install it with: using Pkg; Pkg.add("Rocket")
 - Subscription lifecycle management
 - Thread safety (if applicable)
 
-**REQ-ROCKET-TEST-008:** Tests SHALL verify that core OnlineStatsChains functionality works WITHOUT Rocket.jl installed.
+**REQ-ROCKET-TEST-008:** Tests SHALL verify that core OnlineStatsChains functionality works WITHOUT Rocket.jl installed (via the standard test suite without Rocket).
 
 **Example test structure:**
 ```julia
-# At top of test file
-@testsetup module RocketSetup
-    using OnlineStatsChains
-    using OnlineStats
-    try
-        using Rocket
-    catch e
-        @warn "Rocket.jl not available"
+# test/test_rocket_integration.jl
+# This file is only included when Rocket.jl is available
+
+using Test
+using OnlineStatsChains
+using OnlineStats
+using Rocket
+
+@testset "Rocket.jl Integration" begin
+
+    @testset "Extension Loading" begin
+        ext = Base.get_extension(OnlineStatsChains, :OnlineStatsChainsRocketExt)
+        @test ext !== nothing
     end
-end
 
-# Individual test items
-@testitem "StatDAGActor - Basic" setup=[RocketSetup] begin
-    using OnlineStatsChains
-    using OnlineStats
-    using Rocket
+    @testset "StatDAGActor - Basic" begin
+        dag = StatDAG()
+        add_node!(dag, :prices, Mean())
 
-    dag = StatDAG()
-    add_node!(dag, :prices, Mean())
+        prices = from([100.0, 102.0, 101.0, 103.0, 105.0])
+        actor = StatDAGActor(dag, :prices)
+        subscribe!(prices, actor)
 
-    prices = from([100.0, 102.0, 101.0, 103.0, 105.0])
-    actor = StatDAGActor(dag, :prices)
-    subscribe!(prices, actor)
+        @test value(dag, :prices) ≈ 102.2
+    end
 
-    @test value(dag, :prices) ≈ 102.2
+    @testset "StatDAGActor - With Filter" begin
+        dag = StatDAG()
+        add_node!(dag, :values, Mean())
+
+        data = from([1.0, 2.0, missing, 3.0, missing, 4.0])
+        actor = StatDAGActor(dag, :values, filter = !ismissing)
+        subscribe!(data, actor)
+
+        @test value(dag, :values) ≈ 2.5
+    end
+
+    # ... more testsets ...
 end
 ```
 
@@ -414,12 +457,35 @@ OnlineStatsChains/
 ### 11.2 Project.toml Configuration
 
 ```toml
+[deps]
+OnlineStatsBase = "925886fa-5bf2-5e8e-b522-a9147a512338"
+
 [weakdeps]
 Rocket = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
 
 [extensions]
 OnlineStatsChainsRocketExt = "Rocket"
+
+[compat]
+OnlineStatsBase = "1"
+Rocket = "1"
+julia = "1.10"
+
+[extras]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+OnlineStats = "a15396b6-48d5-5d58-9928-6d29437db91e"
+Rocket = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
+
+[targets]
+test = ["Test", "OnlineStats", "TestItemRunner", "Rocket"]
 ```
+
+**Key Points:**
+- `Rocket` is in `[weakdeps]`, NOT in `[deps]` - this ensures it's optional
+- `Rocket` is in `[extras]` and `[targets]` to enable testing
+- The extension activates automatically when `using Rocket` is called
 
 ### 11.3 Extension Module Structure
 

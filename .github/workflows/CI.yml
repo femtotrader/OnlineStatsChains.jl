@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.6'  # Minimum supported version
-          - '1'    # Latest stable release
+          - '1.10'    # Latest stable release
+          - '1.11'
         os:
           - ubuntu-latest
           - macOS-latest
@@ -62,3 +62,49 @@ jobs:
           files: lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+
+  test-rocket:
+    name: Julia ${{ matrix.version }} - Rocket.jl integration - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.10'    # LTS
+          - '1'       # Latest stable
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.version }}
+
+      - uses: julia-actions/cache@v1
+        with:
+          cache-name: ${{ runner.os }}-test-rocket
+
+      - name: Install OnlineStatsChains dependencies
+        run: |
+          julia --project -e '
+            using Pkg
+            Pkg.instantiate()
+          '
+
+      - name: Install Rocket.jl
+        run: |
+          julia --project -e '
+            using Pkg
+            Pkg.add("Rocket")
+          '
+
+      - name: Run Rocket.jl integration tests
+        run: |
+          julia --project -e '
+            using Pkg
+            Pkg.test()
+          '
