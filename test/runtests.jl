@@ -18,3 +18,17 @@ try
 catch e
     @info "Rocket.jl not available, skipping integration tests: $e"
 end
+
+# Conditionally run Viewer extension tests if JSServe, JSON3, Colors are available
+try
+    @eval using JSServe, JSON3, Colors
+    # Check if extension loaded
+    if !isnothing(Base.get_extension(OnlineStatsChains, :OnlineStatsChainsViewerExt))
+        @info "Running Viewer extension tests"
+        include("test_viewer_extension.jl")
+    else
+        @warn "Viewer dependencies (JSServe, JSON3, Colors) are installed but extension did not load"
+    end
+catch e
+    @info "Viewer dependencies not available, skipping viewer tests: $e"
+end

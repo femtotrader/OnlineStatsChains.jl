@@ -13,6 +13,10 @@
         stale_deps = (;
             ignore = [:OnlineStatsBase, :Statistics],  # Core dependencies that might appear unused
         ),
+        # Dates is a stdlib and doesn't need compat entries
+        deps_compat = (;
+            check_weakdeps = false,  # Skip weakdeps compat check (Dates is stdlib)
+        ),
         # Persistent tasks check (for async code)
         persistent_tasks = false,  # Set to true if package uses persistent tasks
     )
@@ -63,7 +67,9 @@ end
     using Aqua
 
     # Test that all dependencies have [compat] entries
-    Aqua.test_deps_compat(OnlineStatsChains)
+    # Note: Dates is a stdlib and doesn't need compat entries
+    Aqua.test_deps_compat(OnlineStatsChains; check_weakdeps = false)
+    Aqua.test_deps_compat(OnlineStatsChains; check_extras = true, check_weakdeps = false)
 end
 
 @testitem "Aqua - Piracies" begin

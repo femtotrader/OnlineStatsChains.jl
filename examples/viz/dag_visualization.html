@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OnlineStatsChains DAG Viewer</title>
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        #cy {
+            width: 100%;
+            height: 90vh;
+            display: block;
+            background-color: #ffffff;
+        }
+        #controls {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            margin: 0 5px;
+            padding: 5px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        #status {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+            text-align: right;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <strong>OnlineStatsChains DAG Viewer</strong>
+        <button onclick="resetView()">Reset View</button>
+        <button onclick="fitToScreen()">Fit to Screen</button>
+
+    </div>
+    <div id="cy"></div>
+    <div id="status">
+        Nodes: <span id="nodeCount">0</span> |
+        Edges: <span id="edgeCount">0</span>
+
+    </div>
+
+    <script>
+        // Initialize Cytoscape
+        var cy = cytoscape({
+            container: document.getElementById('cy'),
+            elements: {"nodes":[{"data":{"label":"count: Counter","id":"count","value":12,"is_source":false,"type":"Counter","is_sink":true}},{"data":{"label":"raw_data: Mean","id":"raw_data","value":105.4417,"is_source":true,"type":"Mean","is_sink":false}},{"data":{"label":"variance: Variance","id":"variance","value":0.6812,"is_source":false,"type":"Variance","is_sink":true}},{"data":{"label":"sum: Sum","id":"sum","value":1222.8727,"is_source":false,"type":"Sum","is_sink":true}},{"data":{"label":"filtered_data: Mean","id":"filtered_data","value":103.1207,"is_source":false,"type":"Mean","is_sink":false}}],"edges":[{"data":{"has_transform":false,"source":"filtered_data","has_filter":false,"id":"filtered_data_sum","target":"sum"}},{"data":{"has_transform":false,"source":"filtered_data","has_filter":false,"id":"filtered_data_count","target":"count"}},{"data":{"has_transform":false,"source":"filtered_data","has_filter":false,"id":"filtered_data_variance","target":"variance"}},{"data":{"has_transform":false,"source":"raw_data","has_filter":true,"id":"raw_data_filtered_data","target":"filtered_data","filter_str":"#1"}}]},
+            style: [
+                {
+                    selector: 'node',
+                    style: {
+                        'background-color': '#2196F3',
+                        'label': 'data(label)',
+                        'color': '#000000',
+                        'text-halign': 'center',
+                        'text-valign': 'center',
+                        'font-size': '12px',
+                        'width': '60px',
+                        'height': '60px',
+                        'border-width': '2px',
+                        'border-color': function(ele) {
+                            if (ele.data('is_source')) return '#4CAF50';
+                            if (ele.data('is_sink')) return '#2196F3';
+                            return '#666666';
+                        }
+                    }
+                },
+                {
+                    selector: 'edge',
+                    style: {
+                        'width': function(ele) {
+                            return ele.data('has_filter') || ele.data('has_transform') ? 3 : 2;
+                        },
+                        'line-color': '#666666',
+                        'target-arrow-color': '#666666',
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'bezier',
+                        'line-style': function(ele) {
+                            if (ele.data('has_filter')) return 'dashed';
+                            if (ele.data('has_transform')) return 'dotted';
+                            return 'solid';
+                        }
+                    }
+                },
+                {
+                    selector: ':selected',
+                    style: {
+                        'background-color': '#FF9800',
+                        'line-color': '#FF9800',
+                        'target-arrow-color': '#FF9800',
+                        'border-color': '#FF9800'
+                    }
+                }
+            ],
+            layout: {
+                name: 'breadthfirst',
+                directed: true,
+                padding: 50,
+                spacingFactor: 1.5
+            }
+        });
+
+        // Update status counts
+        document.getElementById('nodeCount').textContent = cy.nodes().length;
+        document.getElementById('edgeCount').textContent = cy.edges().length;
+
+        // View controls
+        function resetView() {
+            cy.reset();
+        }
+
+        function fitToScreen() {
+            cy.fit(null, 50);
+        }
+
+        // Node selection handler
+        cy.on('tap', 'node', function(evt) {
+            var node = evt.target;
+            console.log('Node:', node.data());
+            alert('Node: ' + node.data('id') + '\nType: ' + node.data('type') +
+                  '\nValue: ' + node.data('value'));
+        });
+
+        // Edge selection handler
+        cy.on('tap', 'edge', function(evt) {
+            var edge = evt.target;
+            var info = 'Edge: ' + edge.data('source') + ' → ' + edge.data('target');
+            if (edge.data('has_filter')) {
+                info += '\nFilter: ' + edge.data('filter_str');
+            }
+            if (edge.data('has_transform')) {
+                info += '\nTransform: ' + edge.data('transform_str');
+            }
+            alert(info);
+        });
+
+
+    </script>
+</body>
+</html>
