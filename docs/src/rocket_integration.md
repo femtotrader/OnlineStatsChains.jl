@@ -45,8 +45,8 @@ using Rocket
 # Create DAG
 dag = StatDAG()
 add_node!(dag, :prices, Mean())
-add_node!(dag, :ema, EMA(0.1))
-connect!(dag, :prices, :ema)
+add_node!(dag, :variance, Variance())
+connect!(dag, :prices, :variance)
 
 # Create observable source
 price_stream = from([100, 102, 101, 103, 105, 104, 106])
@@ -59,7 +59,7 @@ subscription = subscribe!(price_stream, actor)
 
 # Check results
 println("Mean price: ", value(dag, :prices))
-println("EMA: ", value(dag, :ema))
+println("Variance: ", value(dag, :variance))
 ```
 
 ### With Filter
@@ -188,17 +188,17 @@ using Rocket
 
 dag = StatDAG()
 add_node!(dag, :raw, Mean())
-add_node!(dag, :smoothed, EMA(0.1))
+add_node!(dag, :smoothed, Variance())
 connect!(dag, :raw, :smoothed)
 
 # Input: noisy data stream
 noisy_stream = from(randn(100))
 
-# Output: smoothed results as observable
-smoothed_obs = observable_through_dag(noisy_stream, dag, :raw, :smoothed)
+# Output: variance as observable
+variance_obs = observable_through_dag(noisy_stream, dag, :raw, :smoothed)
 
 # Process reactive pipeline
-subscribe!(smoothed_obs, logger())
+subscribe!(variance_obs, logger())
 ```
 
 ## Real-World Examples
@@ -248,30 +248,27 @@ using Rocket
 dag = StatDAG()
 add_node!(dag, :price, Mean())
 add_node!(dag, :sma_20, Mean())  # Simple moving average
-add_node!(dag, :ema_12, EMA(12/100))
-add_node!(dag, :ema_26, EMA(26/100))
-add_node!(dag, :macd, Mean())  # MACD signal
+add_node!(dag, :variance, Variance())  # Price variance
+add_node!(dag, :extrema, Extrema())  # Min/max tracking
 
 connect!(dag, :price, :sma_20)
-connect!(dag, :price, :ema_12)
-connect!(dag, :price, :ema_26)
-connect!(dag, [:ema_12, :ema_26], :macd,
-         transform = vals -> vals[1] - vals[2])
+connect!(dag, :price, :variance)
+connect!(dag, :price, :extrema)
 
 # Market data stream (simulated)
 market_stream = interval(100) |> map(Float64, _ -> 100 + randn())
 
-# Feed into DAG and expose MACD as observable
+# Feed into DAG and expose variance as observable
 subscribe!(market_stream, StatDAGActor(dag, :price))
-macd_signal = to_observable(dag, :macd)
+variance_signal = to_observable(dag, :variance)
 
 # Trading signal logic
-subscribe!(macd_signal, lambda(
+subscribe!(variance_signal, lambda(
     on_next = x -> begin
-        if x > 0
-            println("Buy signal: MACD = $x")
-        elseif x < 0
-            println("Sell signal: MACD = $x")
+        if x > 10
+            println("High volatility: Variance = $x")
+        elseif x < 2
+            println("Low volatility: Variance = $x")
         end
     end
 ))
