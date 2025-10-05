@@ -7,6 +7,7 @@ using Colors
 using Dates
 
 import OnlineStatsChains: StatDAG, Node, Edge
+import Base: display
 
 # Export public API
 export to_cytoscape_json, export_dag, display
