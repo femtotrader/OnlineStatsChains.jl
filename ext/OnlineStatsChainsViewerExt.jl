@@ -2,17 +2,28 @@ module OnlineStatsChainsViewerExt
 
 using OnlineStatsChains
 using JSServe
+using JSServe.HTTP
+using JSServe.HTTP.WebSockets
 using JSON3
 using Colors
 using NanoDates
 
 import OnlineStatsChains: StatDAG, Node, Edge
-import Base: display
+import Base: display, close
 
 # Export public API
-export to_cytoscape_json, export_dag, display
+export to_cytoscape_json, export_dag, display, close
 export set_node_style!, set_edge_style!, set_style!
 export save_layout, load_layout!
+
+# Package-level constants
+const ASSETS_DIR = joinpath(@__DIR__, "viewer_assets")
+const TEMPLATE_FILE = joinpath(ASSETS_DIR, "template.html")
+const STYLES_FILE = joinpath(ASSETS_DIR, "styles.css")
+const VIEWER_JS_FILE = joinpath(ASSETS_DIR, "viewer.js")
+
+# Active servers registry
+const ACTIVE_SERVERS = Dict{Int, Any}()
 
 #=============================================================================
 Timestamp Utilities
@@ -167,250 +178,267 @@ function to_cytoscape_json(dag::StatDAG;
 end
 
 #=============================================================================
-HTML Generation
+JSServe HTTP Server & WebSocket Support
 =============================================================================#
 
 """
-    generate_html(cyto_json::String, layout::Symbol, title::String, theme::Symbol, realtime::Bool) -> String
+    ViewerServer
 
-Generate HTML page with embedded Cytoscape.js visualization.
+Manages HTTP server and WebSocket connections for a DAG visualization.
 """
-function generate_html(cyto_json::String, layout::Symbol, title::String, theme::Symbol, realtime::Bool)
+mutable struct ViewerServer
+    dag::StatDAG
+    host::String
+    port::Int
+    server::Union{Nothing, HTTP.Server}
+    ws_clients::Vector{WebSockets.WebSocket}
+    is_realtime::Bool
+    update_rate::Int
+    config::Dict{Symbol, Any}
 
-    # Map layout symbols to Cytoscape layout names
-    layout_name = if layout == :hierarchical
-        "breadthfirst"
-    elseif layout == :force
-        "cose"
-    else
-        string(layout)
+    function ViewerServer(dag::StatDAG, host::String, port::Int, config::Dict{Symbol, Any})
+        new(dag, host, port, nothing, WebSockets.WebSocket[],
+            config[:realtime], config[:update_rate], config)
+    end
+end
+
+"""
+    start_server!(server::ViewerServer)
+
+Start the HTTP server for the viewer.
+"""
+function start_server!(server::ViewerServer)
+    # Define route handlers
+    router = HTTP.Router()
+
+    # Main page
+    HTTP.register!(router, "GET", "/") do req::HTTP.Request
+        html_content = generate_page(server)
+        return HTTP.Response(200, [
+            "Content-Type" => "text/html; charset=utf-8",
+            "Cache-Control" => "no-cache"
+        ], body=html_content)
     end
 
-    # Theme colors
-    bg_color = theme == :dark ? "#1e1e1e" : "#ffffff"
-    text_color = theme == :dark ? "#ffffff" : "#000000"
-    node_color = theme == :dark ? "#4CAF50" : "#2196F3"
-    edge_color = theme == :dark ? "#888888" : "#666666"
+    # Serve CSS
+    HTTP.register!(router, "GET", "/assets/styles.css") do req::HTTP.Request
+        if isfile(STYLES_FILE)
+            css_content = read(STYLES_FILE, String)
+            return HTTP.Response(200, [
+                "Content-Type" => "text/css; charset=utf-8",
+                "Cache-Control" => "public, max-age=3600"
+            ], body=css_content)
+        else
+            return HTTP.Response(404, body="styles.css not found")
+        end
+    end
 
-    html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <title>$title</title>
-        <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: $bg_color;
-                color: $text_color;
-            }
-            #cy {
-                width: 100%;
-                height: 90vh;
-                display: block;
-                background-color: $bg_color;
-            }
-            #controls {
-                padding: 10px;
-                background-color: $(theme == :dark ? "#2d2d2d" : "#f5f5f5");
-                border-bottom: 1px solid $(theme == :dark ? "#444" : "#ddd");
-            }
-            button {
-                margin: 0 5px;
-                padding: 5px 15px;
-                background-color: $node_color;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                cursor: pointer;
-            }
-            button:hover {
-                opacity: 0.8;
-            }
-            #status {
-                padding: 5px 10px;
-                background-color: $(theme == :dark ? "#2d2d2d" : "#f5f5f5");
-                border-top: 1px solid $(theme == :dark ? "#444" : "#ddd");
-                text-align: right;
-                font-size: 12px;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="controls">
-            <strong>$title</strong>
-            <button onclick="resetView()">Reset View</button>
-            <button onclick="fitToScreen()">Fit to Screen</button>
-            $(realtime ? "<button id='pauseBtn' onclick='togglePause()'>Pause</button>" : "")
-        </div>
-        <div id="cy"></div>
-        <div id="status">
-            Nodes: <span id="nodeCount">0</span> |
-            Edges: <span id="edgeCount">0</span>
-            $(realtime ? "| Status: <span id='wsStatus'>Connecting...</span>" : "")
-        </div>
+    # Serve JavaScript
+    HTTP.register!(router, "GET", "/assets/viewer.js") do req::HTTP.Request
+        if isfile(VIEWER_JS_FILE)
+            js_content = read(VIEWER_JS_FILE, String)
+            return HTTP.Response(200, [
+                "Content-Type" => "application/javascript; charset=utf-8",
+                "Cache-Control" => "public, max-age=3600"
+            ], body=js_content)
+        else
+            return HTTP.Response(404, body="viewer.js not found")
+        end
+    end
 
-        <script>
-            // Initialize Cytoscape
-            var cy = cytoscape({
-                container: document.getElementById('cy'),
-                elements: $cyto_json,
-                style: [
-                    {
-                        selector: 'node',
-                        style: {
-                            'background-color': '$node_color',
-                            'label': 'data(label)',
-                            'color': '$text_color',
-                            'text-halign': 'center',
-                            'text-valign': 'center',
-                            'font-size': '12px',
-                            'width': '60px',
-                            'height': '60px',
-                            'border-width': '2px',
-                            'border-color': function(ele) {
-                                if (ele.data('is_source')) return '#4CAF50';
-                                if (ele.data('is_sink')) return '#2196F3';
-                                return '$edge_color';
-                            }
-                        }
-                    },
-                    {
-                        selector: 'edge',
-                        style: {
-                            'width': function(ele) {
-                                return ele.data('has_filter') || ele.data('has_transform') ? 3 : 2;
-                            },
-                            'line-color': '$edge_color',
-                            'target-arrow-color': '$edge_color',
-                            'target-arrow-shape': 'triangle',
-                            'curve-style': 'bezier',
-                            'line-style': function(ele) {
-                                if (ele.data('has_filter')) return 'dashed';
-                                if (ele.data('has_transform')) return 'dotted';
-                                return 'solid';
-                            }
-                        }
-                    },
-                    {
-                        selector: ':selected',
-                        style: {
-                            'background-color': '#FF9800',
-                            'line-color': '#FF9800',
-                            'target-arrow-color': '#FF9800',
-                            'border-color': '#FF9800'
-                        }
-                    }
-                ],
-                layout: {
-                    name: '$layout_name',
-                    directed: true,
-                    padding: 50,
-                    spacingFactor: 1.5
-                }
-            });
+    # API: Get current DAG data
+    HTTP.register!(router, "GET", "/api/dag") do req::HTTP.Request
+        json_data = to_cytoscape_json(server.dag,
+                                      show_values=server.config[:show_values],
+                                      show_filters=server.config[:show_filters],
+                                      show_transforms=server.config[:show_transforms])
+        return HTTP.Response(200, [
+            "Content-Type" => "application/json; charset=utf-8",
+            "Cache-Control" => "no-cache"
+        ], body=json_data)
+    end
 
-            // Update status counts
-            document.getElementById('nodeCount').textContent = cy.nodes().length;
-            document.getElementById('edgeCount').textContent = cy.edges().length;
+    # WebSocket endpoint for real-time updates
+    HTTP.register!(router, "/ws") do ws::WebSockets.WebSocket
+        push!(server.ws_clients, ws)
+        @info "WebSocket client connected (total: $(length(server.ws_clients)))"
 
-            // View controls
-            function resetView() {
-                cy.reset();
-            }
+        try
+            # Keep connection alive and handle incoming messages
+            while !eof(ws)
+                msg = String(readavailable(ws))
+                if !isempty(msg)
+                    handle_ws_message(server, ws, msg)
+                end
+            end
+        catch e
+            if !isa(e, Base.IOError)
+                @warn "WebSocket error" exception=(e, catch_backtrace())
+            end
+        finally
+            # Remove client on disconnect
+            filter!(c -> c !== ws, server.ws_clients)
+            @info "WebSocket client disconnected (remaining: $(length(server.ws_clients)))"
+        end
+    end
 
-            function fitToScreen() {
-                cy.fit(null, 50);
-            }
-
-            // Node selection handler
-            cy.on('tap', 'node', function(evt) {
-                var node = evt.target;
-                console.log('Node:', node.data());
-                alert('Node: ' + node.data('id') + '\\nType: ' + node.data('type') +
-                      '\\nValue: ' + node.data('value'));
-            });
-
-            // Edge selection handler
-            cy.on('tap', 'edge', function(evt) {
-                var edge = evt.target;
-                var info = 'Edge: ' + edge.data('source') + ' → ' + edge.data('target');
-                if (edge.data('has_filter')) {
-                    info += '\\nFilter: ' + edge.data('filter_str');
-                }
-                if (edge.data('has_transform')) {
-                    info += '\\nTransform: ' + edge.data('transform_str');
-                }
-                alert(info);
-            });
-
-            $(if realtime
-                """
-                // WebSocket for real-time updates
-                var ws = null;
-                var isPaused = false;
-
-                function connectWebSocket() {
-                    ws = new WebSocket('ws://' + window.location.host + '/ws');
-
-                    ws.onopen = function() {
-                        document.getElementById('wsStatus').textContent = 'Connected';
-                        document.getElementById('wsStatus').style.color = '#4CAF50';
-                    };
-
-                    ws.onmessage = function(event) {
-                        if (isPaused) return;
-
-                        var msg = JSON.parse(event.data);
-                        if (msg.type === 'update') {
-                            var node = cy.getElementById(msg.data.node_id);
-                            if (node.length > 0) {
-                                node.data('value', msg.data.value);
-                                // Flash animation
-                                node.animate({
-                                    style: { 'background-color': '#FF9800' }
-                                }, {
-                                    duration: 200
-                                }).animate({
-                                    style: { 'background-color': '$node_color' }
-                                }, {
-                                    duration: 200
-                                });
-                            }
-                        }
-                    };
-
-                    ws.onerror = function(error) {
-                        console.error('WebSocket error:', error);
-                        document.getElementById('wsStatus').textContent = 'Error';
-                        document.getElementById('wsStatus').style.color = '#f44336';
-                    };
-
-                    ws.onclose = function() {
-                        document.getElementById('wsStatus').textContent = 'Disconnected';
-                        document.getElementById('wsStatus').style.color = '#f44336';
-                        // Attempt reconnect after 2 seconds
-                        setTimeout(connectWebSocket, 2000);
-                    };
-                }
-
-                function togglePause() {
-                    isPaused = !isPaused;
-                    document.getElementById('pauseBtn').textContent = isPaused ? 'Resume' : 'Pause';
-                }
-
-                connectWebSocket();
-                """
+    # Start HTTP server in a separate task
+    server_task = @async begin
+        try
+            server.server = HTTP.serve!(router, server.host, server.port;
+                                       stream=true, verbose=false)
+        catch e
+            if isa(e, Base.IOError) && occursin("EADDRINUSE", string(e))
+                error("Port $(server.port) is already in use. Choose a different port.")
             else
-                ""
-            end)
-        </script>
-    </body>
-    </html>
-    """
+                rethrow(e)
+            end
+        end
+    end
+
+    # Wait a bit for server to start
+    sleep(0.5)
+
+    # Register in active servers
+    ACTIVE_SERVERS[server.port] = server
+
+    @info "✓ Viewer server started" url="http://$(server.host):$(server.port)"
+
+    return server
+end
+
+"""
+    handle_ws_message(server::ViewerServer, ws::WebSocket, msg::String)
+
+Handle incoming WebSocket messages from client.
+"""
+function handle_ws_message(server::ViewerServer, ws::WebSockets.WebSocket, msg::String)
+    try
+        data = JSON3.read(msg)
+
+        # Handle different message types
+        if haskey(data, :type)
+            if data[:type] == "ping"
+                # Respond to ping
+                send_ws_message(ws, Dict(:type => "pong"))
+            end
+        end
+    catch e
+        @warn "Failed to handle WebSocket message" exception=(e, catch_backtrace())
+    end
+end
+
+"""
+    send_ws_message(ws::WebSocket, data::Dict)
+
+Send a message to a WebSocket client.
+"""
+function send_ws_message(ws::WebSockets.WebSocket, data::Dict)
+    try
+        msg = JSON3.write(data)
+        write(ws, msg)
+    catch e
+        @warn "Failed to send WebSocket message" exception=(e, catch_backtrace())
+    end
+end
+
+"""
+    broadcast_update(server::ViewerServer, node_id::Symbol, value::Any)
+
+Broadcast a node update to all connected WebSocket clients.
+"""
+function broadcast_update(server::ViewerServer, node_id::Symbol, value::Any)
+    if !server.is_realtime || isempty(server.ws_clients)
+        return
+    end
+
+    msg = Dict(
+        :type => "update",
+        :data => Dict(
+            :node_id => string(node_id),
+            :value => format_value(value),
+            :timestamp => time_ns()
+        )
+    )
+
+    # Send to all connected clients
+    for ws in server.ws_clients
+        send_ws_message(ws, msg)
+    end
+end
+
+"""
+    close(server::ViewerServer)
+
+Stop the server and close all connections.
+"""
+function close(server::ViewerServer)
+    @info "Closing viewer server on port $(server.port)..."
+
+    # Close all WebSocket connections
+    for ws in server.ws_clients
+        try
+            close(ws)
+        catch
+        end
+    end
+    empty!(server.ws_clients)
+
+    # Stop HTTP server
+    if server.server !== nothing
+        try
+            close(server.server)
+        catch e
+            @warn "Error closing HTTP server" exception=(e, catch_backtrace())
+        end
+    end
+
+    # Remove from registry
+    delete!(ACTIVE_SERVERS, server.port)
+
+    @info "✓ Viewer server closed"
+end
+
+"""
+    generate_page(server::ViewerServer) -> String
+
+Generate the HTML page by filling in the template.
+"""
+function generate_page(server::ViewerServer)
+    # Read template
+    template = read(TEMPLATE_FILE, String)
+
+    # Generate Cytoscape JSON
+    cyto_json = to_cytoscape_json(server.dag,
+                                  show_values=server.config[:show_values],
+                                  show_filters=server.config[:show_filters],
+                                  show_transforms=server.config[:show_transforms])
+
+    # Prepare configuration for client
+    client_config = Dict(
+        "elements" => JSON3.read(cyto_json),
+        "layout" => string(server.config[:layout]),
+        "theme" => string(server.config[:theme]),
+        "realtime" => server.config[:realtime]
+    )
+
+    # Replace template variables
+    html = template
+    html = replace(html, "{{TITLE}}" => server.config[:title])
+    html = replace(html, "{{THEME}}" => string(server.config[:theme]))
+    html = replace(html, "{{CONFIG_JSON}}" => JSON3.write(client_config))
+
+    # Add realtime button if enabled
+    if server.config[:realtime]
+        html = replace(html, "{{REALTIME_BUTTON}}" =>
+            """<button id="pauseBtn" title="Pause updates">⏸️ Pause</button>""")
+        html = replace(html, "{{REALTIME_STATUS}}" =>
+            """<span id="wsIndicator" class="status-indicator connecting"></span>
+               <span id="wsStatus">Connecting...</span>""")
+    else
+        html = replace(html, "{{REALTIME_BUTTON}}" => "")
+        html = replace(html, "{{REALTIME_STATUS}}" => "")
+    end
 
     return html
 end
@@ -436,16 +464,18 @@ Open an interactive web-based visualization of the StatDAG.
 - `show_values::Bool = true`: Display current values
 - `show_filters::Bool = true`: Highlight filtered edges
 - `show_transforms::Bool = true`: Highlight transformed edges
-- `realtime::Bool = false`: Enable real-time updates
-- `update_rate::Int = 30`: Updates per second (realtime mode)
+- `realtime::Bool = false`: Enable real-time updates via WebSocket
+- `update_rate::Int = 30`: Updates per second (realtime mode, not yet implemented)
 - `theme::Symbol = :light`: Color theme (:light, :dark)
 
 # Returns
-A JSServe application object that can be closed with `close(app)`.
+A `ViewerServer` object that can be closed with `close(server)`.
 
 # Example
 ```julia
-using OnlineStatsChains, OnlineStats, JSServe
+using OnlineStatsChains, OnlineStats
+using JSServe, JSON3, Colors
+import NanoDates
 
 dag = StatDAG()
 add_node!(dag, :source, Mean())
@@ -453,9 +483,11 @@ add_node!(dag, :variance, Variance())
 connect!(dag, :source, :variance)
 
 # Static view
-display(dag)
+viewer = display(dag)
+# ... view in browser ...
+close(viewer)
 
-# Real-time view
+# Real-time view (WebSocket updates)
 viewer = display(dag, realtime=true)
 for x in randn(100)
     fit!(dag, :source => x)
@@ -488,6 +520,12 @@ function display(dag::StatDAG;
         throw(ArgumentError("theme must be one of $valid_themes"))
     end
 
+    # Check if port is already in use
+    if haskey(ACTIVE_SERVERS, port)
+        @warn "Port $port is already in use by another viewer. Closing previous viewer..."
+        close(ACTIVE_SERVERS[port])
+    end
+
     # Security warning for non-localhost binding
     if host != "127.0.0.1" && host != "localhost"
         @warn """
@@ -511,30 +549,55 @@ function display(dag::StatDAG;
         sleep(3)  # Give user time to abort
     end
 
-    # Generate Cytoscape JSON
-    cyto_json = to_cytoscape_json(dag,
-                                  show_values=show_values,
-                                  show_filters=show_filters,
-                                  show_transforms=show_transforms)
+    # Check if asset files exist
+    if !isfile(TEMPLATE_FILE) || !isfile(STYLES_FILE) || !isfile(VIEWER_JS_FILE)
+        error("""
+        Viewer asset files not found in: $ASSETS_DIR
 
-    # Create HTML page
-    html_content = generate_html(cyto_json, layout, title, theme, realtime)
+        Expected files:
+        - template.html
+        - styles.css
+        - viewer.js
 
-    # Note: Full JSServe integration would go here
-    # For now, we'll create a simple server that serves the HTML
-    # This is a simplified implementation - production version would use JSServe's full capabilities
+        These files should be part of the package installation.
+        """)
+    end
 
-    @info "Viewer would start on http://$host:$port"
-    @info "Layout: $layout, Theme: $theme, Realtime: $realtime"
-    @info "HTML generated with $(length(dag.nodes)) nodes and $(length(dag.edges)) edges"
-
-    # Return a simple object representing the viewer
-    return Dict(
-        :host => host,
-        :port => port,
-        :html => html_content,
-        :dag => dag
+    # Create server configuration
+    config = Dict{Symbol, Any}(
+        :layout => layout,
+        :title => title,
+        :show_values => show_values,
+        :show_filters => show_filters,
+        :show_transforms => show_transforms,
+        :realtime => realtime,
+        :update_rate => update_rate,
+        :theme => theme
     )
+
+    # Create and start server
+    server = ViewerServer(dag, host, port, config)
+    start_server!(server)
+
+    # Open browser if requested
+    if auto_open
+        url = "http://$host:$port"
+        try
+            if Sys.iswindows()
+                run(`cmd /c start "" "$url"`, wait=false)
+            elseif Sys.isapple()
+                run(`open $url`, wait=false)
+            else  # Linux
+                run(`xdg-open $url`, wait=false)
+            end
+            @info "✓ Browser opened automatically"
+        catch e
+            @warn "Could not auto-open browser" exception=(e, catch_backtrace())
+            @info "Please manually open: $url"
+        end
+    end
+
+    return server
 end
 
 #=============================================================================

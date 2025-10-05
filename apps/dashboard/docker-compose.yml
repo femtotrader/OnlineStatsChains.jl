@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  onlinestats-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: onlinestats-monitor:latest
+    container_name: onlinestats-monitor
+    ports:
+      - "8080:8080"
+    environment:
+      - JULIA_PROJECT=/app
+      - GENIE_ENV=prod
+      - PORT=8080
+      - HOST=0.0.0.0
+    volumes:
+      # Optional: Mount configuration directory for persistence
+      - ./config:/app/config:ro
+      # Optional: Mount data directory for DAG persistence
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "julia", "-e", "using HTTP; HTTP.get(\"http://localhost:8080/\") !== nothing || exit(1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - monitor-network
+    labels:
+      - "com.onlinestats.description=OnlineStatsChains Monitoring Dashboard"
+      - "com.onlinestats.version=0.1.0"
+
+networks:
+  monitor-network:
+    driver: bridge
+
+volumes:
+  # Optional: Named volume for data persistence
+  data:
+    driver: local

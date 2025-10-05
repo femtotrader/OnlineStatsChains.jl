@@ -1,0 +1,49 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Julia artifacts and temporary files
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+.julia-history
+
+# Build artifacts
+Manifest.toml
+*.so
+*.dll
+*.dylib
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Documentation (not needed in container)
+docs/
+*.md
+!README.md
+
+# Test files (not needed in production)
+test/
+
+# Local development files
+.env
+.env.local
+config/local.jl
+
+# Logs
+*.log
+logs/
+
+# Data directories (mount as volumes instead)
+data/
+tmp/

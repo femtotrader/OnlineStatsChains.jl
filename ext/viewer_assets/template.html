@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}}</title>
+
+    <!-- Cytoscape.js -->
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="{{THEME}}">
+    <!-- Header with Controls -->
+    <div id="header">
+        <h1>{{TITLE}}</h1>
+        <div id="controls">
+            <button id="resetBtn" class="secondary" title="Reset view (R)">🔄 Reset</button>
+            <button id="fitBtn" class="secondary" title="Fit to screen (F)">📐 Fit</button>
+            <button id="exportBtn" class="secondary" title="Export as PNG">💾 Export</button>
+            {{REALTIME_BUTTON}}
+        </div>
+    </div>
+
+    <!-- Cytoscape Container -->
+    <div id="cy"></div>
+
+    <!-- Status Bar -->
+    <div id="status">
+        <div id="stats">
+            <div class="stat-item">
+                <span class="stat-label">Nodes:</span>
+                <span class="stat-value" id="nodeCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Edges:</span>
+                <span class="stat-value" id="edgeCount">0</span>
+            </div>
+        </div>
+        <div id="connection-status">
+            {{REALTIME_STATUS}}
+        </div>
+    </div>
+
+    <!-- Info Panel (for node/edge details) -->
+    <div id="info-panel">
+        <button class="close-btn" title="Close (ESC)">×</button>
+        <div id="info-content"></div>
+    </div>
+
+    <!-- Configuration (injected by server) -->
+    <script>
+        window.viewerConfig = {{CONFIG_JSON}};
+    </script>
+
+    <!-- Application Script -->
+    <script src="/assets/viewer.js"></script>
+</body>
+</html>

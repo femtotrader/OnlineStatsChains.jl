@@ -4,7 +4,9 @@
       "Bash(git push:*)",
       "Bash(julia:*)",
       "Bash(awk:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(mkdir:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

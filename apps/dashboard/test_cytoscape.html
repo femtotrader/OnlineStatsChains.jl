@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Cytoscape</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <style>
+        #cy {
+            width: 800px;
+            height: 600px;
+            border: 2px solid #000;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Cytoscape Direct</h1>
+    <div id="cy"></div>
+
+    <script>
+        console.log('Cytoscape loaded:', typeof cytoscape);
+
+        // Test data matching your DAG structure
+        const testData = {
+            nodes: [
+                { data: { id: 'prices', label: 'prices\nMean' } },
+                { data: { id: 'volumes', label: 'volumes\nMean' } },
+                { data: { id: 'price_variance', label: 'price_variance\nVariance' } },
+                { data: { id: 'volume_sum', label: 'volume_sum\nSum' } },
+                { data: { id: 'combined_mean', label: 'combined_mean\nMean' } }
+            ],
+            edges: [
+                { data: { id: 'prices_price_variance', source: 'prices', target: 'price_variance' } },
+                { data: { id: 'volumes_volume_sum', source: 'volumes', target: 'volume_sum' } },
+                { data: { id: 'prices_combined_mean', source: 'prices', target: 'combined_mean' } },
+                { data: { id: 'volumes_combined_mean', source: 'volumes', target: 'combined_mean' } }
+            ]
+        };
+
+        console.log('Test data:', testData);
+
+        const cy = cytoscape({
+            container: document.getElementById('cy'),
+
+            elements: testData,
+
+            style: [
+                {
+                    selector: 'node',
+                    style: {
+                        'background-color': '#2196f3',
+                        'label': 'data(label)',
+                        'text-valign': 'center',
+                        'text-halign': 'center',
+                        'color': '#000',
+                        'width': 80,
+                        'height': 80,
+                        'font-size': '11px',
+                        'text-wrap': 'wrap'
+                    }
+                },
+                {
+                    selector: 'edge',
+                    style: {
+                        'width': 3,
+                        'line-color': '#999',
+                        'target-arrow-color': '#999',
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'bezier'
+                    }
+                }
+            ],
+
+            layout: {
+                name: 'breadthfirst',
+                directed: true,
+                padding: 10,
+                spacingFactor: 1.5
+            }
+        });
+
+        console.log('Cytoscape created! Nodes:', cy.nodes().length);
+    </script>
+</body>
+</html>

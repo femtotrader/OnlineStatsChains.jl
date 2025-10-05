@@ -1,0 +1,904 @@
+┌ Info: 2025-10-05 17:23:56 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:23:58 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:24:25 Created example DAG with 5 nodes and 4 edges
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_modern.jl:93
+┌ Info: 2025-10-05 17:24:27 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:24:29 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:24:55 Created example DAG with 5 nodes and 4 edges
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_modern.jl:94
+┌ Info: 2025-10-05 17:24:56 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:25:01 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:40:44 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:42
+┌ Info: 2025-10-05 17:40:45 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:40:50 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:41:26 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:42
+┌ Info: 2025-10-05 17:41:28 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:41:30 Starting OnlineStatsChains Dashboard...
+└ @ Main C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:312
+┌ Info: 2025-10-05 17:41:30 Open http://127.0.0.1:8000 in your browser
+└ @ Main C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:313
+┌ Info: 2025-10-05 17:41:32 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:42:05 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:42
+┌ Info: 2025-10-05 17:42:06 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:42:09 Starting OnlineStatsChains Dashboard...
+└ @ Main C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:312
+┌ Info: 2025-10-05 17:42:09 Open http://127.0.0.1:8000 in your browser
+└ @ Main C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:313
+┌ Info: 2025-10-05 17:42:10 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:42:58 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:42
+┌ Info: 2025-10-05 17:42:59 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:43:03 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:43:44 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:42
+┌ Info: 2025-10-05 17:43:46 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:43:48 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:311
+┌ Info: 2025-10-05 17:43:48 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app_clean.jl:312
+┌ Info: 2025-10-05 17:43:48 Web Server starting at http://127.0.0.1:8000
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:43:48 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:43:48 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:48:54 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 17:48:55 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:48:58 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:311
+┌ Info: 2025-10-05 17:48:58 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:312
+┌ Info: 2025-10-05 17:48:58 Web Server starting at http://127.0.0.1:8000
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:48:58 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:48:58 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:49:54 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 17:49:56 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:49:58 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:311
+┌ Info: 2025-10-05 17:49:58 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:312
+┌ Info: 2025-10-05 17:49:58 Web Server starting at http://127.0.0.1:8000
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:49:58 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:49:59 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:50:39 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 17:50:40 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:50:43 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:311
+┌ Info: 2025-10-05 17:50:43 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:312
+┌ Info: 2025-10-05 17:50:43 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:50:43 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:50:44 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Warning: 2025-10-05 17:51:15 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006930), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x000001c1814bf629, Ptr{Nothing} @0x000001c1814bf68b, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Info: 2025-10-05 17:53:25 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 17:53:27 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:53:29 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:316
+┌ Info: 2025-10-05 17:53:29 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:317
+┌ Info: 2025-10-05 17:53:29 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:53:29 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:53:29 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:54:01 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:54:03 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:55:07 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:55:07 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:55:09 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:55:09 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:55:34 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:55:58 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:55:58 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:56:09 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:56:09 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:56:49 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 17:56:50 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:58:34 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 17:59:49 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 17:59:50 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 17:59:53 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:319
+┌ Info: 2025-10-05 17:59:53 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:320
+┌ Info: 2025-10-05 17:59:54 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 17:59:54 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 17:59:54 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:03:01 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:05 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:08 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:03:08 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:19 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:35 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:36 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:03:36 KeyError("autoreload")
+└ @ Genie.WebChannels C:\Users\scell\.julia\packages\Genie\8EA2e\src\WebChannels.jl:296
+┌ Info: 2025-10-05 18:03:36 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:03:36 Re-attaching handlers to model Main.DashboardApp.var"Main.DashboardApp_ReactiveModel" and updating values
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:670
+┌ Info: 2025-10-05 18:03:54 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:03:54 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:04:14 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:04:14 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:04:14 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:04:27 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:06:15 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:06:16 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:06:18 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:319
+┌ Info: 2025-10-05 18:06:18 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:320
+┌ Info: 2025-10-05 18:06:18 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:06:18 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:06:19 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:10:03 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:10:04 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:10:07 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:319
+┌ Info: 2025-10-05 18:10:07 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:320
+┌ Info: 2025-10-05 18:10:07 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:10:07 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:10:07 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:10:52 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:10:52 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:11:23 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:11:25 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:11:25 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:11:59 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:11:59 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:12:08 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:12:11 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:12:16 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:12:25 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:12:26 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:12:28 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:319
+┌ Info: 2025-10-05 18:12:28 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:320
+┌ Info: 2025-10-05 18:12:28 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:12:28 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:12:28 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:12:36 UndefVarError: `streaming` not defined in `Main.DashboardApp`
+│ Suggestion: check for spelling errors or missing imports.
+│ Stacktrace:
+│   [1] ui()
+│     @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:153
+│   [2] html!(data::typeof(Main.DashboardApp.ui); context::Module, status::Int64, headers::Dict{String, String}, layout::String, forceparse::Bool, noparse::Bool, vars::@Kwargs{model::Main.DashboardApp.var"Main.DashboardApp_ReactiveModel!_1"})
+│     @ Genie.Renderer.Html C:\Users\scell\.julia\packages\Genie\8EA2e\src\renderers\Html.jl:598
+│   [3] (::Stipple.Pages.var"#6#7"{typeof(Main.DashboardApp.ui), String, Module, Int64, Int64, Module, Bool, @Kwargs{}, Stipple.Pages.Page})()
+│     @ Stipple.Pages C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Pages.jl:90
+│   [4] run_route(r::Genie.Router.Route)
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:547
+│   [5] route_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:172
+│   [6] route_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:147 [inlined]
+│   [7] handle_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:321
+│   [8] handle_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:313 [inlined]
+│   [9] (::Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response})()
+│     @ Genie.Server C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\macros.jl:123
+│  [10] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [11] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [12] #161
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:425 [inlined]
+│  [13] run_work_thunk(thunk::Distributed.var"#161#162"{Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response}, Tuple{}, @Kwargs{}}, print_error::Bool)
+│     @ Distributed C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\process_messages.jl:70
+│  [14] #remotecall_fetch#166
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:450 [inlined]
+│  [15] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:449 [inlined]
+│  [16] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:492 [inlined]
+│  [17] setup_http_listener(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:365
+│  [18] setup_http_listener (repeats 2 times)
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:363 [inlined]
+│  [19] (::Genie.Server.var"#25#26"{typeof(Genie.Server.setup_http_listener)})(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:334
+│  [20] setup_http_streamer(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:354
+│  [21] (::Genie.Server.var"#6#12")(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:125
+│  [22] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [23] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [24] handle_connection(f::Function, c::HTTP.Connections.Connection{Sockets.TCPSocket}, listener::HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, readtimeout::Int64, access_log::Nothing, verbose::Bool)
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:469
+│  [25] (::HTTP.Servers.var"#16#17"{Genie.Server.var"#6#12", HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, Set{HTTP.Connections.Connection}, Int64, Nothing, ReentrantLock, Bool, Base.Semaphore, HTTP.Connections.Connection{Sockets.TCPSocket}})()
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:401
+│
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:377
+┌ Info: 2025-10-05 18:13:26 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:13:34 UndefVarError: `streaming` not defined in `Main.DashboardApp`
+│ Suggestion: check for spelling errors or missing imports.
+│ Stacktrace:
+│   [1] ui()
+│     @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:153
+│   [2] html!(data::typeof(Main.DashboardApp.ui); context::Module, status::Int64, headers::Dict{String, String}, layout::String, forceparse::Bool, noparse::Bool, vars::@Kwargs{model::Main.DashboardApp.var"Main.DashboardApp_ReactiveModel!_1"})
+│     @ Genie.Renderer.Html C:\Users\scell\.julia\packages\Genie\8EA2e\src\renderers\Html.jl:598
+│   [3] (::Stipple.Pages.var"#6#7"{typeof(Main.DashboardApp.ui), String, Module, Int64, Int64, Module, Bool, @Kwargs{}, Stipple.Pages.Page})()
+│     @ Stipple.Pages C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Pages.jl:90
+│   [4] run_route(r::Genie.Router.Route)
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:547
+│   [5] route_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:172
+│   [6] route_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:147 [inlined]
+│   [7] handle_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:321
+│   [8] handle_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:313 [inlined]
+│   [9] (::Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response})()
+│     @ Genie.Server C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\macros.jl:123
+│  [10] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [11] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [12] #161
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:425 [inlined]
+│  [13] run_work_thunk(thunk::Distributed.var"#161#162"{Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response}, Tuple{}, @Kwargs{}}, print_error::Bool)
+│     @ Distributed C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\process_messages.jl:70
+│  [14] #remotecall_fetch#166
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:450 [inlined]
+│  [15] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:449 [inlined]
+│  [16] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:492 [inlined]
+│  [17] setup_http_listener(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:365
+│  [18] setup_http_listener (repeats 2 times)
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:363 [inlined]
+│  [19] (::Genie.Server.var"#25#26"{typeof(Genie.Server.setup_http_listener)})(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:334
+│  [20] setup_http_streamer(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:354
+│  [21] (::Genie.Server.var"#6#12")(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:125
+│  [22] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [23] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [24] handle_connection(f::Function, c::HTTP.Connections.Connection{Sockets.TCPSocket}, listener::HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, readtimeout::Int64, access_log::Nothing, verbose::Bool)
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:469
+│  [25] (::HTTP.Servers.var"#16#17"{Genie.Server.var"#6#12", HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, Set{HTTP.Connections.Connection}, Int64, Nothing, ReentrantLock, Bool, Base.Semaphore, HTTP.Connections.Connection{Sockets.TCPSocket}})()
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:401
+│
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:377
+┌ Error: 2025-10-05 18:13:35 UndefVarError: `streaming` not defined in `Main.DashboardApp`
+│ Suggestion: check for spelling errors or missing imports.
+│ Stacktrace:
+│   [1] ui()
+│     @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:153
+│   [2] html!(data::typeof(Main.DashboardApp.ui); context::Module, status::Int64, headers::Dict{String, String}, layout::String, forceparse::Bool, noparse::Bool, vars::@Kwargs{model::Main.DashboardApp.var"Main.DashboardApp_ReactiveModel!_1"})
+│     @ Genie.Renderer.Html C:\Users\scell\.julia\packages\Genie\8EA2e\src\renderers\Html.jl:598
+│   [3] (::Stipple.Pages.var"#6#7"{typeof(Main.DashboardApp.ui), String, Module, Int64, Int64, Module, Bool, @Kwargs{}, Stipple.Pages.Page})()
+│     @ Stipple.Pages C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Pages.jl:90
+│   [4] run_route(r::Genie.Router.Route)
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:547
+│   [5] route_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:172
+│   [6] route_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:147 [inlined]
+│   [7] handle_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:321
+│   [8] handle_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:313 [inlined]
+│   [9] (::Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response})()
+│     @ Genie.Server C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\macros.jl:123
+│  [10] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [11] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [12] #161
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:425 [inlined]
+│  [13] run_work_thunk(thunk::Distributed.var"#161#162"{Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response}, Tuple{}, @Kwargs{}}, print_error::Bool)
+│     @ Distributed C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\process_messages.jl:70
+│  [14] #remotecall_fetch#166
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:450 [inlined]
+│  [15] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:449 [inlined]
+│  [16] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:492 [inlined]
+│  [17] setup_http_listener(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:365
+│  [18] setup_http_listener (repeats 2 times)
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:363 [inlined]
+│  [19] (::Genie.Server.var"#25#26"{typeof(Genie.Server.setup_http_listener)})(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:334
+│  [20] setup_http_streamer(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:354
+│  [21] (::Genie.Server.var"#6#12")(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:125
+│  [22] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [23] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [24] handle_connection(f::Function, c::HTTP.Connections.Connection{Sockets.TCPSocket}, listener::HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, readtimeout::Int64, access_log::Nothing, verbose::Bool)
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:469
+│  [25] (::HTTP.Servers.var"#16#17"{Genie.Server.var"#6#12", HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, Set{HTTP.Connections.Connection}, Int64, Nothing, ReentrantLock, Bool, Base.Semaphore, HTTP.Connections.Connection{Sockets.TCPSocket}})()
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:401
+│
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:377
+┌ Info: 2025-10-05 18:13:39 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:13:56 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:13:57 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:13:59 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:319
+┌ Info: 2025-10-05 18:13:59 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:320
+┌ Info: 2025-10-05 18:13:59 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:13:59 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:14:00 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Warning: 2025-10-05 18:14:33 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006930), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x0000014758f2d37d, Ptr{Nothing} @0x0000014758f2d3db, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Warning: 2025-10-05 18:14:36 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006930), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x0000014758f2d37d, Ptr{Nothing} @0x0000014758f2d3db, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Warning: 2025-10-05 18:14:39 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006930), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x0000014758f2d37d, Ptr{Nothing} @0x0000014758f2d3db, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Warning: 2025-10-05 18:14:41 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006930), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x0000014758f2d37d, Ptr{Nothing} @0x0000014758f2d3db, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Info: 2025-10-05 18:15:29 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:15:29 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:16:00 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:16:00 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:16:19 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:16:58 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:16:59 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:17:02 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:325
+┌ Info: 2025-10-05 18:17:02 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:326
+┌ Info: 2025-10-05 18:17:02 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:17:02 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:17:03 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:17:34 Theme changed to: light
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:148
+┌ Info: 2025-10-05 18:17:36 Theme changed to: light
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:148
+┌ Info: 2025-10-05 18:18:54 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:18:54 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:19:02 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:19:02 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:19:09 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:19:09 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:19:26 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:19:26 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:20:04 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:20:04 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:20:07 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:20:19 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:20:33 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:20:40 Theme changed to: light
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:148
+┌ Info: 2025-10-05 18:20:49 Theme changed to: light
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:148
+┌ Info: 2025-10-05 18:20:53 Theme changed to: light
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:148
+┌ Info: 2025-10-05 18:21:00 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:22:49 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:22:51 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:22:53 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:328
+┌ Info: 2025-10-05 18:22:53 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:329
+┌ Info: 2025-10-05 18:22:53 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:22:53 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:22:53 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:24:06 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:24:06 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:24:22 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:24:22 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:24:29 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:24:29 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:24:43 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Warning: 2025-10-05 18:24:44 Streaming error
+│   exception = (MethodError(+, (Stipple.Reactive{Int64}(Observable(0), 1, false, false, ""), 1), 0x0000000000006937), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x0000018fa87b1c13, Ptr{Nothing} @0x0000018fa87b1c7b, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Info: 2025-10-05 18:24:45 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:24:46 Re-attaching handlers to model Main.DashboardApp.var"Main.DashboardApp_ReactiveModel" and updating values
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:670
+┌ Info: 2025-10-05 18:24:51 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:25:01 Layout changed to: circular
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:144
+┌ Info: 2025-10-05 18:25:20 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:27:06 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:27:07 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:27:09 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:340
+┌ Info: 2025-10-05 18:27:09 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:341
+┌ Info: 2025-10-05 18:27:09 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:27:09 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:27:09 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:29:15 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:29:15 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Warning: 2025-10-05 18:29:18 Streaming error
+│   exception = (MethodError(/, (1.0, Stipple.Reactive{Int64}(Observable(10), 1, false, false, "")), 0x0000000000006934), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x00007ffb627f14fc, Ptr{Nothing} @0x00007ffb627fa1e5, Ptr{Nothing} @0x00007ffb627fa3cd, Ptr{Nothing} @0x00007ffb627fd5bd, Ptr{Nothing} @0x00000274488f8d17, Ptr{Nothing} @0x00000274488f8dfb, Ptr{Nothing} @0x00007ffb62822e83])
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:131
+┌ Info: 2025-10-05 18:29:26 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:29:26 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:29:40 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:29:40 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:30:02 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:30:02 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:30:04 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:30:04 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:30:07 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:30:56 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:30:58 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:31:00 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:31:53 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:31:55 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:31:57 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:328
+┌ Info: 2025-10-05 18:31:57 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:329
+┌ Info: 2025-10-05 18:31:57 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:31:57 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:31:57 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:32:05 UndefVarError: `switch` not defined in `StippleUI`
+│ Suggestion: check for spelling errors or missing imports.
+│ Hint: a global variable of this name may be made accessible by importing Stipple in the current active module Main
+│ Stacktrace:
+│   [1] getproperty
+│     @ .\Base.jl:42 [inlined]
+│   [2] ui()
+│     @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:159
+│   [3] html!(data::typeof(Main.DashboardApp.ui); context::Module, status::Int64, headers::Dict{String, String}, layout::String, forceparse::Bool, noparse::Bool, vars::@Kwargs{model::Main.DashboardApp.var"Main.DashboardApp_ReactiveModel!_1"})
+│     @ Genie.Renderer.Html C:\Users\scell\.julia\packages\Genie\8EA2e\src\renderers\Html.jl:598
+│   [4] (::Stipple.Pages.var"#6#7"{typeof(Main.DashboardApp.ui), String, Module, Int64, Int64, Module, Bool, @Kwargs{}, Stipple.Pages.Page})()
+│     @ Stipple.Pages C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Pages.jl:90
+│   [5] run_route(r::Genie.Router.Route)
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:547
+│   [6] route_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:172
+│   [7] route_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:147 [inlined]
+│   [8] handle_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:321
+│   [9] handle_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:313 [inlined]
+│  [10] (::Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response})()
+│     @ Genie.Server C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\macros.jl:123
+│  [11] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [12] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [13] #161
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:425 [inlined]
+│  [14] run_work_thunk(thunk::Distributed.var"#161#162"{Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response}, Tuple{}, @Kwargs{}}, print_error::Bool)
+│     @ Distributed C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\process_messages.jl:70
+│  [15] #remotecall_fetch#166
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:450 [inlined]
+│  [16] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:449 [inlined]
+│  [17] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:492 [inlined]
+│  [18] setup_http_listener(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:365
+│  [19] setup_http_listener (repeats 2 times)
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:363 [inlined]
+│  [20] (::Genie.Server.var"#25#26"{typeof(Genie.Server.setup_http_listener)})(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:334
+│  [21] setup_http_streamer(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:354
+│  [22] (::Genie.Server.var"#6#12")(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:125
+│  [23] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [24] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [25] handle_connection(f::Function, c::HTTP.Connections.Connection{Sockets.TCPSocket}, listener::HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, readtimeout::Int64, access_log::Nothing, verbose::Bool)
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:469
+│  [26] (::HTTP.Servers.var"#16#17"{Genie.Server.var"#6#12", HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, Set{HTTP.Connections.Connection}, Int64, Nothing, ReentrantLock, Bool, Base.Semaphore, HTTP.Connections.Connection{Sockets.TCPSocket}})()
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:401
+│
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:377
+┌ Info: 2025-10-05 18:32:53 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:33:03 UndefVarError: `switch` not defined in `StippleUI`
+│ Suggestion: check for spelling errors or missing imports.
+│ Hint: a global variable of this name may be made accessible by importing Stipple in the current active module Main
+│ Stacktrace:
+│   [1] getproperty
+│     @ .\Base.jl:42 [inlined]
+│   [2] ui()
+│     @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:159
+│   [3] html!(data::typeof(Main.DashboardApp.ui); context::Module, status::Int64, headers::Dict{String, String}, layout::String, forceparse::Bool, noparse::Bool, vars::@Kwargs{model::Main.DashboardApp.var"Main.DashboardApp_ReactiveModel!_1"})
+│     @ Genie.Renderer.Html C:\Users\scell\.julia\packages\Genie\8EA2e\src\renderers\Html.jl:598
+│   [4] (::Stipple.Pages.var"#6#7"{typeof(Main.DashboardApp.ui), String, Module, Int64, Int64, Module, Bool, @Kwargs{}, Stipple.Pages.Page})()
+│     @ Stipple.Pages C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Pages.jl:90
+│   [5] run_route(r::Genie.Router.Route)
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:547
+│   [6] route_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Router C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:172
+│   [7] route_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Router.jl:147 [inlined]
+│   [8] handle_request(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:321
+│   [9] handle_request
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:313 [inlined]
+│  [10] (::Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response})()
+│     @ Genie.Server C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\macros.jl:123
+│  [11] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [12] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [13] #161
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:425 [inlined]
+│  [14] run_work_thunk(thunk::Distributed.var"#161#162"{Genie.Server.var"#28#29"{HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}}, HTTP.Messages.Request, HTTP.Messages.Response}, Tuple{}, @Kwargs{}}, print_error::Bool)
+│     @ Distributed C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\process_messages.jl:70
+│  [15] #remotecall_fetch#166
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:450 [inlined]
+│  [16] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:449 [inlined]
+│  [17] remotecall_fetch
+│     @ C:\Users\scell\.julia\juliaup\julia-1.11.7+0.x64.w64.mingw32\share\julia\stdlib\v1.11\Distributed\src\remotecall.jl:492 [inlined]
+│  [18] setup_http_listener(req::HTTP.Messages.Request, res::HTTP.Messages.Response; stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:365
+│  [19] setup_http_listener (repeats 2 times)
+│     @ C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:363 [inlined]
+│  [20] (::Genie.Server.var"#25#26"{typeof(Genie.Server.setup_http_listener)})(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:334
+│  [21] setup_http_streamer(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:354
+│  [22] (::Genie.Server.var"#6#12")(stream::HTTP.Streams.Stream{HTTP.Messages.Request, HTTP.Connections.Connection{Sockets.TCPSocket}})
+│     @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:125
+│  [23] #invokelatest#2
+│     @ .\essentials.jl:1055 [inlined]
+│  [24] invokelatest
+│     @ .\essentials.jl:1052 [inlined]
+│  [25] handle_connection(f::Function, c::HTTP.Connections.Connection{Sockets.TCPSocket}, listener::HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, readtimeout::Int64, access_log::Nothing, verbose::Bool)
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:469
+│  [26] (::HTTP.Servers.var"#16#17"{Genie.Server.var"#6#12", HTTP.Servers.Listener{Nothing, Sockets.TCPServer}, Set{HTTP.Connections.Connection}, Int64, Nothing, ReentrantLock, Bool, Base.Semaphore, HTTP.Connections.Connection{Sockets.TCPSocket}})()
+│     @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:401
+│
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:377
+┌ Info: 2025-10-05 18:33:09 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:33:58 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:33:59 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:34:01 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:328
+┌ Info: 2025-10-05 18:34:01 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:329
+┌ Info: 2025-10-05 18:34:01 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:34:01 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:34:02 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:34:38 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:35:10 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:35:11 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:35:13 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:328
+┌ Info: 2025-10-05 18:35:13 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:329
+┌ Info: 2025-10-05 18:35:13 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:35:14 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:35:14 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:35:34 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:35:34 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:36:26 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:36:26 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:36:26 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:37:05 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:37:05 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:37:05 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:37:28 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:37:28 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:37:28 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:19 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:21 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:27 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:27 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:27 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:29 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:30 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:41 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:41 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:41 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:38:59 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:59 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:38:59 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:39:22 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:39:28 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:39:38 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:39:42 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:40:04 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:40:04 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:40:04 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:40:32 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:41:39 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:41:39 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Error: 2025-10-05 18:41:39 KeyError("QURUPDLOBIUYUPLXNUYOFLBBNSYKTLCE")
+└ @ Genie.WebChannels C:\Users\scell\.julia\packages\Genie\8EA2e\src\WebChannels.jl:296
+┌ Info: 2025-10-05 18:41:39 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:41:52 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:41:52 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:41:52 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:03 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:42:03 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:42:03 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:11 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:14 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:16 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:18 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:42:25 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:43:44 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:43:44 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:43:44 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:44:35 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:44:37 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:44:39 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:365
+┌ Info: 2025-10-05 18:44:39 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:366
+┌ Info: 2025-10-05 18:44:39 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:44:39 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:44:39 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:47:10 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
+┌ Info: 2025-10-05 18:47:39 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:47:39 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 18:48:08 Created example DAG with 5 nodes
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:42
+┌ Info: 2025-10-05 18:48:09 Watching ["C:\\Users\\scell\\.julia\\dev\\OnlineStatsChains\\apps\\dashboard"]
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:19
+┌ Info: 2025-10-05 18:48:11 Starting OnlineStatsChains Dashboard...
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:337
+┌ Info: 2025-10-05 18:48:11 Open http://127.0.0.1:8000 in your browser
+└ @ Main.DashboardApp C:\Users\scell\.julia\dev\OnlineStatsChains\apps\dashboard\app.jl:338
+┌ Info: 2025-10-05 18:48:11 Web Server starting at http://127.0.0.1:8000 - press Ctrl/Cmd+C to stop the server.
+└ @ Genie.Server C:\Users\scell\.julia\packages\Genie\8EA2e\src\Server.jl:194
+┌ Info: 2025-10-05 18:48:11 Listening on: 127.0.0.1:8000, thread id: 1
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:382
+┌ Info: 2025-10-05 18:48:11 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:49:19 Autoreloading
+└ @ GenieAutoReload C:\Users\scell\.julia\packages\GenieAutoReload\qpImd\src\GenieAutoReload.jl:22
+┌ Info: 2025-10-05 18:49:19 Calling finalizers
+└ @ Stipple C:\Users\scell\.julia\packages\Stipple\Qx1It\src\Stipple.jl:540
+┌ Info: 2025-10-05 19:10:31 Server on 127.0.0.1:8000 closing
+└ @ HTTP.Servers C:\Users\scell\.julia\packages\HTTP\ShTJs\src\Servers.jl:409
