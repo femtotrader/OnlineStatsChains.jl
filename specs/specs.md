@@ -609,9 +609,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 The following features are NOT required for the current release but MAY be considered for future versions:
 
 - **REQ-FUTURE-001:** Visualization of DAG structure (e.g., GraphViz export)
+  - See detailed specification: [viewer_extension.md](viewer_extension.md)
+  - Interactive web-based visualization using Cytoscape.js
+  - Real-time monitoring of value propagation
+  - Package extension (JSServe, JSON3, Colors)
 - **REQ-FUTURE-002:** Parallel execution of independent branches
 - **REQ-FUTURE-003:** Persistence/serialization of DAG state
 - **REQ-FUTURE-004:** Integration with Rocket.jl for reactive programming
+  - See detailed specification: [rocket_integration.md](rocket_integration.md)
+  - Observable and Actor patterns
+  - Package extension (Rocket.jl)
 - **REQ-FUTURE-005:** Advanced filter composition (AND/OR/NOT combinators)
 - **REQ-FUTURE-006:** Built-in logging/tracing of data flow
 - **REQ-FUTURE-007:** Automatic benchmarking of DAG execution

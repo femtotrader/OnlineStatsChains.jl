@@ -21,6 +21,14 @@ This directory contains the formal specifications for OnlineStatsChains.jl writt
   - Shows how to integrate with Rocket.jl without adding dependencies
   - Uses Julia's package extension system
 
+- **[viewer_extension.md](viewer_extension.md)** - Viewer Extension Specification
+  - Version: 0.1.0
+  - Status: Future consideration (out of scope for v0.3.x)
+  - Defines interactive web-based visualization of StatDAG structures
+  - Real-time monitoring of value propagation through the DAG
+  - Uses Cytoscape.js for graph rendering
+  - Implements as package extension (JSServe, JSON3, Colors)
+
 ## Specification Format
 
 All specifications follow the **EARS (Easy Approach to Requirements Syntax)** format, which uses structured patterns:
@@ -60,6 +68,7 @@ Requirements follow this naming pattern: `REQ-<CATEGORY>-<NUMBER>`
 - **CI**: Continuous integration requirements
 - **FUTURE**: Future considerations
 - **ROCKET**: Rocket.jl integration (in rocket_integration.md)
+- **VIEWER**: Viewer extension (in viewer_extension.md)
 
 ## Version History
 
