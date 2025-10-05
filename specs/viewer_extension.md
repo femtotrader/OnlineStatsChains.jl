@@ -1,9 +1,9 @@
-# OnlineStatsChains Viewer Extension Specification
+# OnlineStatsChains Monitoring Application Specification
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 **Date:** 2025-10-05
-**Status:** Future Consideration (Out of Scope for v0.3.x)
-**Parent Requirement:** REQ-FUTURE-001 (Visualization of DAG structure)
+**Status:** In Development (v0.3.x)
+**Parent Requirement:** REQ-APP-001 (Pipeline Monitoring Application)
 **Format:** EARS (Easy Approach to Requirements Syntax)
 
 ---
@@ -11,65 +11,336 @@
 ## 1. Overview
 
 ### 1.1 Purpose
-This specification defines the `OnlineStatsChainsViewerExt` extension that provides interactive web-based visualization of StatDAG structures using Cytoscape.js, enabling both static DAG structure inspection and real-time value propagation monitoring.
+This specification defines the **OnlineStatsChains Monitoring Application** - a complete, production-ready web application for real-time monitoring of statistical data pipelines built with OnlineStatsChains. The application provides DAG visualization, real-time statistics dashboards, data streaming interfaces, and import/export capabilities.
 
-### 1.2 Architecture Philosophy
-Visualization SHALL be achieved through Julia's package extension system, ensuring that visualization dependencies (JSServe.jl/WGLMakie.jl for web server, JSON3.jl for serialization) are NEVER required for core OnlineStatsChains functionality. This maintains zero overhead for users who don't need visualization.
+### 1.2 Application Scope
 
-### 1.3 Key Benefits
-- **Interactive Exploration**: Pan, zoom, and inspect DAG structure in a web browser
-- **Real-time Monitoring**: Watch values flow through the DAG as data is processed
-- **Layout Algorithms**: Automatic graph layout with customization options
-- **Node Inspection**: Click nodes to see current values, statistics, and metadata
-- **Edge Inspection**: Visualize filters, transformers, and data flow direction
-- **Multiple Layouts**: Hierarchical, force-directed, circular, and custom layouts
-- **Export Capabilities**: Save visualizations as images or export data as JSON
+**Target Use Case:** Pipeline Monitoring in Production Environments
 
-### 1.4 Scope
-The extension SHALL focus on visualization only. It SHALL NOT modify DAG structure or provide editing capabilities (view-only interface).
+The application SHALL provide:
+- 📊 **DAG Visualization** (read-only) using Cytoscape.js
+- 📈 **Real-time Statistics Dashboards** with Plotly/ECharts
+- 🌊 **Data Streaming Interface** for feeding data via UI
+- 💾 **Import/Export** of DAG configurations and data
+- 🔄 **Real-time Updates** via WebSocket
+- 🐳 **Docker Deployment** support
+- 🖥️ **Standalone Mode** (launched from Julia REPL)
 
----
+**NOT in Scope (read-only focus):**
+- ❌ DAG structure editing via UI (no drag-and-drop node creation)
+- ❌ Node/edge deletion from UI
+- ❌ Algorithmic modifications via web interface
 
-## 2. Integration Strategy
+### 1.3 Architecture Philosophy
 
-### 2.1 Dependency Management
+**Stipple.jl Framework:** The application SHALL use Stipple.jl (reactive web framework) as the foundation, providing:
+- Full-stack reactive data binding
+- Built-in Genie.jl web server
+- Component-based architecture
+- WebSocket state synchronization
+- Production-ready deployment
 
-**REQ-VIEWER-001:** The integration SHALL use Julia's **Package Extensions** system using `[extensions]` in Project.toml (natively supported in Julia 1.10+ LTS).
+**Separation of Concerns:**
+- **Core Package** (`OnlineStatsChains.jl`): Pure Julia statistical DAG library (no web dependencies)
+- **Monitoring App** (`apps/dashboard/`): Separate Stipple.jl application (not a package extension)
+- **Deployment**: Docker/docker-compose for production, standalone Julia for development
 
-**REQ-VIEWER-002:** The core OnlineStatsChains package SHALL NOT list visualization dependencies in `[deps]`.
-
-**REQ-VIEWER-003:** Visualization dependencies SHALL be listed as weak dependencies in `[weakdeps]`:
-- `JSServe` (for web server and interactive widgets) OR `WGLMakie` (alternative visualization backend)
-- `JSON3` (for JSON serialization)
-- `Colors` (for node/edge coloring)
-- `Dates` (standard library, for timestamp handling with nanosecond precision)
-
-**REQ-VIEWER-003a:** Optional timestamp libraries MAY be used for enhanced precision:
-- `Timestamps.jl` - High-precision timestamps with nanosecond support
-- `NanoDates.jl` - Nanosecond-precision date/time types
-- If not available, use standard `Dates` with nanosecond conversion from `time_ns()`
-
-**REQ-VIEWER-003b:** The extension SHALL use `time_ns()` for timestamp capture:
-- Returns nanoseconds since Unix epoch as `Int64`
-- Provides consistent high-precision timing across platforms
-- No external dependencies required
-
-**REQ-VIEWER-004:** All viewer-specific code SHALL reside in `ext/OnlineStatsChainsViewerExt.jl`.
-
-**REQ-VIEWER-005:** The extension SHALL activate when users explicitly install and load JSServe or WGLMakie.
-
-**REQ-VIEWER-006:** The extension SHALL provide a graceful fallback or clear error message when visualization dependencies are not available.
-
-**ARCH-NOTE:** We choose JSServe as the primary backend because:
-- Built-in web server (no external dependencies)
-- Real-time WebSocket communication for live updates
-- Modern web technologies (HTML5, JavaScript, WebSockets)
-- Good integration with Julia's async capabilities
-- WGLMakie support may be added later as an alternative
+### 1.4 Key Benefits
+- **Production Monitoring**: Real-time visibility into data pipeline health
+- **Performance Dashboards**: Track statistics with interactive charts
+- **Data Injection**: Test pipelines by streaming data through UI
+- **Configuration Management**: Import/export pipeline definitions
+- **Deployment Ready**: Docker support for easy production deployment
+- **Responsive UI**: Modern web interface accessible from any device
 
 ---
 
-## 3. Core Visualization API
+## 2. Technology Stack
+
+### 2.1 Framework Selection
+
+**REQ-APP-TECH-001:** The application SHALL use **Stipple.jl** as the primary framework for:
+- Reactive UI components
+- WebSocket-based state management
+- Built-in Genie.jl web server
+- Production deployment capabilities
+
+**REQ-APP-TECH-002:** Frontend technologies SHALL include:
+- **Cytoscape.js** - DAG visualization (primary requirement)
+- **Plotly.js** or **ECharts** - Statistical charts and dashboards
+- **Vue.js** - Reactive UI framework (Stipple.jl's foundation)
+- **Bootstrap** or **Vuetify** - UI component library
+
+**REQ-APP-TECH-003:** Backend technologies SHALL include:
+- **Julia** - Core computation engine
+- **Genie.jl** - Web server (via Stipple.jl)
+- **JSON3.jl** - Data serialization
+- **HTTP.jl** - HTTP client/server
+- **NanoDates.jl** - Nanosecond-precision timestamps
+
+### 2.2 Deployment Architecture
+
+**REQ-APP-DEPLOY-001:** The application SHALL support two deployment modes:
+
+**Mode 1: Standalone (Development)**
+```julia
+using OnlineStatsChains
+
+# Launch monitoring app from Julia REPL
+include("apps/dashboard/app.jl")
+app = launch_monitoring_app(port=8080)
+
+# Load existing DAG
+load_dag!(app, "pipeline.json")
+
+# App runs until manually stopped
+close(app)
+```
+
+**Mode 2: Docker (Production)**
+```bash
+# Build Docker image
+cd apps/dashboard
+docker build -t onlinestats-monitor .
+
+# Run with docker-compose
+docker-compose up -d
+
+# Access at http://localhost:8080
+```
+
+**REQ-APP-DEPLOY-002:** Docker deployment SHALL include:
+- Multi-stage build for minimal image size
+- Health checks for container orchestration
+- Volume mounts for persistent configuration
+- Environment variable configuration
+- Log aggregation support
+
+### 2.3 Technology Dependencies
+
+**REQ-APP-TECH-004:** The application SHALL use the following Julia packages:
+
+**Core:**
+- `Stipple.jl` - Reactive web framework
+- `StippleUI.jl` - UI component library (Vuetify)
+- `Genie.jl` - Web server (via Stipple)
+- `OnlineStatsChains.jl` - DAG engine
+- `JSON3.jl` - Serialization
+- `NanoDates.jl` - High-precision timestamps
+
+**Visualization:**
+- `LightweightCharts.jl` - Real-time charting (https://github.com/bhftbootcamp/LightweightCharts.jl)
+  - **Why LightweightCharts.jl over Plotly/ECharts:**
+    - ✅ Optimized for real-time streaming data (10-1000 Hz)
+    - ✅ WebGL rendering for high performance
+    - ✅ Lightweight (~200KB vs 3MB+ for Plotly)
+    - ✅ Native Julia wrapper with reactive binding
+    - ✅ Designed for financial/statistical time series
+    - ✅ Smooth animations and minimal latency
+- Custom Cytoscape.js wrapper - DAG visualization
+
+**Frontend (embedded in Stipple):**
+- Vue.js 3 - Reactive framework
+- Vuetify - Material Design components
+- Cytoscape.js - Graph visualization
+- TradingView Lightweight Charts - Time series (via LightweightCharts.jl)
+
+**REQ-APP-TECH-005:** Package versions SHALL be:
+```toml
+[deps]
+Stipple = "0.28"
+StippleUI = "0.23"
+Genie = "5.x"
+LightweightCharts = "0.1"  # or latest
+OnlineStatsChains = "0.3"
+JSON3 = "1.x"
+NanoDates = "1.x"
+```
+
+---
+
+## 3. Application Features
+
+### 3.1 DAG Visualization (Read-Only)
+
+**REQ-APP-VIZ-001:** The application SHALL display StatDAG structure using Cytoscape.js with:
+- **Interactive Graph**: Pan, zoom, select nodes/edges
+- **Layout Algorithms**: Hierarchical, force-directed, circular, grid
+- **Node Information**: Type, current value, update count, timestamp
+- **Edge Information**: Filters, transforms, propagation stats
+- **Visual Indicators**: Source nodes (green), sink nodes (blue), active nodes (animated)
+
+**REQ-APP-VIZ-002:** The DAG view SHALL be read-only:
+- No node/edge creation via UI
+- No node/edge deletion via UI
+- No structural modifications
+- Focus on monitoring and observation
+
+**REQ-APP-VIZ-003:** The visualization SHALL support:
+- Full-screen mode
+- Screenshot export (PNG/SVG)
+- Layout persistence (save/load positions)
+- Filter visibility (show/hide filters, transforms)
+
+### 3.2 Real-Time Statistics Dashboard
+
+**REQ-APP-DASH-001:** The application SHALL include a statistics dashboard using **LightweightCharts.jl** with:
+- **Time Series Charts**: Real-time line charts for node values over time
+- **Area Charts**: Filled area charts for distributions
+- **Baseline Charts**: Compare multiple nodes with baseline reference
+- **Histogram Series**: Value distribution analysis
+- **Multiple Synchronized Charts**: Compare related nodes side-by-side
+- **Update Rate Display**: FPS counter, latency metrics, data rate
+
+**REQ-APP-DASH-002:** LightweightCharts.jl advantages for monitoring:
+- ✅ **High Performance**: WebGL rendering, handles 1000s of data points
+- ✅ **Real-time Optimized**: Built for streaming financial data
+- ✅ **Smooth Updates**: Minimal latency, smooth animations
+- ✅ **Memory Efficient**: Automatic data pruning for long-running sessions
+- ✅ **Lightweight**: Small bundle size (~200KB)
+- ✅ **Touch-Friendly**: Mobile/tablet optimized interactions
+
+**REQ-APP-DASH-003:** Dashboard SHALL be configurable:
+- Add/remove charts dynamically
+- Select which nodes to visualize per chart
+- Adjust time window (last N seconds/minutes)
+- Export chart data (CSV, JSON)
+- Save dashboard layouts
+- Synchronized crosshair across charts
+
+**REQ-APP-DASH-004:** Charts SHALL update in real-time:
+- WebSocket-based updates (reactive via Stipple)
+- Throttled to prevent UI lag (configurable FPS)
+- Automatic time axis scaling
+- Smooth animations and transitions
+- Batch updates for multiple nodes
+
+**Example Dashboard Layout:**
+```julia
+# apps/dashboard/views/stats_panel.jl
+
+using LightweightCharts
+using Stipple
+
+function statistics_dashboard(model::AppModel)
+    row([
+        cell(class="col-12", [
+            heading("Real-time Statistics")
+        ]),
+        cell(class="col-6", [
+            card([
+                card_section([
+                    h6("Node: Mean"),
+                    lwc_chart(
+                        :mean_series,
+                        type = :line,
+                        options = LWCOptions(
+                            timeScale = TimeScaleOptions(
+                                timeVisible = true,
+                                secondsVisible = true
+                            ),
+                            localization = LocalizationOptions(
+                                timeFormatter = format_timestamp
+                            )
+                        )
+                    )
+                ])
+            ])
+        ]),
+        cell(class="col-6", [
+            card([
+                card_section([
+                    h6("Node: Variance"),
+                    lwc_chart(
+                        :variance_series,
+                        type = :line,
+                        options = LWCOptions(
+                            rightPriceScale = PriceScaleOptions(
+                                autoScale = true
+                            )
+                        )
+                    )
+                ])
+            ])
+        ])
+    ])
+end
+```
+
+### 3.3 Data Streaming Interface
+
+**REQ-APP-STREAM-001:** The application SHALL provide data input interfaces:
+- **Manual Input**: Text fields for entering single values
+- **File Upload**: CSV, JSON file import
+- **Real-time Generator**: Built-in data generators (random, sinusoidal, etc.)
+- **External Source**: Connect to data streams (HTTP, WebSocket)
+
+**REQ-APP-STREAM-002:** Data streaming SHALL support:
+- Multiple source nodes simultaneously
+- Adjustable streaming rate (Hz)
+- Pause/resume streaming
+- Data validation before feeding to DAG
+- Error handling and retry logic
+
+**REQ-APP-STREAM-003:** Streaming UI SHALL display:
+- Current streaming status (active/paused)
+- Data rate (samples/second)
+- Total samples fed
+- Error count and last error message
+- Preview of recent data values
+
+### 3.4 Import/Export
+
+**REQ-APP-IO-001:** The application SHALL support importing:
+- **DAG Structure**: Load DAG from JSON file
+- **Data Files**: Import CSV/JSON data for replay
+- **Configuration**: Restore app settings
+- **Layouts**: Load saved node positions
+
+**REQ-APP-IO-002:** The application SHALL support exporting:
+- **DAG Structure**: Save current DAG to JSON
+- **Statistics**: Export node values and history (CSV, JSON)
+- **Charts**: Download chart images (PNG, SVG)
+- **Logs**: Export application logs and events
+- **Screenshots**: Save DAG visualization
+
+**REQ-APP-IO-003:** File operations SHALL be validated:
+- JSON schema validation for DAG files
+- CSV column validation for data files
+- Error messages for invalid formats
+- Preview before importing
+
+### 3.5 Application Layout
+
+**REQ-APP-LAYOUT-001:** The main interface SHALL use a multi-panel layout:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Header: App Title | Controls | Connection Status      │
+├──────────────┬────────────────────────────────────────┬─┤
+│              │                                          │ │
+│  Sidebar     │   Main Panel                            │S│
+│              │   ┌──────────────────────────────────┐  │c│
+│  - DAG Info  │   │  DAG Visualization              │  │r│
+│  - Nodes     │   │  (Cytoscape.js)                  │  │o│
+│  - Streaming │   │                                  │  │l│
+│  - Dashboard │   └──────────────────────────────────┘  │l│
+│  - Settings  │                                          │ │
+│              │   Bottom Panel                           │ │
+│              │   ┌──────────────────────────────────┐  │ │
+│              │   │  Statistics Dashboard            │  │ │
+│              │   │  (Plotly Charts)                 │  │ │
+│              │   └──────────────────────────────────┘  │ │
+├──────────────┴────────────────────────────────────────┴─┤
+│  Status Bar: Metrics | Messages | Version              │
+└─────────────────────────────────────────────────────────┘
+```
+
+**REQ-APP-LAYOUT-002:** Layout SHALL be responsive:
+- Collapsible sidebar on small screens
+- Mobile-friendly touch interactions
+- Tablet-optimized (split landscape/portrait)
+- Desktop multi-monitor support
 
 ### 3.1 Basic Visualization
 
@@ -1428,21 +1699,265 @@ end # module OnlineStatsChainsViewerExt
 
 ---
 
-## 20. Success Criteria
+## 20. Application Project Structure
 
-The viewer extension SHALL be considered complete when:
+### 20.1 Directory Layout
 
-1. ✅ All REQ-VIEWER-* requirements are implemented
-2. ✅ Tests achieve >85% code coverage
-3. ✅ Documentation includes all required examples
-4. ✅ Real-time visualization works smoothly for medium-sized DAGs (<100 nodes)
-5. ✅ Export to JSON and basic formats works correctly
-6. ✅ No memory leaks in long-running sessions
-7. ✅ Works in Jupyter notebooks and standalone mode
-8. ✅ CI/CD tests pass on all platforms
-9. ✅ Extension loads correctly only when dependencies are available
-10. ✅ Accessibility requirements are met
+**REQ-APP-STRUCT-001:** The monitoring application SHALL be organized as follows:
+
+```
+OnlineStatsChains/
+├── Project.toml               # Core package (unchanged)
+├── src/                       # Core library (no web deps)
+│   ├── OnlineStatsChains.jl
+│   ├── types.jl
+│   ├── dag_algorithms.jl
+│   └── ...
+├── ext/                       # Package extensions
+│   ├── OnlineStatsChainsRocketExt.jl
+│   └── OnlineStatsChainsViewerExt.jl  # Lightweight JSON export only
+└── apps/                      # Separate applications (NEW)
+    └── dashboard/             # Monitoring Application
+        ├── Project.toml       # App dependencies (Stipple, LightweightCharts, etc.)
+        ├── Manifest.toml
+        ├── app.jl             # Main entry point
+        ├── Dockerfile
+        ├── docker-compose.yml
+        ├── README.md
+        ├── config/
+        │   └── settings.jl    # Configuration
+        ├── models/
+        │   ├── AppModel.jl    # Stipple reactive model
+        │   └── DAGState.jl    # DAG state management
+        ├── views/
+        │   ├── main_layout.jl # Main UI layout
+        │   ├── dag_panel.jl   # Cytoscape visualization
+        │   ├── stats_panel.jl # LightweightCharts dashboards
+        │   └── stream_panel.jl # Data streaming UI
+        ├── components/
+        │   ├── cytoscape_component.jl  # Cytoscape.js wrapper
+        │   └── lwc_helpers.jl          # LightweightCharts helpers
+        └── public/
+            ├── css/
+            │   └── custom.css
+            └── js/
+                ├── cytoscape_handler.js
+                └── chart_sync.js
+```
+
+### 20.2 Separation of Concerns
+
+**REQ-APP-STRUCT-002:** The architecture SHALL maintain clear separation:
+
+1. **Core Package (`src/`)**: Pure Julia, no web dependencies
+   - Statistical DAG algorithms
+   - OnlineStat integration
+   - Graph operations
+   - Observable patterns (Rocket.jl)
+
+2. **Simple Viewer Extension (`ext/OnlineStatsChainsViewerExt.jl`)**: Optional lightweight viewer
+   - JSON export for DAG structure
+   - Static HTML generation (minimal)
+   - No heavy web framework
+   - For quick inspection only
+
+3. **Monitoring Application (`apps/dashboard/`)**: Full-featured web app
+   - Stipple.jl reactive framework
+   - Cytoscape.js + LightweightCharts.jl
+   - Production-grade monitoring
+   - Docker deployment
+   - **Separate Project.toml** (not part of core package)
+
+**REQ-APP-STRUCT-003:** Users SHALL be able to:
+- Use OnlineStatsChains without any web dependencies
+- Optionally use simple viewer (JSServe extension)
+- Separately install and run monitoring app (Stipple)
+
+### 20.3 Implementation Phases
+
+**Phase 1: Core App Structure (Week 1)**
+```bash
+# Setup project
+cd apps/dashboard
+julia --project=. -e 'using Pkg; Pkg.add(["Stipple", "StippleUI", "LightweightCharts", "Genie"])'
+
+# Create basic app.jl
+# - Stipple reactive model
+# - Basic UI layout
+# - DAG loading capability
+```
+
+**Phase 2: Cytoscape Integration (Week 2)**
+```bash
+# Implement Cytoscape.js component
+# - JavaScript wrapper in components/
+# - Julia-JS communication
+# - Node/edge rendering
+# - Layout algorithms
+```
+
+**Phase 3: LightweightCharts Dashboards (Week 2-3)**
+```bash
+# Add real-time charting
+# - Time series for each node
+# - Synchronized charts
+# - Reactive updates from DAG
+# - Performance optimization
+```
+
+**Phase 4: Data Streaming & I/O (Week 3-4)**
+```bash
+# Implement streaming interface
+# - Manual data entry
+# - File upload (CSV/JSON)
+# - Real-time generators
+# - Import/export DAG configs
+```
+
+**Phase 5: Docker Deployment (Week 4)**
+```bash
+# Production deployment
+# - Dockerfile creation
+# - docker-compose.yml
+# - Health checks
+# - Documentation
+```
 
 ---
 
-**End of OnlineStatsChains Viewer Extension Specification**
+## 21. LightweightCharts.jl Integration Details
+
+### 21.1 Real-time Updates Pattern
+
+**REQ-APP-LWC-001:** LightweightCharts SHALL be integrated via Stipple reactive patterns:
+
+```julia
+# apps/dashboard/models/AppModel.jl
+
+using Stipple, StippleUI
+using LightweightCharts
+using OnlineStatsChains
+
+@reactive mutable struct AppModel <: ReactiveModel
+    # DAG state
+    dag::R{StatDAG} = StatDAG()
+
+    # Chart series (reactive)
+    mean_series::R{Vector{LWCDataPoint}} = []
+    variance_series::R{Vector{LWCDataPoint}} = []
+
+    # Chart options
+    chart_time_window::R{Int} = 60  # seconds
+    chart_update_rate::R{Int} = 10  # Hz
+
+    # Streaming state
+    streaming::R{Bool} = false
+end
+
+# Reactive handler: Update charts when DAG changes
+on(model.dag) do dag
+    # Collect current values
+    timestamp = time_ns() / 1e9  # Convert to seconds
+
+    # Update mean series
+    if haskey(dag.nodes, :mean)
+        val = value(dag, :mean)
+        push!(model.mean_series[], LWCDataPoint(time=timestamp, value=val))
+
+        # Trim old data
+        trim_series!(model.mean_series[], model.chart_time_window[])
+    end
+
+    # Update variance series
+    if haskey(dag.nodes, :variance)
+        val = value(dag, :variance)
+        push!(model.variance_series[], LWCDataPoint(time=timestamp, value=val))
+        trim_series!(model.variance_series[], model.chart_time_window[])
+    end
+
+    # Trigger UI update (automatic via Stipple)
+    notify(model.mean_series)
+    notify(model.variance_series)
+end
+
+function trim_series!(series::Vector{LWCDataPoint}, window_seconds::Int)
+    cutoff = (time_ns() / 1e9) - window_seconds
+    filter!(p -> p.time >= cutoff, series)
+end
+```
+
+### 21.2 Chart Configuration
+
+**REQ-APP-LWC-002:** Charts SHALL be configured for optimal performance:
+
+```julia
+# apps/dashboard/components/lwc_helpers.jl
+
+using LightweightCharts
+
+function create_monitoring_chart_options(node_id::Symbol, theme::Symbol=:light)
+    LWCOptions(
+        # Layout
+        layout = LayoutOptions(
+            background = theme == :dark ? "#1e1e1e" : "#ffffff",
+            textColor = theme == :dark ? "#d1d4dc" : "#191919"
+        ),
+
+        # Grid
+        grid = GridOptions(
+            vertLines = GridLineOptions(visible = false),
+            horzLines = GridLineOptions(color = "#f0f0f0")
+        ),
+
+        # Time scale (nanosecond precision)
+        timeScale = TimeScaleOptions(
+            timeVisible = true,
+            secondsVisible = true,
+            tickMarkFormatter = ns_to_readable
+        ),
+
+        # Price scale
+        rightPriceScale = PriceScaleOptions(
+            autoScale = true,
+            borderVisible = false
+        ),
+
+        # Performance
+        handleScroll = HandleScrollOptions(
+            mouseWheel = true,
+            pressedMouseMove = true
+        ),
+
+        handleScale = HandleScaleOptions(
+            axisPressedMouseMove = true
+        )
+    )
+end
+
+function ns_to_readable(timestamp_ns::Float64)
+    # Format nanosecond timestamp for display
+    dt = unix2datetime(timestamp_ns)
+    Dates.format(dt, "HH:MM:SS.sss")
+end
+```
+
+---
+
+## 22. Success Criteria
+
+The monitoring application SHALL be considered complete when:
+
+1. ✅ Stipple.jl app launches successfully in standalone mode
+2. ✅ DAG visualization renders correctly with Cytoscape.js
+3. ✅ LightweightCharts.jl displays real-time statistics smoothly
+4. ✅ Data streaming works at 10-100 Hz without lag
+5. ✅ Docker deployment works out-of-the-box
+6. ✅ Import/export handles large DAGs (>100 nodes)
+7. ✅ Responsive UI works on desktop and tablet
+8. ✅ Real-time updates maintain <50ms latency
+9. ✅ Memory usage stays bounded in long-running sessions
+10. ✅ Documentation includes complete setup guide
+
+---
+
+**End of OnlineStatsChains Monitoring Application Specification**
