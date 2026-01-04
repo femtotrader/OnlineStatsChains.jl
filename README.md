@@ -12,6 +12,10 @@
 
 A Julia package for chaining [OnlineStats](https://github.com/joshday/OnlineStats.jl) computations in a Directed Acyclic Graph (DAG) structure with automatic value propagation.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=femtotrader/OnlineStatsChains.jl&type=Timeline?refresh=1)](https://www.star-history.com/#femtotrader/OnlineStatsChains.jl&Timeline)
+
 ## Installation
 
 ```julia
