@@ -28,3 +28,10 @@ Manifest.toml
 
 # Temporary files
 *.tmp
+
+# AI generated content
+AGENTS.md
+CLAUDE.md
+.claude
+.specify
+specs/
