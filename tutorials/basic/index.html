@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Basic Usage · OnlineStatsChains.jl</title><meta name="title" content="Basic Usage · OnlineStatsChains.jl"/><meta property="og:title" content="Basic Usage · OnlineStatsChains.jl"/><meta property="twitter:title" content="Basic Usage · OnlineStatsChains.jl"/><meta name="description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:description" content="Documentation for OnlineStatsChains.jl."/><meta property="twitter:description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/basic/"/><meta property="twitter:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/basic/"/><link rel="canonical" href="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/basic/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">OnlineStatsChains.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../ai-generated/">⚠️ AI-Generated Notice</a></li><li><span class="tocitem">Getting Started</span><ul><li><a class="tocitem" href="../../installation/">Installation</a></li><li><a class="tocitem" href="../../quickstart/">Quick Start</a></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li class="is-active"><a class="tocitem" href>Basic Usage</a><ul class="internal"><li><a class="tocitem" href="#Understanding-DAGs"><span>Understanding DAGs</span></a></li><li><a class="tocitem" href="#Creating-Your-First-DAG"><span>Creating Your First DAG</span></a></li><li><a class="tocitem" href="#Data-Flow-Modes"><span>Data Flow Modes</span></a></li><li><a class="tocitem" href="#Evaluation-Strategies"><span>Evaluation Strategies</span></a></li><li><a class="tocitem" href="#Working-with-Multiple-Sources"><span>Working with Multiple Sources</span></a></li><li><a class="tocitem" href="#Error-Handling"><span>Error Handling</span></a></li><li><a class="tocitem" href="#Introspection"><span>Introspection</span></a></li><li><a class="tocitem" href="#Complete-Example"><span>Complete Example</span></a></li><li><a class="tocitem" href="#Next-Steps"><span>Next Steps</span></a></li></ul></li><li><a class="tocitem" href="../advanced/">Advanced Patterns</a></li><li><a class="tocitem" href="../performance/">Performance</a></li></ul></li><li><a class="tocitem" href="../../rocket_integration/">Reactive Programming</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../examples/">Examples</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Basic Usage</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Basic Usage</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Basic-Usage-Tutorial"><a class="docs-heading-anchor" href="#Basic-Usage-Tutorial">Basic Usage Tutorial</a><a id="Basic-Usage-Tutorial-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Usage-Tutorial" title="Permalink"></a></h1><p>This tutorial covers the fundamental concepts of OnlineStatsChains.jl.</p><h2 id="Understanding-DAGs"><a class="docs-heading-anchor" href="#Understanding-DAGs">Understanding DAGs</a><a id="Understanding-DAGs-1"></a><a class="docs-heading-anchor-permalink" href="#Understanding-DAGs" title="Permalink"></a></h2><p>A Directed Acyclic Graph (DAG) is a graph with directed edges and no cycles. In OnlineStatsChains:</p><ul><li><strong>Nodes</strong> contain OnlineStats</li><li><strong>Edges</strong> define data flow direction</li><li><strong>No cycles</strong> ensures predictable execution order</li></ul><h2 id="Creating-Your-First-DAG"><a class="docs-heading-anchor" href="#Creating-Your-First-DAG">Creating Your First DAG</a><a id="Creating-Your-First-DAG-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-Your-First-DAG" title="Permalink"></a></h2><h3 id="Step-1:-Import-Packages"><a class="docs-heading-anchor" href="#Step-1:-Import-Packages">Step 1: Import Packages</a><a id="Step-1:-Import-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Step-1:-Import-Packages" title="Permalink"></a></h3><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase  # For Mean, Variance, etc.</code></pre><h3 id="Step-2:-Create-a-DAG"><a class="docs-heading-anchor" href="#Step-2:-Create-a-DAG">Step 2: Create a DAG</a><a id="Step-2:-Create-a-DAG-1"></a><a class="docs-heading-anchor-permalink" href="#Step-2:-Create-a-DAG" title="Permalink"></a></h3><pre><code class="language-julia hljs">dag = StatDAG()</code></pre><p>You can also specify an evaluation strategy:</p><pre><code class="language-julia hljs">dag = StatDAG(strategy=:eager)   # Default
+dag = StatDAG(strategy=:lazy)    # Lazy evaluation
+dag = StatDAG(strategy=:partial) # Partial evaluation</code></pre><h3 id="Step-3:-Add-Nodes"><a class="docs-heading-anchor" href="#Step-3:-Add-Nodes">Step 3: Add Nodes</a><a id="Step-3:-Add-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Step-3:-Add-Nodes" title="Permalink"></a></h3><p>Each node wraps an OnlineStat:</p><pre><code class="language-julia hljs">add_node!(dag, :source, Mean())
+add_node!(dag, :variance, Variance())
+add_node!(dag, :extrema, Extrema())</code></pre><p>Node IDs must be unique Symbols:</p><pre><code class="language-julia hljs">add_node!(dag, :node1, Mean())  # ✓ OK
+add_node!(dag, :node1, Mean())  # ✗ Error: already exists</code></pre><h3 id="Step-4:-Connect-Nodes"><a class="docs-heading-anchor" href="#Step-4:-Connect-Nodes">Step 4: Connect Nodes</a><a id="Step-4:-Connect-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Step-4:-Connect-Nodes" title="Permalink"></a></h3><p>Create directed edges between nodes:</p><pre><code class="language-julia hljs">connect!(dag, :source, :variance)
+connect!(dag, :source, :extrema)</code></pre><p>This creates the graph:</p><pre><code class="nohighlight hljs">source → variance
+   ↓
+extrema</code></pre><h3 id="Step-5:-Fit-Data"><a class="docs-heading-anchor" href="#Step-5:-Fit-Data">Step 5: Fit Data</a><a id="Step-5:-Fit-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Step-5:-Fit-Data" title="Permalink"></a></h3><p>Feed data to source nodes:</p><pre><code class="language-julia hljs"># Single value
+fit!(dag, :source =&gt; 1.0)
+fit!(dag, :source =&gt; 2.0)
+
+# Batch (array)
+fit!(dag, :source =&gt; [3.0, 4.0, 5.0])</code></pre><h3 id="Step-6:-Retrieve-Values"><a class="docs-heading-anchor" href="#Step-6:-Retrieve-Values">Step 6: Retrieve Values</a><a id="Step-6:-Retrieve-Values-1"></a><a class="docs-heading-anchor-permalink" href="#Step-6:-Retrieve-Values" title="Permalink"></a></h3><p>Get computed statistics:</p><pre><code class="language-julia hljs">println(&quot;Mean: &quot;, value(dag, :source))
+println(&quot;Variance: &quot;, value(dag, :variance))
+println(&quot;Extrema: &quot;, value(dag, :extrema))</code></pre><h2 id="Data-Flow-Modes"><a class="docs-heading-anchor" href="#Data-Flow-Modes">Data Flow Modes</a><a id="Data-Flow-Modes-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Flow-Modes" title="Permalink"></a></h2><h3 id="Streaming-Mode"><a class="docs-heading-anchor" href="#Streaming-Mode">Streaming Mode</a><a id="Streaming-Mode-1"></a><a class="docs-heading-anchor-permalink" href="#Streaming-Mode" title="Permalink"></a></h3><p>Process one value at a time:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :stream, Mean())
+
+for x in randn(1000)
+    fit!(dag, :stream =&gt; x)
+end
+
+println(&quot;Streaming mean: &quot;, value(dag, :stream))</code></pre><h3 id="Batch-Mode"><a class="docs-heading-anchor" href="#Batch-Mode">Batch Mode</a><a id="Batch-Mode-1"></a><a class="docs-heading-anchor-permalink" href="#Batch-Mode" title="Permalink"></a></h3><p>Process entire arrays:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :batch, Mean())
+
+data = randn(1000)
+fit!(dag, :batch =&gt; data)
+
+println(&quot;Batch mean: &quot;, value(dag, :batch))</code></pre><h2 id="Evaluation-Strategies"><a class="docs-heading-anchor" href="#Evaluation-Strategies">Evaluation Strategies</a><a id="Evaluation-Strategies-1"></a><a class="docs-heading-anchor-permalink" href="#Evaluation-Strategies" title="Permalink"></a></h2><h3 id="Eager-Evaluation"><a class="docs-heading-anchor" href="#Eager-Evaluation">Eager Evaluation</a><a id="Eager-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Eager-Evaluation" title="Permalink"></a></h3><p><strong>Default behavior</strong> - propagates immediately:</p><pre><code class="language-julia hljs">dag = StatDAG(strategy=:eager)
+add_node!(dag, :a, Mean())
+add_node!(dag, :b, Mean())
+connect!(dag, :a, :b)
+
+fit!(dag, :a =&gt; 1.0)
+# :b is immediately updated
+
+value(dag, :b)  # Already computed</code></pre><h3 id="Lazy-Evaluation"><a class="docs-heading-anchor" href="#Lazy-Evaluation">Lazy Evaluation</a><a id="Lazy-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Lazy-Evaluation" title="Permalink"></a></h3><p><strong>Defers computation</strong> until needed:</p><pre><code class="language-julia hljs">dag = StatDAG(strategy=:lazy)
+add_node!(dag, :a, Mean())
+add_node!(dag, :b, Mean())
+connect!(dag, :a, :b)
+
+fit!(dag, :a =&gt; 1.0)
+# :b is NOT updated yet
+
+value(dag, :b)  # Triggers computation NOW</code></pre><h3 id="Switching-Strategies"><a class="docs-heading-anchor" href="#Switching-Strategies">Switching Strategies</a><a id="Switching-Strategies-1"></a><a class="docs-heading-anchor-permalink" href="#Switching-Strategies" title="Permalink"></a></h3><p>Change strategy dynamically:</p><pre><code class="language-julia hljs">dag = StatDAG(strategy=:eager)
+# ... use dag ...
+
+set_strategy!(dag, :lazy)
+# Now uses lazy evaluation</code></pre><h2 id="Working-with-Multiple-Sources"><a class="docs-heading-anchor" href="#Working-with-Multiple-Sources">Working with Multiple Sources</a><a id="Working-with-Multiple-Sources-1"></a><a class="docs-heading-anchor-permalink" href="#Working-with-Multiple-Sources" title="Permalink"></a></h2><p>Update multiple source nodes:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :input1, Mean())
+add_node!(dag, :input2, Mean())
+add_node!(dag, :output, Mean())
+
+connect!(dag, :input1, :output)
+connect!(dag, :input2, :output)
+
+# Update both sources
+fit!(dag, Dict(
+    :input1 =&gt; 10.0,
+    :input2 =&gt; 20.0
+))</code></pre><h2 id="Error-Handling"><a class="docs-heading-anchor" href="#Error-Handling">Error Handling</a><a id="Error-Handling-1"></a><a class="docs-heading-anchor-permalink" href="#Error-Handling" title="Permalink"></a></h2><p>OnlineStatsChains provides clear error messages:</p><pre><code class="language-julia hljs"># Duplicate node
+add_node!(dag, :test, Mean())
+add_node!(dag, :test, Mean())
+# Error: ArgumentError: Node :test already exists
+
+# Non-existent node
+connect!(dag, :a, :nonexistent)
+# Error: ArgumentError: Node :nonexistent does not exist
+
+# Cycle detection
+add_node!(dag, :a, Mean())
+add_node!(dag, :b, Mean())
+add_node!(dag, :c, Mean())
+connect!(dag, :a, :b)
+connect!(dag, :b, :c)
+connect!(dag, :c, :a)
+# Error: CycleError: Adding edge :c -&gt; :a would create a cycle</code></pre><h2 id="Introspection"><a class="docs-heading-anchor" href="#Introspection">Introspection</a><a id="Introspection-1"></a><a class="docs-heading-anchor-permalink" href="#Introspection" title="Permalink"></a></h2><p>Examine your DAG structure:</p><pre><code class="language-julia hljs"># List all nodes
+nodes = get_nodes(dag)
+
+# Get node relationships
+parents = get_parents(dag, :node_id)
+children = get_children(dag, :node_id)
+
+# Get execution order
+order = get_topological_order(dag)
+
+# Validate DAG
+validate(dag)  # Returns true if valid</code></pre><h2 id="Complete-Example"><a class="docs-heading-anchor" href="#Complete-Example">Complete Example</a><a id="Complete-Example-1"></a><a class="docs-heading-anchor-permalink" href="#Complete-Example" title="Permalink"></a></h2><p>Putting it all together:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+# Create DAG
+dag = StatDAG()
+
+# Build structure
+add_node!(dag, :prices, Mean())
+add_node!(dag, :variance, Variance())
+add_node!(dag, :range, Extrema())
+
+connect!(dag, :prices, :variance)
+connect!(dag, :prices, :range)
+
+# Process data
+prices = [100.0, 102.0, 101.0, 103.0, 105.0]
+fit!(dag, :prices =&gt; prices)
+
+# Results
+println(&quot;Average price: &quot;, value(dag, :prices))
+println(&quot;Price variance: &quot;, value(dag, :variance))
+println(&quot;Price range: &quot;, value(dag, :range))</code></pre><h2 id="Next-Steps"><a class="docs-heading-anchor" href="#Next-Steps">Next Steps</a><a id="Next-Steps-1"></a><a class="docs-heading-anchor-permalink" href="#Next-Steps" title="Permalink"></a></h2><ul><li><a href="../advanced/">Advanced Patterns</a> - Complex DAG structures</li><li><a href="../performance/">Performance Guide</a> - Optimization techniques</li><li><a href="../../api/">API Reference</a> - Complete documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../quickstart/">« Quick Start</a><a class="docs-footer-nextpage" href="../advanced/">Advanced Patterns »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 6 January 2026 15:11">Tuesday 6 January 2026</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

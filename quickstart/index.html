@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Quick Start · OnlineStatsChains.jl</title><meta name="title" content="Quick Start · OnlineStatsChains.jl"/><meta property="og:title" content="Quick Start · OnlineStatsChains.jl"/><meta property="twitter:title" content="Quick Start · OnlineStatsChains.jl"/><meta name="description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:description" content="Documentation for OnlineStatsChains.jl."/><meta property="twitter:description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/quickstart/"/><meta property="twitter:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/quickstart/"/><link rel="canonical" href="https://femtotrader.github.io/OnlineStatsChains.jl/quickstart/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlineStatsChains.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../ai-generated/">⚠️ AI-Generated Notice</a></li><li><span class="tocitem">Getting Started</span><ul><li><a class="tocitem" href="../installation/">Installation</a></li><li class="is-active"><a class="tocitem" href>Quick Start</a><ul class="internal"><li><a class="tocitem" href="#Basic-Workflow"><span>Basic Workflow</span></a></li><li><a class="tocitem" href="#Your-First-DAG"><span>Your First DAG</span></a></li><li><a class="tocitem" href="#Batch-Processing"><span>Batch Processing</span></a></li><li><a class="tocitem" href="#Evaluation-Strategies"><span>Evaluation Strategies</span></a></li><li><a class="tocitem" href="#Common-Patterns"><span>Common Patterns</span></a></li><li><a class="tocitem" href="#Edge-Transformations"><span>Edge Transformations</span></a></li><li><a class="tocitem" href="#Next-Steps"><span>Next Steps</span></a></li></ul></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../tutorials/basic/">Basic Usage</a></li><li><a class="tocitem" href="../tutorials/advanced/">Advanced Patterns</a></li><li><a class="tocitem" href="../tutorials/performance/">Performance</a></li></ul></li><li><a class="tocitem" href="../rocket_integration/">Reactive Programming</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li><a class="tocitem" href="../examples/">Examples</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Getting Started</a></li><li class="is-active"><a href>Quick Start</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Quick Start</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Quick-Start-Guide"><a class="docs-heading-anchor" href="#Quick-Start-Guide">Quick Start Guide</a><a id="Quick-Start-Guide-1"></a><a class="docs-heading-anchor-permalink" href="#Quick-Start-Guide" title="Permalink"></a></h1><p>This guide will get you up and running with OnlineStatsChains.jl in minutes.</p><h2 id="Basic-Workflow"><a class="docs-heading-anchor" href="#Basic-Workflow">Basic Workflow</a><a id="Basic-Workflow-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Workflow" title="Permalink"></a></h2><p>The typical workflow consists of four steps:</p><ol><li><strong>Create a DAG</strong></li><li><strong>Add nodes</strong></li><li><strong>Connect nodes</strong></li><li><strong>Fit data</strong></li></ol><h2 id="Your-First-DAG"><a class="docs-heading-anchor" href="#Your-First-DAG">Your First DAG</a><a id="Your-First-DAG-1"></a><a class="docs-heading-anchor-permalink" href="#Your-First-DAG" title="Permalink"></a></h2><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+# Step 1: Create a DAG
+dag = StatDAG()
+
+# Step 2: Add nodes with OnlineStats
+add_node!(dag, :data, Mean())
+add_node!(dag, :variance, Variance())
+
+# Step 3: Connect nodes
+connect!(dag, :data, :variance)
+
+# Step 4: Fit data
+for x in randn(100)
+    fit!(dag, :data =&gt; x)
+end
+
+# Get results
+println(&quot;Mean: &quot;, value(dag, :data))
+println(&quot;Variance: &quot;, value(dag, :variance))</code></pre><h2 id="Batch-Processing"><a class="docs-heading-anchor" href="#Batch-Processing">Batch Processing</a><a id="Batch-Processing-1"></a><a class="docs-heading-anchor-permalink" href="#Batch-Processing" title="Permalink"></a></h2><p>Process entire arrays at once:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :source, Mean())
+add_node!(dag, :downstream, Mean())
+connect!(dag, :source, :downstream)
+
+# Batch mode
+data = randn(1000)
+fit!(dag, :source =&gt; data)
+
+println(&quot;Result: &quot;, value(dag, :downstream))</code></pre><h2 id="Evaluation-Strategies"><a class="docs-heading-anchor" href="#Evaluation-Strategies">Evaluation Strategies</a><a id="Evaluation-Strategies-1"></a><a class="docs-heading-anchor-permalink" href="#Evaluation-Strategies" title="Permalink"></a></h2><h3 id="Eager-Evaluation-(Default)"><a class="docs-heading-anchor" href="#Eager-Evaluation-(Default)">Eager Evaluation (Default)</a><a id="Eager-Evaluation-(Default)-1"></a><a class="docs-heading-anchor-permalink" href="#Eager-Evaluation-(Default)" title="Permalink"></a></h3><p>Immediate propagation:</p><pre><code class="language-julia hljs">dag = StatDAG()  # Eager by default
+add_node!(dag, :a, Mean())
+add_node!(dag, :b, Mean())
+connect!(dag, :a, :b)
+
+fit!(dag, :a =&gt; 1.0)  # Propagates to :b immediately
+value(dag, :b)  # Already computed</code></pre><h3 id="Lazy-Evaluation"><a class="docs-heading-anchor" href="#Lazy-Evaluation">Lazy Evaluation</a><a id="Lazy-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Lazy-Evaluation" title="Permalink"></a></h3><p>Deferred computation:</p><pre><code class="language-julia hljs">dag = StatDAG(strategy=:lazy)
+add_node!(dag, :a, Mean())
+add_node!(dag, :b, Mean())
+connect!(dag, :a, :b)
+
+fit!(dag, :a =&gt; 1.0)  # No propagation
+value(dag, :b)  # Triggers computation</code></pre><h2 id="Common-Patterns"><a class="docs-heading-anchor" href="#Common-Patterns">Common Patterns</a><a id="Common-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Patterns" title="Permalink"></a></h2><h3 id="Linear-Chain"><a class="docs-heading-anchor" href="#Linear-Chain">Linear Chain</a><a id="Linear-Chain-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Chain" title="Permalink"></a></h3><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :source, Mean())
+add_node!(dag, :middle, Mean())
+add_node!(dag, :sink, Mean())
+
+connect!(dag, :source, :middle)
+connect!(dag, :middle, :sink)
+
+fit!(dag, :source =&gt; randn(100))</code></pre><h3 id="Fan-Out"><a class="docs-heading-anchor" href="#Fan-Out">Fan-Out</a><a id="Fan-Out-1"></a><a class="docs-heading-anchor-permalink" href="#Fan-Out" title="Permalink"></a></h3><p>One source, multiple destinations:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :source, Mean())
+add_node!(dag, :branch1, Variance())
+add_node!(dag, :branch2, Extrema())
+
+connect!(dag, :source, :branch1)
+connect!(dag, :source, :branch2)
+
+fit!(dag, :source =&gt; randn(100))</code></pre><h3 id="Fan-In"><a class="docs-heading-anchor" href="#Fan-In">Fan-In</a><a id="Fan-In-1"></a><a class="docs-heading-anchor-permalink" href="#Fan-In" title="Permalink"></a></h3><p>Multiple sources, one destination:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :input1, Mean())
+add_node!(dag, :input2, Mean())
+add_node!(dag, :combined, Mean())
+
+connect!(dag, [:input1, :input2], :combined)
+
+fit!(dag, Dict(
+    :input1 =&gt; randn(50),
+    :input2 =&gt; randn(50)
+))</code></pre><h2 id="Edge-Transformations"><a class="docs-heading-anchor" href="#Edge-Transformations">Edge Transformations</a><a id="Edge-Transformations-1"></a><a class="docs-heading-anchor-permalink" href="#Edge-Transformations" title="Permalink"></a></h2><p>Transform data as it flows through the DAG:</p><h3 id="Basic-Transform"><a class="docs-heading-anchor" href="#Basic-Transform">Basic Transform</a><a id="Basic-Transform-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Transform" title="Permalink"></a></h3><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :celsius, Mean())
+add_node!(dag, :fahrenheit, Mean())
+
+# Convert Celsius to Fahrenheit
+connect!(dag, :celsius, :fahrenheit, transform = c -&gt; c * 9/5 + 32)
+
+fit!(dag, :celsius =&gt; [0.0, 10.0, 20.0, 30.0])
+value(dag, :celsius)      # 15.0°C
+value(dag, :fahrenheit)   # 59.0°F</code></pre><h3 id="Filtered-Transform"><a class="docs-heading-anchor" href="#Filtered-Transform">Filtered Transform</a><a id="Filtered-Transform-1"></a><a class="docs-heading-anchor-permalink" href="#Filtered-Transform" title="Permalink"></a></h3><p>Combine filters with transformations:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :raw, Mean())
+add_node!(dag, :valid, Mean())
+
+# Only propagate non-missing values
+connect!(dag, :raw, :valid, filter = !ismissing)
+
+fit!(dag, :raw =&gt; [1.0, missing, 2.0, 3.0])
+value(dag, :valid)  # 2.0 (only valid values)</code></pre><h3 id="Data-Extraction"><a class="docs-heading-anchor" href="#Data-Extraction">Data Extraction</a><a id="Data-Extraction-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Extraction" title="Permalink"></a></h3><p>Extract fields from structured data:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :transactions, Mean())
+add_node!(dag, :prices, Mean())
+
+# Extract price from transaction
+connect!(dag, :transactions, :prices, transform = t -&gt; t.price)
+
+transactions = [(price=10.0, qty=5), (price=15.0, qty=3)]
+fit!(dag, :transactions =&gt; transactions)
+value(dag, :prices)  # 12.5 (mean of prices)</code></pre><h2 id="Next-Steps"><a class="docs-heading-anchor" href="#Next-Steps">Next Steps</a><a id="Next-Steps-1"></a><a class="docs-heading-anchor-permalink" href="#Next-Steps" title="Permalink"></a></h2><ul><li><a href="../tutorials/basic/">Basic Usage Tutorial</a> - Learn fundamental concepts</li><li><a href="../tutorials/advanced/">Advanced Patterns</a> - Complex DAG structures</li><li><a href="../api/">API Reference</a> - Complete function documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../installation/">« Installation</a><a class="docs-footer-nextpage" href="../tutorials/basic/">Basic Usage »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 6 January 2026 15:11">Tuesday 6 January 2026</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

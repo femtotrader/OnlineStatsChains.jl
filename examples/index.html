@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · OnlineStatsChains.jl</title><meta name="title" content="Examples · OnlineStatsChains.jl"/><meta property="og:title" content="Examples · OnlineStatsChains.jl"/><meta property="twitter:title" content="Examples · OnlineStatsChains.jl"/><meta name="description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:description" content="Documentation for OnlineStatsChains.jl."/><meta property="twitter:description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/examples/"/><meta property="twitter:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/examples/"/><link rel="canonical" href="https://femtotrader.github.io/OnlineStatsChains.jl/examples/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlineStatsChains.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../ai-generated/">⚠️ AI-Generated Notice</a></li><li><span class="tocitem">Getting Started</span><ul><li><a class="tocitem" href="../installation/">Installation</a></li><li><a class="tocitem" href="../quickstart/">Quick Start</a></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../tutorials/basic/">Basic Usage</a></li><li><a class="tocitem" href="../tutorials/advanced/">Advanced Patterns</a></li><li><a class="tocitem" href="../tutorials/performance/">Performance</a></li></ul></li><li><a class="tocitem" href="../rocket_integration/">Reactive Programming</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Financial-Time-Series-Analysis"><span>Financial Time Series Analysis</span></a></li><li><a class="tocitem" href="#Sensor-Network-Monitoring"><span>Sensor Network Monitoring</span></a></li><li><a class="tocitem" href="#Streaming-Data-Pipeline"><span>Streaming Data Pipeline</span></a></li><li><a class="tocitem" href="#Quality-Control-System"><span>Quality Control System</span></a></li><li><a class="tocitem" href="#Real-Time-Dashboard"><span>Real-Time Dashboard</span></a></li><li><a class="tocitem" href="#Batch-Analytics-Pipeline"><span>Batch Analytics Pipeline</span></a></li><li><a class="tocitem" href="#Multi-Source-Data-Fusion"><span>Multi-Source Data Fusion</span></a></li><li><a class="tocitem" href="#Strategy-Switching-Example"><span>Strategy Switching Example</span></a></li><li><a class="tocitem" href="#Edge-Transformations"><span>Edge Transformations</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>Real-world examples demonstrating OnlineStatsChains.jl.</p><h2 id="Financial-Time-Series-Analysis"><a class="docs-heading-anchor" href="#Financial-Time-Series-Analysis">Financial Time Series Analysis</a><a id="Financial-Time-Series-Analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Financial-Time-Series-Analysis" title="Permalink"></a></h2><p>Track multiple technical indicators:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_trading_dag()
+    dag = StatDAG()
+
+    # Price input
+    add_node!(dag, :price, Mean())
+
+    # Technical indicators
+    add_node!(dag, :sma_5, Mean())
+    add_node!(dag, :sma_20, Mean())
+    add_node!(dag, :volatility, Variance())
+    add_node!(dag, :range, Extrema())
+
+    # Build pipeline
+    connect!(dag, :price, :sma_5)
+    connect!(dag, :price, :sma_20)
+    connect!(dag, :price, :volatility)
+    connect!(dag, :price, :range)
+
+    return dag
+end
+
+# Use the DAG
+dag = create_trading_dag()
+
+# Stream price data
+prices = [100.0, 102.0, 101.0, 103.0, 105.0, 104.0, 106.0, 108.0]
+fit!(dag, :price =&gt; prices)
+
+# Get indicators
+println(&quot;Price: &quot;, value(dag, :price))
+println(&quot;SMA(5): &quot;, value(dag, :sma_5))
+println(&quot;SMA(20): &quot;, value(dag, :sma_20))
+println(&quot;Volatility: &quot;, value(dag, :volatility))
+println(&quot;Range: &quot;, value(dag, :range))</code></pre><h2 id="Sensor-Network-Monitoring"><a class="docs-heading-anchor" href="#Sensor-Network-Monitoring">Sensor Network Monitoring</a><a id="Sensor-Network-Monitoring-1"></a><a class="docs-heading-anchor-permalink" href="#Sensor-Network-Monitoring" title="Permalink"></a></h2><p>Multi-sensor aggregation:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_sensor_network()
+    dag = StatDAG()
+
+    # Individual sensors
+    add_node!(dag, :temp_1, Mean())
+    add_node!(dag, :temp_2, Mean())
+    add_node!(dag, :temp_3, Mean())
+
+    # Zone aggregates
+    add_node!(dag, :zone_avg, Mean())
+    add_node!(dag, :zone_var, Variance())
+
+    # Building-level stats
+    add_node!(dag, :building, Mean())
+
+    # Connect sensors to zones
+    connect!(dag, [:temp_1, :temp_2, :temp_3], :zone_avg)
+    connect!(dag, [:temp_1, :temp_2, :temp_3], :zone_var)
+
+    # Connect to building
+    connect!(dag, :zone_avg, :building)
+
+    return dag
+end
+
+# Monitor sensors
+dag = create_sensor_network()
+
+# Update sensors (different sample sizes)
+fit!(dag, Dict(
+    :temp_1 =&gt; [20.1, 20.3, 20.2],
+    :temp_2 =&gt; [19.8, 20.0, 19.9],
+    :temp_3 =&gt; [20.5, 20.7]
+))
+
+println(&quot;Zone average: &quot;, value(dag, :zone_avg))
+println(&quot;Zone variance: &quot;, value(dag, :zone_var))
+println(&quot;Building temp: &quot;, value(dag, :building))</code></pre><h2 id="Streaming-Data-Pipeline"><a class="docs-heading-anchor" href="#Streaming-Data-Pipeline">Streaming Data Pipeline</a><a id="Streaming-Data-Pipeline-1"></a><a class="docs-heading-anchor-permalink" href="#Streaming-Data-Pipeline" title="Permalink"></a></h2><p>Process real-time data with lazy evaluation:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_streaming_pipeline()
+    # Use lazy for efficiency
+    dag = StatDAG(strategy=:lazy)
+
+    # Raw data input
+    add_node!(dag, :raw, Mean())
+
+    # Processing stages
+    add_node!(dag, :filtered, Mean())
+    add_node!(dag, :normalized, Mean())
+
+    # Analytics
+    add_node!(dag, :stats, Variance())
+    add_node!(dag, :summary, Extrema())
+
+    # Build pipeline
+    connect!(dag, :raw, :filtered)
+    connect!(dag, :filtered, :normalized)
+    connect!(dag, :normalized, :stats)
+    connect!(dag, :normalized, :summary)
+
+    return dag
+end
+
+# Process stream
+dag = create_streaming_pipeline()
+
+# Accumulate data (no propagation in lazy mode)
+for batch in data_stream
+    fit!(dag, :raw =&gt; batch)
+end
+
+# Trigger computation when needed
+stats_value = value(dag, :stats)
+summary_value = value(dag, :summary)</code></pre><h2 id="Quality-Control-System"><a class="docs-heading-anchor" href="#Quality-Control-System">Quality Control System</a><a id="Quality-Control-System-1"></a><a class="docs-heading-anchor-permalink" href="#Quality-Control-System" title="Permalink"></a></h2><p>Multi-stage quality checks:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_qc_pipeline()
+    dag = StatDAG()
+
+    # Measurement inputs
+    add_node!(dag, :measurement, Mean())
+
+    # Quality metrics
+    add_node!(dag, :mean_check, Mean())
+    add_node!(dag, :variance_check, Variance())
+    add_node!(dag, :range_check, Extrema())
+
+    # Aggregate QC
+    add_node!(dag, :qc_status, Mean())
+
+    # Build pipeline
+    connect!(dag, :measurement, :mean_check)
+    connect!(dag, :measurement, :variance_check)
+    connect!(dag, :measurement, :range_check)
+    connect!(dag, [:mean_check, :variance_check, :range_check], :qc_status)
+
+    return dag
+end
+
+# Run quality control
+dag = create_qc_pipeline()
+
+measurements = [10.1, 10.2, 10.15, 10.3, 10.25]
+fit!(dag, :measurement =&gt; measurements)
+
+println(&quot;Mean: &quot;, value(dag, :mean_check))
+println(&quot;Variance: &quot;, value(dag, :variance_check))
+println(&quot;Range: &quot;, value(dag, :range_check))
+println(&quot;QC Status: &quot;, value(dag, :qc_status))</code></pre><h2 id="Real-Time-Dashboard"><a class="docs-heading-anchor" href="#Real-Time-Dashboard">Real-Time Dashboard</a><a id="Real-Time-Dashboard-1"></a><a class="docs-heading-anchor-permalink" href="#Real-Time-Dashboard" title="Permalink"></a></h2><p>Live statistics update:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_dashboard()
+    dag = StatDAG(strategy=:eager)
+
+    # Data source
+    add_node!(dag, :events, Mean())
+
+    # Dashboard panels
+    add_node!(dag, :count_panel, Sum())
+    add_node!(dag, :avg_panel, Mean())
+    add_node!(dag, :var_panel, Variance())
+    add_node!(dag, :hist_panel, Hist(10))
+
+    # Connect to all panels
+    connect!(dag, :events, :count_panel)
+    connect!(dag, :events, :avg_panel)
+    connect!(dag, :events, :var_panel)
+    connect!(dag, :events, :hist_panel)
+
+    return dag
+end
+
+# Update dashboard
+dag = create_dashboard()
+
+# Stream events
+function update_dashboard(dag, event_value)
+    fit!(dag, :events =&gt; event_value)
+
+    # Dashboard auto-updates (eager mode)
+    return (
+        count = value(dag, :count_panel),
+        average = value(dag, :avg_panel),
+        variance = value(dag, :var_panel),
+        histogram = value(dag, :hist_panel)
+    )
+end
+
+# Simulate events
+for event in event_stream
+    dashboard_data = update_dashboard(dag, event)
+    display_dashboard(dashboard_data)
+end</code></pre><h2 id="Batch-Analytics-Pipeline"><a class="docs-heading-anchor" href="#Batch-Analytics-Pipeline">Batch Analytics Pipeline</a><a id="Batch-Analytics-Pipeline-1"></a><a class="docs-heading-anchor-permalink" href="#Batch-Analytics-Pipeline" title="Permalink"></a></h2><p>Process large datasets efficiently:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_analytics_pipeline()
+    dag = StatDAG(strategy=:lazy)
+
+    # Data inputs
+    add_node!(dag, :dataset_a, Mean())
+    add_node!(dag, :dataset_b, Mean())
+
+    # Derived metrics
+    add_node!(dag, :metric_1, Mean())
+    add_node!(dag, :metric_2, Variance())
+
+    # Final reports
+    add_node!(dag, :report_summary, Mean())
+
+    # Build pipeline
+    connect!(dag, :dataset_a, :metric_1)
+    connect!(dag, :dataset_b, :metric_1)
+    connect!(dag, [:dataset_a, :dataset_b], :metric_2)
+    connect!(dag, [:metric_1, :metric_2], :report_summary)
+
+    return dag
+end
+
+# Process batch
+dag = create_analytics_pipeline()
+
+# Load large datasets
+data_a = load_dataset(&quot;a.csv&quot;)
+data_b = load_dataset(&quot;b.csv&quot;)
+
+# Fit (lazy - no propagation)
+fit!(dag, Dict(
+    :dataset_a =&gt; data_a,
+    :dataset_b =&gt; data_b
+))
+
+# Compute only what&#39;s needed
+report = value(dag, :report_summary)</code></pre><h2 id="Multi-Source-Data-Fusion"><a class="docs-heading-anchor" href="#Multi-Source-Data-Fusion">Multi-Source Data Fusion</a><a id="Multi-Source-Data-Fusion-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-Source-Data-Fusion" title="Permalink"></a></h2><p>Combine multiple data sources:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+function create_fusion_pipeline()
+    dag = StatDAG()
+
+    # Multiple data sources
+    add_node!(dag, :sensor_a, Mean())
+    add_node!(dag, :sensor_b, Mean())
+    add_node!(dag, :database, Mean())
+
+    # Fusion layers
+    add_node!(dag, :fused_sensors, Mean())
+    add_node!(dag, :final_estimate, Mean())
+
+    # Build fusion
+    connect!(dag, [:sensor_a, :sensor_b], :fused_sensors)
+    connect!(dag, [:fused_sensors, :database], :final_estimate)
+
+    return dag
+end
+
+# Fuse data
+dag = create_fusion_pipeline()
+
+fit!(dag, Dict(
+    :sensor_a =&gt; [10.1, 10.2],
+    :sensor_b =&gt; [10.15, 10.25],
+    :database =&gt; [10.0, 10.1, 10.2]
+))
+
+println(&quot;Fused estimate: &quot;, value(dag, :final_estimate))</code></pre><h2 id="Strategy-Switching-Example"><a class="docs-heading-anchor" href="#Strategy-Switching-Example">Strategy Switching Example</a><a id="Strategy-Switching-Example-1"></a><a class="docs-heading-anchor-permalink" href="#Strategy-Switching-Example" title="Permalink"></a></h2><p>Dynamic strategy changes:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG(strategy=:eager)
+
+add_node!(dag, :input, Mean())
+add_node!(dag, :output, Mean())
+connect!(dag, :input, :output)
+
+# Real-time mode (eager)
+println(&quot;Real-time processing...&quot;)
+for x in realtime_stream
+    fit!(dag, :input =&gt; x)
+    display(value(dag, :output))
+end
+
+# Switch to batch mode (lazy)
+println(&quot;Switching to batch mode...&quot;)
+set_strategy!(dag, :lazy)
+
+# Process batch (no propagation)
+fit!(dag, :input =&gt; batch_data)
+
+# Compute when ready
+result = value(dag, :output)</code></pre><h2 id="Edge-Transformations"><a class="docs-heading-anchor" href="#Edge-Transformations">Edge Transformations</a><a id="Edge-Transformations-1"></a><a class="docs-heading-anchor-permalink" href="#Edge-Transformations" title="Permalink"></a></h2><h3 id="Temperature-Conversion"><a class="docs-heading-anchor" href="#Temperature-Conversion">Temperature Conversion</a><a id="Temperature-Conversion-1"></a><a class="docs-heading-anchor-permalink" href="#Temperature-Conversion" title="Permalink"></a></h3><p>Convert temperature units on-the-fly:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+# Sensor outputs in Celsius
+add_node!(dag, :celsius, Mean())
+add_node!(dag, :fahrenheit, Mean())
+add_node!(dag, :kelvin, Mean())
+
+# Convert to different scales
+connect!(dag, :celsius, :fahrenheit, transform = c -&gt; c * 9/5 + 32)
+connect!(dag, :celsius, :kelvin, transform = c -&gt; c + 273.15)
+
+# Input temperature readings
+fit!(dag, :celsius =&gt; [0.0, 10.0, 20.0, 30.0, 40.0])
+
+println(&quot;Celsius: &quot;, value(dag, :celsius))       # 20.0°C
+println(&quot;Fahrenheit: &quot;, value(dag, :fahrenheit)) # 68.0°F
+println(&quot;Kelvin: &quot;, value(dag, :kelvin))         # 293.15K</code></pre><h3 id="Data-Cleaning-Pipeline"><a class="docs-heading-anchor" href="#Data-Cleaning-Pipeline">Data Cleaning Pipeline</a><a id="Data-Cleaning-Pipeline-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Cleaning-Pipeline" title="Permalink"></a></h3><p>Filter and transform data:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :raw_sensor, Mean())
+add_node!(dag, :valid_only, Mean())
+add_node!(dag, :calibrated, Mean())
+
+# Filter out missing values
+connect!(dag, :raw_sensor, :valid_only, filter = !ismissing)
+
+# Apply calibration after filtering
+connect!(dag, :valid_only, :calibrated, transform = x -&gt; x * 1.05 + 0.5)
+
+# Input with some missing values
+fit!(dag, :raw_sensor =&gt; [10.0, missing, 15.0, missing, 20.0])
+
+println(&quot;Valid readings: &quot;, value(dag, :valid_only))    # 15.0
+println(&quot;Calibrated: &quot;, value(dag, :calibrated))        # 16.25</code></pre><h3 id="E-Commerce-Analytics"><a class="docs-heading-anchor" href="#E-Commerce-Analytics">E-Commerce Analytics</a><a id="E-Commerce-Analytics-1"></a><a class="docs-heading-anchor-permalink" href="#E-Commerce-Analytics" title="Permalink"></a></h3><p>Extract metrics from transaction data:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+# Transaction structure
+struct Transaction
+    price::Float64
+    quantity::Int
+    discount::Float64
+end
+
+dag = StatDAG()
+
+add_node!(dag, :transactions, Mean())
+add_node!(dag, :avg_price, Mean())
+add_node!(dag, :avg_quantity, Mean())
+add_node!(dag, :total_revenue, Mean())
+
+# Extract different metrics
+connect!(dag, :transactions, :avg_price, 
+         transform = t -&gt; t.price)
+
+connect!(dag, :transactions, :avg_quantity, 
+         transform = t -&gt; Float64(t.quantity))
+
+connect!(dag, :transactions, :total_revenue, 
+         transform = t -&gt; t.price * t.quantity * (1 - t.discount))
+
+# Process transactions
+transactions = [
+    Transaction(100.0, 2, 0.1),
+    Transaction(150.0, 1, 0.0),
+    Transaction(75.0, 3, 0.2)
+]
+
+fit!(dag, :transactions =&gt; transactions)
+
+println(&quot;Average price: &quot;, value(dag, :avg_price))
+println(&quot;Average quantity: &quot;, value(dag, :avg_quantity))
+println(&quot;Average revenue: &quot;, value(dag, :total_revenue))</code></pre><h3 id="Conditional-Routing-with-Transforms"><a class="docs-heading-anchor" href="#Conditional-Routing-with-Transforms">Conditional Routing with Transforms</a><a id="Conditional-Routing-with-Transforms-1"></a><a class="docs-heading-anchor-permalink" href="#Conditional-Routing-with-Transforms" title="Permalink"></a></h3><p>Route data based on conditions:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :temperature, Mean())
+add_node!(dag, :high_alert, Mean())
+add_node!(dag, :normal, Mean())
+add_node!(dag, :low_alert, Mean())
+
+# High temperature alert (&gt;30°C) - convert to Fahrenheit
+connect!(dag, :temperature, :high_alert,
+         filter = t -&gt; t &gt; 30,
+         transform = t -&gt; t * 9/5 + 32)
+
+# Normal range (10-30°C) - keep as is
+connect!(dag, :temperature, :normal,
+         filter = t -&gt; 10 &lt;= t &lt;= 30)
+
+# Low temperature alert (&lt;10°C) - flag with negative
+connect!(dag, :temperature, :low_alert,
+         filter = t -&gt; t &lt; 10,
+         transform = t -&gt; -t)
+
+# Stream temperature data
+fit!(dag, :temperature =&gt; [5.0, 15.0, 25.0, 35.0, 8.0, 32.0])
+
+println(&quot;High alerts (°F): &quot;, value(dag, :high_alert))  # Avg of 95°F, 89.6°F
+println(&quot;Normal temps: &quot;, value(dag, :normal))          # Avg of 15, 25
+println(&quot;Low alerts: &quot;, value(dag, :low_alert))         # Avg of -5, -8</code></pre><h3 id="Multi-Input-Feature-Engineering"><a class="docs-heading-anchor" href="#Multi-Input-Feature-Engineering">Multi-Input Feature Engineering</a><a id="Multi-Input-Feature-Engineering-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-Input-Feature-Engineering" title="Permalink"></a></h3><p>Combine multiple inputs with transformations:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :price, Mean())
+add_node!(dag, :volume, Mean())
+add_node!(dag, :momentum, Mean())
+
+# Calculate momentum: price * volume
+connect!(dag, [:price, :volume], :momentum,
+         transform = inputs -&gt; inputs[1] * inputs[2])
+
+# Update with coordinated data
+fit!(dag, Dict(
+    :price =&gt; [100.0, 105.0, 103.0],
+    :volume =&gt; [1000.0, 1200.0, 900.0]
+))
+
+println(&quot;Average price: &quot;, value(dag, :price))
+println(&quot;Average volume: &quot;, value(dag, :volume))
+println(&quot;Average momentum: &quot;, value(dag, :momentum))</code></pre><h3 id="Log-Transform-Pipeline"><a class="docs-heading-anchor" href="#Log-Transform-Pipeline">Log Transform Pipeline</a><a id="Log-Transform-Pipeline-1"></a><a class="docs-heading-anchor-permalink" href="#Log-Transform-Pipeline" title="Permalink"></a></h3><p>Apply logarithmic transformations:</p><pre><code class="language-julia hljs">using OnlineStatsChains
+using OnlineStatsBase
+
+dag = StatDAG()
+
+add_node!(dag, :population, Mean())
+add_node!(dag, :log_population, Mean())
+add_node!(dag, :growth_rate, Mean())
+
+# Log transform
+connect!(dag, :population, :log_population,
+         transform = p -&gt; log10(p))
+
+# Calculate growth rate (only for positive changes)
+connect!(dag, :log_population, :growth_rate,
+         filter = x -&gt; x &gt; 0)
+
+# Population data
+fit!(dag, :population =&gt; [1000.0, 1100.0, 1210.0, 1331.0])
+
+println(&quot;Mean population: &quot;, value(dag, :population))
+println(&quot;Mean log(pop): &quot;, value(dag, :log_population))
+println(&quot;Growth rate: &quot;, value(dag, :growth_rate))</code></pre><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../tutorials/basic/">Basic Tutorial</a> - Fundamental concepts</li><li><a href="../tutorials/advanced/">Advanced Patterns</a> - Complex structures</li><li><a href="../tutorials/performance/">Performance Guide</a> - Optimization</li><li><a href="../api/">API Reference</a> - Complete documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../api/">« API Reference</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 6 January 2026 15:11">Tuesday 6 January 2026</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

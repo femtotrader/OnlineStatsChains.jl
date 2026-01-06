@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Performance · OnlineStatsChains.jl</title><meta name="title" content="Performance · OnlineStatsChains.jl"/><meta property="og:title" content="Performance · OnlineStatsChains.jl"/><meta property="twitter:title" content="Performance · OnlineStatsChains.jl"/><meta name="description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:description" content="Documentation for OnlineStatsChains.jl."/><meta property="twitter:description" content="Documentation for OnlineStatsChains.jl."/><meta property="og:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/performance/"/><meta property="twitter:url" content="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/performance/"/><link rel="canonical" href="https://femtotrader.github.io/OnlineStatsChains.jl/tutorials/performance/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">OnlineStatsChains.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../ai-generated/">⚠️ AI-Generated Notice</a></li><li><span class="tocitem">Getting Started</span><ul><li><a class="tocitem" href="../../installation/">Installation</a></li><li><a class="tocitem" href="../../quickstart/">Quick Start</a></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../basic/">Basic Usage</a></li><li><a class="tocitem" href="../advanced/">Advanced Patterns</a></li><li class="is-active"><a class="tocitem" href>Performance</a><ul class="internal"><li><a class="tocitem" href="#Algorithmic-Complexity"><span>Algorithmic Complexity</span></a></li><li><a class="tocitem" href="#Choosing-Evaluation-Strategies"><span>Choosing Evaluation Strategies</span></a></li><li><a class="tocitem" href="#Performance-Tips"><span>Performance Tips</span></a></li><li><a class="tocitem" href="#Benchmarking"><span>Benchmarking</span></a></li><li><a class="tocitem" href="#Memory-Optimization"><span>Memory Optimization</span></a></li><li><a class="tocitem" href="#Profiling"><span>Profiling</span></a></li><li><a class="tocitem" href="#Common-Performance-Pitfalls"><span>Common Performance Pitfalls</span></a></li><li><a class="tocitem" href="#Scaling-to-Large-Graphs"><span>Scaling to Large Graphs</span></a></li><li><a class="tocitem" href="#Optimization-Checklist"><span>Optimization Checklist</span></a></li><li><a class="tocitem" href="#Next-Steps"><span>Next Steps</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../rocket_integration/">Reactive Programming</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../examples/">Examples</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Performance</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Performance</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/femtotrader/OnlineStatsChains.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Performance-Considerations"><a class="docs-heading-anchor" href="#Performance-Considerations">Performance Considerations</a><a id="Performance-Considerations-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Considerations" title="Permalink"></a></h1><p>This guide covers performance optimization techniques for OnlineStatsChains.jl.</p><h2 id="Algorithmic-Complexity"><a class="docs-heading-anchor" href="#Algorithmic-Complexity">Algorithmic Complexity</a><a id="Algorithmic-Complexity-1"></a><a class="docs-heading-anchor-permalink" href="#Algorithmic-Complexity" title="Permalink"></a></h2><h3 id="Core-Operations"><a class="docs-heading-anchor" href="#Core-Operations">Core Operations</a><a id="Core-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Core-Operations" title="Permalink"></a></h3><p>OnlineStatsChains is designed for efficiency:</p><table><tr><th style="text-align: right">Operation</th><th style="text-align: right">Complexity</th><th style="text-align: right">Description</th></tr><tr><td style="text-align: right">Cycle Detection</td><td style="text-align: right">O(V + E)</td><td style="text-align: right">DFS-based algorithm</td></tr><tr><td style="text-align: right">Topological Sort</td><td style="text-align: right">O(V + E)</td><td style="text-align: right">Kahn&#39;s algorithm</td></tr><tr><td style="text-align: right">Propagation</td><td style="text-align: right">O(V + E)</td><td style="text-align: right">Per update in eager mode</td></tr><tr><td style="text-align: right">Add Node</td><td style="text-align: right">O(1)</td><td style="text-align: right">Amortized constant time</td></tr><tr><td style="text-align: right">Connect Nodes</td><td style="text-align: right">O(V + E)</td><td style="text-align: right">Includes cycle check</td></tr></table><p>Where:</p><ul><li>V = number of vertices (nodes)</li><li>E = number of edges (connections)</li></ul><h3 id="Memory-Usage"><a class="docs-heading-anchor" href="#Memory-Usage">Memory Usage</a><a id="Memory-Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Memory-Usage" title="Permalink"></a></h3><p>Memory overhead per node is minimal:</p><ul><li>Node struct: ~100 bytes</li><li>Topological cache: O(V)</li><li>Dirty set (lazy mode): O(V)</li></ul><p>For large graphs (1000+ nodes), memory footprint remains manageable.</p><h2 id="Choosing-Evaluation-Strategies"><a class="docs-heading-anchor" href="#Choosing-Evaluation-Strategies">Choosing Evaluation Strategies</a><a id="Choosing-Evaluation-Strategies-1"></a><a class="docs-heading-anchor-permalink" href="#Choosing-Evaluation-Strategies" title="Permalink"></a></h2><h3 id="Eager-Evaluation"><a class="docs-heading-anchor" href="#Eager-Evaluation">Eager Evaluation</a><a id="Eager-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Eager-Evaluation" title="Permalink"></a></h3><p><strong>Best for:</strong></p><ul><li>Real-time processing</li><li>Small to medium DAGs</li><li>Streaming data</li><li>When all nodes need updates</li></ul><p><strong>Characteristics:</strong></p><ul><li>Immediate propagation</li><li>No deferred computation</li><li>Predictable latency</li><li>Higher throughput for dense updates</li></ul><pre><code class="language-julia hljs">dag = StatDAG(strategy=:eager)
+# Good for: streaming sensors, real-time dashboards</code></pre><h3 id="Lazy-Evaluation"><a class="docs-heading-anchor" href="#Lazy-Evaluation">Lazy Evaluation</a><a id="Lazy-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Lazy-Evaluation" title="Permalink"></a></h3><p><strong>Best for:</strong></p><ul><li>Large DAGs</li><li>Sparse queries</li><li>Batch processing</li><li>When only some results are needed</li></ul><p><strong>Characteristics:</strong></p><ul><li>Deferred computation</li><li>Compute only what&#39;s requested</li><li>Lower memory pressure</li><li>Better for selective access</li></ul><pre><code class="language-julia hljs">dag = StatDAG(strategy=:lazy)
+# Good for: large analytics pipelines, selective queries</code></pre><h3 id="Partial-Evaluation"><a class="docs-heading-anchor" href="#Partial-Evaluation">Partial Evaluation</a><a id="Partial-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Partial-Evaluation" title="Permalink"></a></h3><p><strong>Best for:</strong></p><ul><li>Large DAGs with independent branches</li><li>When updates affect limited subgraphs</li><li>Avoiding unnecessary recomputation</li></ul><p><strong>Characteristics:</strong></p><ul><li>Selective propagation</li><li>Optimized for sparse updates</li><li>Reduced computation for unchanged branches</li></ul><pre><code class="language-julia hljs">dag = StatDAG(strategy=:partial)
+# Good for: multi-branch analytics, parallel streams</code></pre><h2 id="Performance-Tips"><a class="docs-heading-anchor" href="#Performance-Tips">Performance Tips</a><a id="Performance-Tips-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Tips" title="Permalink"></a></h2><h3 id="1.-Batch-Updates"><a class="docs-heading-anchor" href="#1.-Batch-Updates">1. Batch Updates</a><a id="1.-Batch-Updates-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Batch-Updates" title="Permalink"></a></h3><p>Process data in batches when possible:</p><pre><code class="language-julia hljs"># Slow - many small updates
+for x in data
+    fit!(dag, :source =&gt; x)
+end
+
+# Fast - batch update
+fit!(dag, :source =&gt; data)</code></pre><p><strong>Speedup:</strong> 10-100x for large datasets</p><h3 id="2.-Minimize-Connections"><a class="docs-heading-anchor" href="#2.-Minimize-Connections">2. Minimize Connections</a><a id="2.-Minimize-Connections-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Minimize-Connections" title="Permalink"></a></h3><p>Fewer edges = faster propagation:</p><pre><code class="language-julia hljs"># Slower - deeply nested chain
+connect!(dag, :a, :b)
+connect!(dag, :b, :c)
+connect!(dag, :c, :d)
+# ... many levels
+
+# Faster - flatter structure when possible
+connect!(dag, :input, :output1)
+connect!(dag, :input, :output2)</code></pre><h3 id="3.-Use-Lazy-for-Selective-Access"><a class="docs-heading-anchor" href="#3.-Use-Lazy-for-Selective-Access">3. Use Lazy for Selective Access</a><a id="3.-Use-Lazy-for-Selective-Access-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Use-Lazy-for-Selective-Access" title="Permalink"></a></h3><p>When querying only some nodes:</p><pre><code class="language-julia hljs"># Eager: computes all 100 nodes
+dag = StatDAG(strategy=:eager)
+for i in 1:100
+    add_node!(dag, Symbol(&quot;n&quot;, i), Mean())
+    i &gt; 1 &amp;&amp; connect!(dag, Symbol(&quot;n&quot;, i-1), Symbol(&quot;n&quot;, i))
+end
+fit!(dag, :n1 =&gt; data)  # Updates all 100
+
+# Lazy: computes only what&#39;s needed
+dag = StatDAG(strategy=:lazy)
+# ... same structure ...
+fit!(dag, :n1 =&gt; data)  # No propagation
+value(dag, :n100)  # Computes only path to n100</code></pre><h3 id="4.-Reuse-DAGs"><a class="docs-heading-anchor" href="#4.-Reuse-DAGs">4. Reuse DAGs</a><a id="4.-Reuse-DAGs-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Reuse-DAGs" title="Permalink"></a></h3><p>Creating DAGs has overhead - reuse when possible:</p><pre><code class="language-julia hljs"># Initialize once
+dag = create_analysis_pipeline()
+
+# Reuse many times
+for batch in data_stream
+    fit!(dag, :input =&gt; batch)
+    results = value(dag, :output)
+end</code></pre><h3 id="5.-Pre-allocate-for-Known-Patterns"><a class="docs-heading-anchor" href="#5.-Pre-allocate-for-Known-Patterns">5. Pre-allocate for Known Patterns</a><a id="5.-Pre-allocate-for-Known-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#5.-Pre-allocate-for-Known-Patterns" title="Permalink"></a></h3><p>Build DAG structure before data processing:</p><pre><code class="language-julia hljs"># Good: structure first, data later
+dag = StatDAG()
+build_dag_structure!(dag)
+
+for data in stream
+    fit!(dag, :input =&gt; data)
+end
+
+# Avoid: mixing structure changes with data
+for data in stream
+    add_node!(dag, random_name(), Mean())  # Bad!
+    fit!(dag, :input =&gt; data)
+end</code></pre><h2 id="Benchmarking"><a class="docs-heading-anchor" href="#Benchmarking">Benchmarking</a><a id="Benchmarking-1"></a><a class="docs-heading-anchor-permalink" href="#Benchmarking" title="Permalink"></a></h2><h3 id="Measuring-Performance"><a class="docs-heading-anchor" href="#Measuring-Performance">Measuring Performance</a><a id="Measuring-Performance-1"></a><a class="docs-heading-anchor-permalink" href="#Measuring-Performance" title="Permalink"></a></h3><pre><code class="language-julia hljs">using BenchmarkTools
+
+# Create DAG
+dag = StatDAG()
+add_node!(dag, :source, Mean())
+add_node!(dag, :sink, Mean())
+connect!(dag, :source, :sink)
+
+data = randn(1000)
+
+# Benchmark
+@benchmark fit!($dag, :source =&gt; $data)</code></pre><h3 id="Comparing-Strategies"><a class="docs-heading-anchor" href="#Comparing-Strategies">Comparing Strategies</a><a id="Comparing-Strategies-1"></a><a class="docs-heading-anchor-permalink" href="#Comparing-Strategies" title="Permalink"></a></h3><pre><code class="language-julia hljs">using BenchmarkTools
+
+function benchmark_strategies(n_nodes::Int, data_size::Int)
+    data = randn(data_size)
+
+    for strategy in [:eager, :lazy, :partial]
+        dag = StatDAG(strategy=strategy)
+
+        # Build chain
+        for i in 1:n_nodes
+            add_node!(dag, Symbol(&quot;n&quot;, i), Mean())
+            i &gt; 1 &amp;&amp; connect!(dag, Symbol(&quot;n&quot;, i-1), Symbol(&quot;n&quot;, i))
+        end
+
+        # Benchmark
+        println(&quot;Strategy: $strategy&quot;)
+        @btime fit!($dag, :n1 =&gt; $data)
+        @btime value($dag, Symbol(&quot;n&quot;, $n_nodes))
+    end
+end
+
+benchmark_strategies(10, 1000)</code></pre><h2 id="Memory-Optimization"><a class="docs-heading-anchor" href="#Memory-Optimization">Memory Optimization</a><a id="Memory-Optimization-1"></a><a class="docs-heading-anchor-permalink" href="#Memory-Optimization" title="Permalink"></a></h2><h3 id="1.-Clear-Caches-Periodically"><a class="docs-heading-anchor" href="#1.-Clear-Caches-Periodically">1. Clear Caches Periodically</a><a id="1.-Clear-Caches-Periodically-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Clear-Caches-Periodically" title="Permalink"></a></h3><p>For long-running processes:</p><pre><code class="language-julia hljs"># After processing many batches
+dag = StatDAG()
+# ... process lots of data ...
+
+# Manually trigger garbage collection if needed
+GC.gc()</code></pre><h3 id="2.-Lazy-for-Memory-Constrained-Environments"><a class="docs-heading-anchor" href="#2.-Lazy-for-Memory-Constrained-Environments">2. Lazy for Memory-Constrained Environments</a><a id="2.-Lazy-for-Memory-Constrained-Environments-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Lazy-for-Memory-Constrained-Environments" title="Permalink"></a></h3><p>Lazy evaluation reduces memory pressure:</p><pre><code class="language-julia hljs"># Eager: all nodes cache values
+dag_eager = StatDAG(strategy=:eager)
+
+# Lazy: only computed nodes cache
+dag_lazy = StatDAG(strategy=:lazy)
+fit!(dag_lazy, :input =&gt; data)
+# Memory used: only :input and its stat</code></pre><h3 id="3.-Streaming-for-Large-Datasets"><a class="docs-heading-anchor" href="#3.-Streaming-for-Large-Datasets">3. Streaming for Large Datasets</a><a id="3.-Streaming-for-Large-Datasets-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Streaming-for-Large-Datasets" title="Permalink"></a></h3><p>Process in chunks to control memory:</p><pre><code class="language-julia hljs">dag = StatDAG()
+add_node!(dag, :processor, Mean())
+
+chunk_size = 1000
+for chunk in Iterators.partition(huge_dataset, chunk_size)
+    fit!(dag, :processor =&gt; collect(chunk))
+end</code></pre><h2 id="Profiling"><a class="docs-heading-anchor" href="#Profiling">Profiling</a><a id="Profiling-1"></a><a class="docs-heading-anchor-permalink" href="#Profiling" title="Permalink"></a></h2><p>Identify bottlenecks:</p><pre><code class="language-julia hljs">using Profile
+
+dag = create_complex_dag()
+data = generate_test_data()
+
+@profile for _ in 1:100
+    fit!(dag, :input =&gt; data)
+end
+
+Profile.print()</code></pre><h2 id="Common-Performance-Pitfalls"><a class="docs-heading-anchor" href="#Common-Performance-Pitfalls">Common Performance Pitfalls</a><a id="Common-Performance-Pitfalls-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Performance-Pitfalls" title="Permalink"></a></h2><h3 id="Avoid"><a class="docs-heading-anchor" href="#Avoid">❌ Avoid</a><a id="Avoid-1"></a><a class="docs-heading-anchor-permalink" href="#Avoid" title="Permalink"></a></h3><pre><code class="language-julia hljs"># 1. Many small DAG modifications
+for data_point in stream
+    dag = StatDAG()  # Don&#39;t recreate!
+    add_node!(dag, :temp, Mean())
+    fit!(dag, :temp =&gt; data_point)
+end
+
+# 2. Unnecessary value() calls in loops
+for data in batches
+    fit!(dag, :input =&gt; data)
+    v = value(dag, :output)  # Don&#39;t query every iteration
+end
+
+# 3. Deep chains when parallel structure works
+# a → b → c → d → e  (slow)
+# Better: a → [b, c, d, e]  (fast)</code></pre><h3 id="Do"><a class="docs-heading-anchor" href="#Do">✅ Do</a><a id="Do-1"></a><a class="docs-heading-anchor-permalink" href="#Do" title="Permalink"></a></h3><pre><code class="language-julia hljs"># 1. Reuse DAG structure
+dag = StatDAG()
+add_node!(dag, :processor, Mean())
+
+for data_point in stream
+    fit!(dag, :processor =&gt; data_point)
+end
+
+# 2. Batch queries
+for data in batches
+    fit!(dag, :input =&gt; data)
+end
+result = value(dag, :output)  # Query once
+
+# 3. Use appropriate structure
+dag = StatDAG()
+add_node!(dag, :input, Mean())
+for i in 1:n
+    add_node!(dag, Symbol(&quot;out&quot;, i), Mean())
+    connect!(dag, :input, Symbol(&quot;out&quot;, i))
+end</code></pre><h2 id="Scaling-to-Large-Graphs"><a class="docs-heading-anchor" href="#Scaling-to-Large-Graphs">Scaling to Large Graphs</a><a id="Scaling-to-Large-Graphs-1"></a><a class="docs-heading-anchor-permalink" href="#Scaling-to-Large-Graphs" title="Permalink"></a></h2><h3 id="Handling-1000-Nodes"><a class="docs-heading-anchor" href="#Handling-1000-Nodes">Handling 1000+ Nodes</a><a id="Handling-1000-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Handling-1000-Nodes" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Lazy evaluation is crucial
+dag = StatDAG(strategy=:lazy)
+
+# Batch node creation
+function build_large_dag(n::Int)
+    dag = StatDAG(strategy=:lazy)
+
+    # Add nodes efficiently
+    for i in 1:n
+        add_node!(dag, Symbol(&quot;n&quot;, i), Mean())
+    end
+
+    # Add connections
+    for i in 1:n-1
+        connect!(dag, Symbol(&quot;n&quot;, i), Symbol(&quot;n&quot;, i+1))
+    end
+
+    return dag
+end
+
+large_dag = build_large_dag(5000)</code></pre><h3 id="Parallel-Processing-(Future)"><a class="docs-heading-anchor" href="#Parallel-Processing-(Future)">Parallel Processing (Future)</a><a id="Parallel-Processing-(Future)-1"></a><a class="docs-heading-anchor-permalink" href="#Parallel-Processing-(Future)" title="Permalink"></a></h3><p>Current version is single-threaded. Future versions may support:</p><ul><li>Parallel branch execution</li><li>Multi-threaded propagation</li><li>Distributed computing</li></ul><h2 id="Optimization-Checklist"><a class="docs-heading-anchor" href="#Optimization-Checklist">Optimization Checklist</a><a id="Optimization-Checklist-1"></a><a class="docs-heading-anchor-permalink" href="#Optimization-Checklist" title="Permalink"></a></h2><ul><li>[ ] Use appropriate evaluation strategy</li><li>[ ] Batch data updates when possible</li><li>[ ] Reuse DAG structures</li><li>[ ] Minimize graph depth</li><li>[ ] Profile before optimizing</li><li>[ ] Consider memory vs. speed tradeoffs</li><li>[ ] Use lazy for large selective queries</li><li>[ ] Pre-build DAG structure</li></ul><h2 id="Next-Steps"><a class="docs-heading-anchor" href="#Next-Steps">Next Steps</a><a id="Next-Steps-1"></a><a class="docs-heading-anchor-permalink" href="#Next-Steps" title="Permalink"></a></h2><ul><li><a href="../../api/">API Reference</a> - Complete documentation</li><li><a href="../../examples/">Examples</a> - Real-world use cases</li><li><a href="../basic/">Basic Tutorial</a> - Fundamental concepts</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../advanced/">« Advanced Patterns</a><a class="docs-footer-nextpage" href="../../rocket_integration/">Reactive Programming »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 6 January 2026 15:11">Tuesday 6 January 2026</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
