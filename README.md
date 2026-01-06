@@ -113,3 +113,7 @@ This project uses:
 ## License
 
 MIT License - see LICENSE file for details.
+
+## Donations / Support
+[Support and donations are appreciated but not required.](https://github.com/femtotrader/support/)
+
